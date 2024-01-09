@@ -1,0 +1,93 @@
+<div class="card">
+    <h3 class="" style="color:#007ea7;font-weight: 500;">Groups</h3>
+    <div>
+        <h3 style="border-top: 2px solid #007ea7;  background-color: whitesmoke; padding: 10px; color:#00a8e8; font-weight: 500;" *ngIf="showColleges||showCollegeBatches">College Wise Batches</h3>
+        <div *ngFor="let college of colleges">
+            
+            <div class="row" *ngIf="showColleges">
+                
+                <div class="col ">
+                  <h4 style="color:rgb(9, 41, 136);">{{college?.collegeName}}</h4>
+                </div>
+                <div class="col d-flex justify-content-end align-items-end">
+                  <button class="btn btn-primary" (click)="showCollegeBatch();ViewBatches(college.collegeCode,college.collegeName)" style="background-color:#007ea7">View Group</button>
+                </div>
+              </div>
+        </div>
+        <p-divider></p-divider>
+    </div>
+    <div class="row" *ngIf="showCollegeBatches">
+        <h3 style=" padding: 10px; color:#007ea7; font-weight: 500;" ><i class="pi pi-arrow-left" style="font-size: 2rem" (click)="goBack()"></i> {{collegeName}}</h3>
+        <div *ngIf="batchDetails?.length==0">
+          <h2 style="text-align: center; margin-top: 50px;">Currently No Batches to Show</h2>
+        </div>
+        <div class="batch-container" >
+            <div class="batch" *ngFor="let data of batchDetails" >
+              <div class="border p-2" (click)="batchStudents(data?.batchId);showStudent()">
+                <p>{{data?.batchName}}</p>
+              </div>
+            </div>
+          </div>
+          <p-divider></p-divider>  
+      </div>
+    
+    <div class="row" *ngIf="showYearwiseBatches">
+        <h3 style="border-top: 2px solid #007ea7;  background-color: whitesmoke; padding: 10px; color:#00a8e8; font-weight: 500;">Year Wise Batches</h3>
+        <div class="batch-container" >
+            <div class="batch" *ngFor="let data of batchesByYears" >
+              <div class="border p-2" (click)="showYearBatch();yearBatch(data?.batchYear)">
+                <p>Batch of {{data?.batchYear}}</p>
+              </div>
+            </div>
+          </div>
+          
+      </div>
+      <div class="row" *ngIf="showYearBatches">
+        <h3 style="border-top: 2px solid #007ea7;  background-color: whitesmoke; padding: 10px; color:#00a8e8; font-weight: 500;">Year Wise Batches</h3>
+        
+        <i class="pi pi-arrow-left" style="font-size: 2rem;margin-bottom: 10px;" (click)="goBack()"></i>
+        <div class="batch-container" >
+            <div class="batch" *ngFor="let data of yearBatches" >
+              <div class="border p-2" (click)="batchStudents(data?.batchId);showStudent()">
+                <p>{{data?.batchName}}</p>
+              </div>
+            </div>
+          </div>
+          
+      </div>
+      <div *ngIf="showStudents">
+        <i class="fa fa-arrow-left fa-2x" style="font-size: 2rem" (click)="goBack()"></i>
+          <h2>Group Students</h2>
+        
+          <div class="row">
+              <div class="col-md-4"  *ngFor="let data of studentDetails">
+                  <div class="card " style="height: 250px ;width: 300px;" >
+                      <div class="card-body text-center">
+                          <div class="verified-logo" *ngIf="data.isVerified; else disabledSection">
+                              <i class="fa fa-check-circle fa-2x"></i>
+                          </div>
+                          <ng-template #disabledSection>
+                              <div class="disabled-logo">
+                                  <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
+                              </div>
+                          </ng-template>
+        
+                          <div>
+                              <img [src]="data?.profilePic"
+                              class="img-fluid small-profile-image" (click)="viewOtherProfile(data?.id)"/>
+                          </div>
+                          <h3 class="card-title" >{{data?.firstName}}</h3>
+                          <h6 class="card-text" > {{data?.batch?.batchName}}</h6> 
+                      </div>
+                  </div>
+              </div>
+          </div> 
+          <div *ngIf="studentDetails?.length==0">
+            <h2 style="text-align: center; margin-top: 50px;">Currently No Students to Show</h2>
+          </div>    
+        
+      </div>
+</div>
+
+
+

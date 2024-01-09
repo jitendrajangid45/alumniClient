@@ -1,0 +1,39 @@
+<!-- Verify OTP form -->
+
+<div class="man">
+
+    <div class="backgroud"></div>
+
+    <div class="containe">
+        <div class="rightlaer"></div>
+
+        <div class="z3">
+            <div class="about">
+                <img width="100" height="100" src="https://img.icons8.com/bubbles/100/trophy.png" alt="trophy" />
+                <h3>Already Have An Account ? <a routerLink="/auth/login">Login</a> </h3>
+            </div>
+            <form cForm [formGroup]="verifyOtp">
+
+                <h2>Verify OPT</h2>
+
+                <br>
+
+                <div class="input-container">
+                    <input autocomplete="off" type="text" id="otp" required="" formControlName="otp">
+                    <label for="otp">OTP</label>
+                    <b *ngIf="!verifyOtp.get('otp')?.valid && (verifyOtp.get('otp')?.dirty ||verifyOtp.get('otp')?.touched)">
+                        <div [hidden]="!verifyOtp.get('otp')?.errors?.['required']">OTP is required</div>
+                        <div [hidden]="!verifyOtp.get('otp')?.errors?.['pattern']">Please enter valid OTP</div>
+                        <div [hidden]="!verifyOtp.get('otp')?.errors?.['minlength']">Please enter exactly 6 digits.</div>
+                        <div [hidden]="!verifyOtp.get('otp')?.errors?.['maxlength']">Please enter exactly 6 digits.</div>
+                    </b>
+                </div>
+                <br>
+                <div class="bttn">
+                    <button type="Submit" [ngClass]="{'disabled':verifyOtp.invalid }" (click)="verifyOTP()">Verify OTP</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

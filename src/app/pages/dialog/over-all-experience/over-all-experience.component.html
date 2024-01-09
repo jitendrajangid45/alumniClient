@@ -1,0 +1,20 @@
+<form [formGroup]="overAllForm">
+  <label for="overallWorkExperience" class="form-label">Total year of Experience :</label>
+  <input type="text" id="overallWorkExperience" formControlName="overallWorkExperience" placeholder="Enter OverallWorkExperience" class="form-control">
+  <div
+    *ngIf="!overAllForm.get('overallWorkExperience')?.valid && (overAllForm.get('overallWorkExperience')?.dirty || overAllForm.get('overallWorkExperience')?.touched)"
+    [ngStyle]="{ color: 'red' }">
+    <div [hidden]="!overAllForm.get('overallWorkExperience')?.errors?.['pattern']">Enter Experience in Years only eg. 1</div>
+  </div>
+  <label for="roles" class="form-label" class="top-margin">Roles Played::</label>
+  <input type="text" id="roles" formControlName="roles" placeholder="Enter Roles you have played eg. Manager,Developer" class="form-control">
+
+  <label for="professionalSkills" class="form-label" class="top-margin">Professional Skills:</label>
+  <input type="text" id="professionalSkills" formControlName="professionalSkills" placeholder="Enter Skills you have eg.Coding,Testing" class="form-control">
+
+  <label for="industriesWorkIn" class="form-label" class="top-margin">Industries Worked In  :</label>
+  <input type="text" id="industriesWorkIn" formControlName="industriesWorkIn" placeholder="Enter Industries Worked In eg.Cloud,Sales" class="form-control">
+      <input type="submit" style="margin-top: 20px;" [disabled]="overAllForm.invalid" value="Save" class="btn btn-success" (click)="onSubmit()"/>
+      <span style="margin-left: 20px"></span>
+      <input type="button"  style="margin-top: 20px;"  (click)="onReset()" value="Reset" class="btn btn-primary" />
+  </form>

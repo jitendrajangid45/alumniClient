@@ -1,0 +1,124 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="content-wrapper">
+        <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card m-0">
+                    <div class="row no-gutters">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3">
+                            <div class="users-container">
+                                <div class="chat-search-box">
+                                    <div class="input-group">
+                                      <input [(ngModel)]="searchQuery" (input)="searchUsers()" class="form-control" placeholder="Search...">
+                                      <div class="input-group-btn">
+                                            <button type="button" class="btn btn-info">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul *ngIf="!searchQuery" class="users">
+                                  <li class="person" *ngFor="let user of userData; let i = index" (click)="toggleChat(i);userClick(user.name,user.profile,user.id,user.isOnline)">
+                                    <div class="user">
+                                      <img [src]="getImageUrl(user.profile)" alt="img">
+                                      <!-- <img class="image" alt="avatar1" *ngIf="user.profile === null"
+                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGf_8UZ3xLijdkOtv3qWnUpyknARbKMrcVJA&usqp=CAU" /> -->
+                                      <span *ngIf="!user.isOnline" class="status offline"></span>
+                                      <span *ngIf="user.isOnline" class="status online"></span>
+                                    </div>                                    
+                                    <p class="name-time">
+                                      <span class="name"><strong>{{user.name}}&nbsp;&nbsp;<span *ngIf="uData[i] > 0" [ngClass]="{notification:uData[i] > 0}">{{uData[i] != 0 ? uData[i] : ''}}</span></strong></span><br>
+                                      <span class="hide-text"><strong>{{truncateText(user?.lastMessage,15)}}</strong></span>
+                                  </p>
+                                  </li>
+                                </ul>
+                                <ul *ngIf="searchQuery" class="users">
+                                  <li class="person" *ngFor="let user of chatData; let i = index" (click)="toggleChat(i);userClick(user.name,user.profile,user.id,user.isOnline)">
+                                                                       
+                                    <div class="name-time">
+                                      <div class="user">
+                                        <img [src]="getImageUrl(user.profile)" alt="img">
+                                        <!-- <img class="image" alt="avatar1" *ngIf="user.profile === null"
+                                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGf_8UZ3xLijdkOtv3qWnUpyknARbKMrcVJA&usqp=CAU" />                                        <span *ngIf="!user.isOnline" class="status offline"></span> -->
+                                        <span *ngIf="user.isOnline" class="status online"></span></div> 
+                                      <span class="name"><strong>{{user?.name}}</strong></span><br>
+                                      <span><strong>{{truncateText(user?.lastMessage,30)}}</strong></span>
+                                    </div>
+                                  </li>
+                                </ul>
+                                <div class="footer">
+                                  <p-button icon="pi pi-user" (onClick)="getAllUsers()" severity="success"></p-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
+                            <div class="selected-user">
+                                <span *ngIf="!check"><img style="border-radius: 50%;height: 50px;width: 50px;" [src]="profilereceiver" alt="profile pic"><span class="name"><strong style="height: 40px; width: 40px;">{{name}}</strong></span><strong>{{status?'online':'offline'}}</strong></span>
+                                <h4 *ngIf="check">Profile</h4>
+                            </div>
+                            <div class="chat-container">
+                              <div class="chatContainerScroll">                                  
+                                <ul class="chat-box">                                  
+                                  <div *ngFor="let messages of chatMessages">
+                                    <li [ngClass]="{'chat-right':messages.sender_id === sender_id,'chat-left':messages.sender_id !== sender_id}">
+                                      <div class="chat-avatar" *ngIf="messages.sender_id !== sender_id">
+                                        <img [src]="profilereceiver" alt="profile pic">
+                                    </div>
+                                      <div class="chat-hour" *ngIf="messages.sender_id === sender_id"><i style="color: rgb(68, 252, 31);" [ngClass]="{'fa fa-solid fa-check':!messages.delivered}"></i><span style="color: rgb(68, 252, 31);" [ngClass]="{'fa fa-solid fa-check':messages.delivered&& !messages.read,'fas fa-solid fa-check-double':messages.delivered && messages.read}"></span>&nbsp;<h6>{{ messages.created_at | date:'yyyy-MM-dd hh:mm a':'en-US' }}</h6></div>
+                                      <div class="chat-text" *ngIf="messages.messages != ''"><h5>{{messages.messages}}</h5></div>
+                                      <div class="chat-text" *ngIf="messages.messages == '' && !isSupportedFile(messages.file)"><img style="border-radius:0;height: 150px;width: 200px;" (click)="downloadFile(messages.file)" [src]="messages.file" alt="fileshared"></div> 
+                                      <div style="border-radius: 50px;height: auto;" class="chat-text" *ngIf="messages.messages == '' && isSupportedFile(messages.file)"><i (click)="downloadFile(messages.file)" class="fas fa-arrow-down fa-3x"></i></div> 
+                                      <div class="chat-hour" *ngIf="messages.sender_id !== sender_id"><h6>{{ messages.created_at | date:'yyyy-MM-dd hh:mm a':'en-US' }}</h6>&nbsp;
+                                        <!-- <i style="color: rgb(68, 252, 31);" [ngClass]="{'fa fa-solid fa-check':!messages.delivered}"></i><span style="color:rgb(68, 252, 31)" [ngClass]="{'fa fa-solid fa-check':messages.delivered&& !messages.read,'fas fa-solid fa-check-double':messages.delivered && messages.read}"></span> -->
+                                      </div> 
+                                      <div class="chat-avatar" *ngIf="messages.sender_id === sender_id">
+                                        <img [src]="profile" alt="profile">
+                                    </div>                                    
+                                    </li>
+                                  </div>
+                              </ul>
+                              </div>
+                              <div *ngIf="receiver_id != undefined" id="UI" class="form-group mt-3 mb-0">
+                                <emoji-mart *ngIf="show" (emojiClick)="addEmoji($event)"></emoji-mart>
+                                  <div class="card-footer">
+                                    <div class="input-group">
+                                      <div class="input-group-append">
+                                        <span class="input-group-text attach_btn"> 
+                                          <label for="fileInput" class="fas fa-paperclip"></label>
+                                          <input id="fileInput" (click)="fileSelectFunc()" name="file" style="display: none;">
+                                        </span>
+                                      </div>
+                                      <div class="input-group-append-smile">
+                                        <span class="input-group-text attach_emoji" (click)="emojishow()"><i class="fas fa-smile">
+                                        </i></span>
+                                      </div>
+                                      <input type="text" class="form-control" [(ngModel)]="message" (keydown.enter)="senddata()" placeholder="Write messages..">
+                                      <div class="input-group-append">
+                                        <span class="input-group-text send_btn"><i class="fas fa-location-arrow" (click)="senddata()"></i></span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <hr>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <p-dialog header="Header" [(visible)]="visible" [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <ng-template pTemplate="header">
+            <div class="inline-flex align-items-center justify-content-center gap-2">
+                <span class="font-bold white-space-nowrap">Select Document To Share</span>
+            </div>
+        </ng-template>
+        <div>
+          <input type="file" style="width: 350px;" class="form-control" #fileInput (change)="onFileSelected($event)" name="file" >
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="sendFile()" label="send" pAutoFocus [autofocus]="true"></p-button>
+        </ng-template>
+  </p-dialog>

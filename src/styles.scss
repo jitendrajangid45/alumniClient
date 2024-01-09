@@ -1,0 +1,109 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import "~bootstrap/dist/css/bootstrap.css";
+
+
+
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/styles/pages/pages.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+// /* Demos */
+// @import "assets/demo/styles/flags/flags.css";
+// @import "assets/demo/styles/badges.scss";
+// @import "assets/demo/styles/code.scss";
+
+
+
+$primary : #003459;
+$secondary : #007ea7;
+$tertiary : #00a8e8;
+$wight : #ffffff;
+$black : #00171f;
+
+input[type=date]:focus::-webkit-datetime-edit {
+    color: black !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=date]:required:invalid::-webkit-datetime-edit {
+    color: transparent;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body {
+    width: calc(100% - 5rem);
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 200px;
+    top: 0;
+    transition: all .5s ease;
+    padding: 3rem;
+}
+
+.body-trimmed {
+    width: calc(100% - 16.5625rem);
+    margin-left: 16.5625rem;
+}
+
+.body-md-screen {
+    width: calc(100% - 5rem);
+    margin-left: 5rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border-radius: .5rem;
+    background-color: #fff;
+    margin: 1.25rem 0 1.25rem 0;
+    box-shadow: 0 .25rem .5rem #e6edef;
+    color: #495057;
+
+
+}
+
+.card-head {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #edf1f7;
+    font-size: 1rem;
+    font-weight: 600;
+
+}
+
+.card-body {
+    padding: 1rem 1.5rem;
+}
+
+h1 {
+    color: #495057;
+
+}
+
+h2 {
+    
+    color: rgb(9, 41, 136);
+    
+}

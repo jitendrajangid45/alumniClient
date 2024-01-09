@@ -1,0 +1,114 @@
+<div class="container wrapabout" style="position: inherit;">
+  <div class="row">
+      <div class="col-lg-8 col-md-8"> 
+        <div class="card card-with-larger-shadow card-no-border-lg" style="border-radius: 20px; position: relative; max-height: 600px; overflow-y: auto; min-height: 1000px;">
+          <div class="card-body">
+            <div class="news" *ngIf="data?.news?.newsType === 'news'" >
+              <h1 class="card-title"> News</h1>
+            </div>
+            <div class="news" *ngIf="data?.news?.newsType === 'circular'" >
+              <h1 class="card-title"> Circular</h1>
+            </div>
+            <hr class="mb-4">
+            <section id="about-section">
+              <div class="container wrapabout"> 
+                <div class="row">
+                  <div class="col-lg-12" >
+                    <div class="blockabout">
+                      <div class="blockabout-inner text-center text-sm-start">
+                        <div class="news" *ngIf="data?.news?.newsType === 'news'" >
+                          <button class="news-title"> &nbsp;&nbsp;News&nbsp;&nbsp;</button>
+                        </div>
+                        <div class="news" *ngIf="data?.news?.newsType === 'circular'" >
+                          <button class="news-title">&nbsp;Circular&nbsp;</button>
+                        </div>
+                        <div class="title-big pb-3 mb-3 d-flex justify-content-between align-items-center">
+                          <h2 class="pt-1 pb-2" style="padding-left: 10px;">{{ data?.news?.heading }}</h2>
+                        </div>
+                        <div *ngIf="data?.news?.newsImage!=null">
+                          <img [src]="newsImage"
+                          class="img-fluid small-profile-image" />
+                      </div>
+                        <h5 class="description-p text-muted pe-0 pe-lg-0" style="padding-left: 10px;" [innerHTML]="sanitizeHtml(data?.news?.newsContent)"></h5><br>
+                        <div class="sosmed-horizontal pt-6 pb-6" style="font-size: 18px;">
+                          <!-- <i class="fa fa-heart" [ngClass]="{'liked': isLiked}" (click)="toggleLike()" style="margin-right: 10px;"></i> {{ data?.likeCount }} Likes -->
+                          <i (click)="likeClick()" [class.isLiked]="isLiked" class="fa fa-heart">
+                            Like
+                          </i>
+                          <span >{{ data?.likeCount }}</span>
+                          <span style="margin-left: 20px; margin-right: 20px;"></span>
+                          <a href="javascript:void(0)" (click)="toggleComments()" style="text-decoration: none; margin-left: 10px; color: black;">
+                            <!-- <i class="fa fa-comment" style="padding-left: 10px;"></i>{{ data?.commentCount }} Comment -->
+                            <i class="fa fa-comment" style="padding-left: 10px;"></i>{{ data?.commentCount }} Comment
+                          </a>
+                          <span style="margin-left: 20px; margin-right: 20px;"></span>
+                          <span (click)="shareNews()"><i class="fa fa-share"></i> Share</span>
+                        </div>   
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div><br>
+      
+              <!-- Comment Input (displayed only when showCommentInput is true) -->
+              <div *ngIf="showCommentInput" class="mt-4">
+                <input type="text" [(ngModel)]="newsComments" placeholder="Add a comment" class="form-control">
+                <button (click)="addComment()" class="btn btn-primary add-button mt-2">Add Comment</button>
+              </div>
+                  
+              <!-- Display Comments -->
+              <div class="card card-with-larger-shadow card-no-border-lg" style="max-height: 600px; overflow-y: auto; border-radius: 20px;">
+                <div class="row">
+                  <div *ngIf="showComments">
+                    <div *ngFor="let data of comments" class="comment-container">
+                      <div class="card comment-card" style="width: 600px; height: auto;">
+                        <div class="card-body">
+                          <div class="comment-header">
+                            <img class="circle-image" [src]="data?.profilePic" alt="">
+                            <div class="comment-user-info">
+                              <h6>{{data?.user?.firstName +' '+ data?.user?.lastName}}</h6>
+                              <p class="smaller-text" style="margin-top: -2px; padding-left: 10px;">
+                                {{ data?.newsCommentDate | date:'yyyy-MM-dd HH:mm' }}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="comment-content">
+                            <p class="small">{{data?.newsComments}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      <div *ngIf="data.news.length===0">
+        <p>No news added.</p>
+      </div>
+    </div>
+    
+
+    <!-- Right Column: Detailed View of a News Item -->
+    <div class="col-lg-4 col-md-4">
+      <div class="card shadow-lg card-no-border-lg" style="max-height: 1200px; overflow-y: auto; border-radius: 20px;">
+        <div class="card-body">
+          <h1 class="card-title">All News</h1>
+          <hr class="mb-1">
+          <section id="about-section" class="pt-1 pb-1" *ngFor="let data of news"style="border-radius: 20px;" >
+            <div class="card shadow-lg card-no-border-lg" style="padding: 10px; border-radius: 20px; margin-top: 5px; ">
+              <div class="col-mt-1">
+                <h3 class="card-title">{{ data?.heading }}</h3>
+                <h5 class="all-news">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data?.newsType}}</h5>
+                <p class="card-text text-muted" [innerHTML]="sanitizeHtml(data?.newsContent.slice(0, 100))"></p>
+                <p class="card-text text-muted">{{ data?.createdAt }}</p>
+                <span class="btn rey-btn mt-3 ml-auto" (click)="loadView(data.newsId)">Read more...</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

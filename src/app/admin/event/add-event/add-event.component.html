@@ -1,0 +1,204 @@
+<h1>Add Event</h1>
+<div class="card">
+    <div class="card-body">
+        <p-toast [style]="{'padding-top':'100px'}"></p-toast>
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 60%;background-color:  rgb(215, 241, 250)">
+                <div class="card-body">
+                    <form [formGroup]="addEvent">
+                        <div class="row">
+                            <label for="companyName">Title<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="eventTitle" class="form-control"
+                                [ngClass]="{'invalid-input':addEvent.get('eventTitle').invalid && addEvent.get('eventTitle').touched}">
+                            <span *ngIf="submitted && addEvent.get('eventTitle').invalid"><span style="color:red;">Event
+                                    Title
+                                    is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Category<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <select formControlName="eventType" class="form-control">
+                                <option *ngFor="let option of eventTypeOptions" [value]="option.value">{{ option.label
+                                    }}</option>
+                            </select>
+                            <span *ngIf="submitted && addEvent.get('eventType').invalid"><span style="color:red;">
+                                    Event Type
+                                    is required</span></span>
+                        </div>
+                        <div class="row">
+                            visible To
+                        </div>
+                        <div class="row input">
+                            <p-dropdown [style]="{'width':'100%'}" [options]="eventViewedOptions" optionLabel="label"
+                                formControlName="isSelectOption" (onChange)="selectViewedOption($event.value)"
+                                placeholder="Select College/Batch/All" [showClear]="true"></p-dropdown>
+                        </div>
+                        <div class="row">
+                            select options
+                        </div>
+                        <div class="row input">
+                            <input pInputText class="p-inputtext-sm pInputText" formControlName="visibleTo"
+                                class="form-control" id="visibleTo" *ngIf="isSelected" [readOnly]="isSelected"
+                                type="text" />
+                            <p-dropdown [style]="{'width':'100%'}" [options]="collegeData" [filter]="true"
+                                optionLabel="collegeName" *ngIf="isCollege"
+                                (onChange)="changeCollegeNameVisible($event.value)" formControlName="visibleTo"
+                                [editable]="true" placeholder="Select College" [showClear]="true"
+                                [virtualScrollItemSize]="30" [virtualScroll]="true"></p-dropdown>
+                            <p-dropdown [style]="{'width':'100%'}" [options]="batchData" [filter]="true"
+                                optionLabel="batchName" [editable]="true" *ngIf="!isCollege && !isSelected"
+                                (onChange)="changeBatchNameVisible($event.value)" formControlName="visibleTo"
+                                placeholder="Select Batch" [showClear]="true" [virtualScrollItemSize]="30"
+                                [virtualScroll]="true"></p-dropdown>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Start Date<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="date" formControlName="startDate" class="form-control">
+                            <span *ngIf="submitted && addEvent.get('startDate').invalid"><span style="color:red;">
+                                    Start Date
+                                    is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Start Time<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <select formControlName="startTime" class="form-control">
+                                <option *ngFor="let time of getTimes" [value]="time">{{ time
+                                    }}</option>
+                            </select>
+                            <span *ngIf="submitted && addEvent.get('startTime').invalid"><span style="color:red;">
+                                    Start Time
+                                    is required</span></span>
+                        </div>
+                        <div class="row" *ngIf="!isWebinar">
+                            <label for="companyName">End Date<span class="required">*</span></label>
+                        </div>
+                        <div class="row input" *ngIf="!isWebinar">
+                            <input type="date" formControlName="endDate" class="form-control">
+                            <span *ngIf="submitted && addEvent.get('endDate').invalid"><span style="color:red;">
+                                    End Date
+                                    is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">End Time<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <select formControlName="endTime" class="form-control">
+                                <option *ngFor="let time of getTimes" [value]="time">{{ time
+                                    }}</option>
+                            </select>
+                            <span *ngIf="submitted && addEvent.get('endTime').invalid"><span style="color:red;">
+                                    End Time
+                                    is required</span></span>
+                        </div>
+                        <div class="row" *ngIf="!isWebinar">
+                            <label for="companyName">Venue<span class="required">*</span></label>
+                        </div>
+                        <div class="row input" *ngIf="!isWebinar">
+                            <input type="text" formControlName="eventVenue" class="form-control"
+                                [ngClass]="{'invalid-input':addEvent.get('eventVenue').invalid && addEvent.get('eventVenue').touched}">
+                            <span *ngIf="submitted && addEvent.get('eventVenue').invalid"><span style="color:red;">Event
+                                    Venue
+                                    is required</span></span>
+                        </div>
+                        <div class="row" *ngIf="!isWebinar">
+                            <label for="companyName">Address<span class="required">*</span></label>
+                        </div>
+                        <div class="row input" *ngIf="!isWebinar">
+                            <textarea type="text" formControlName="eventAddress" class="form-control"></textarea>
+                            <span *ngIf="submitted && addEvent.get('eventAddress').invalid"><span
+                                    style="color:red;">Event Address is required</span></span>
+                        </div>
+                        <div class="row" *ngIf="isWebinar">
+                            <label for="companyName">Webinar Link<span class="required">*</span></label>
+                        </div>
+                        <div class="row input" *ngIf="isWebinar">
+                            <input type="text" formControlName="webinarLink" class="form-control">
+                            <span *ngIf="submitted && addEvent.get('webinarLink').invalid"><span
+                                    style="color:red;">Webinar Link is
+                                    required</span></span>
+                        </div>
+                        <div class="row">
+                            <label htmlFor="applicationDeadline">College/university<span
+                                    class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <p-dropdown [style]="{'width':'100%'}" [options]="collegeData" [filter]="true"
+                                optionLabel="collegeName" [editable]="true" (onChange)="changeCollegeName($event.value)"
+                                formControlName="collegeOrUniversity" placeholder="Select College or University"
+                                [showClear]="true"></p-dropdown>
+                        </div>
+                        <div class="row">
+                            <label for="companyName" class="col-md-6">Is there any Registrations?<span
+                                    class="required">*</span></label>
+                            <div class="form-check col-md-2 pt-1">
+                                <input class="form-check-input radio" (click)="isRegistration('yes')"
+                                    formControlName="isRegistration" type="radio" name="isRegistration" id="yes"
+                                    value="Yes">
+                                <label class="form-check-label" for="yes">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check col-md-2 pt-1">
+                                <input class="form-check-input radio" formControlName="isRegistration"
+                                    (click)="isRegistration('no')" type="radio" name="isRegistration" id="no"
+                                    value="No">
+                                <label class="form-check-label" for="no">
+                                    No
+                                </label>
+                            </div>
+                            <span *ngIf="submitted && addEvent.get('isRegistration').invalid"><span
+                                    style="color:red;">Registration is
+                                    required</span></span>
+                        </div>
+                        <div class="row pt-2" *ngIf="isRegister">
+                            <label for="companyName">Registrations Fee<span class="required">*</span></label>
+                        </div>
+                        <div class="row input" *ngIf="isRegister">
+                            <input type="number" formControlName="eventRegistrationFee" class="form-control">
+                            <span *ngIf="submitted && addEvent.get('eventRegistrationFee').invalid"><span
+                                    style="color:red;">Registration Fee is
+                                    required</span></span>
+                        </div>
+                        <div class="row" *ngIf="isRegister">
+                            <label for="companyName">Registrations Close Date<span class="required">*</span></label>
+                        </div>
+                        <div class="row input" *ngIf="isRegister">
+                            <input type="date" formControlName="eventRegistrationCloseDate"
+                                min="{{ getCurrentDate() | date: 'yyyy-MM-dd' }}" class="form-control">
+                            <span *ngIf="submitted && addEvent.get('eventRegistrationCloseDate').invalid"><span
+                                    style="color:red;"> Registration Close Date is
+                                    required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Description<span class="required">*</span></label>
+                        </div>
+                        <div class="row">
+                            <p-editor [style]="{ height: '320px' }" formControlName="eventDescription"></p-editor>
+                            <span *ngIf="submitted && addEvent.get('eventDescription').invalid"><span
+                                    style="color:red;">
+                                    Description is
+                                    required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Event Image<span class="required">*</span></label>
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control" formControlName="file" (change)="handleFileInput($event)"
+                                type="file" accept="image/*" id="formFile">
+                            <span *ngIf="submitted && addEvent.get('file').invalid"><span style="color:red;">
+                                    File is
+                                    required</span></span>
+                        </div>
+                        <button type="button" class="btn btn-outline-info" (click)="createEvent()">Create Event</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

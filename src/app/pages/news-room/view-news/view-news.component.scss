@@ -1,0 +1,96 @@
+.container {
+  max-width: 1000px;
+  margin-left: 400px;
+  margin-right: 100px;
+  // margin: 0px 0px 0px 0px;
+  color: blue;
+  border-radius: 20px;
+  padding: 10px;
+}
+.card{
+  border: none;
+}
+
+.darker {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 50px;
+    padding: 1px;
+    margin: 10px;
+}
+
+.container img {
+  float: left;
+  max-width: 100px;
+  width: 100%;
+  margin-right: 50px;
+  border-radius: 5000%;
+}
+
+.time-right {
+  margin-left: 700px;
+  color: #aaa;
+}
+
+.col-lg-11{
+  margin-left: 40px;
+  padding: 10px;
+}
+// .col-lg-12{
+//   // color: blue;
+// }
+
+.msger-input {
+  width: 700px;
+  flex: 1;
+  background: #ddd;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 1.2em;
+}
+
+
+/* Default styles for the heart icon */
+.fa-heart {
+    color: black;
+    transition: color 0.1s;
+  }
+  
+  /* Styles for the "liked" state where the heart is filled with red */
+  .liked {
+    color: red;
+  }
+
+  .smaller-text {
+    font-size: 8px; /* You can adjust the size as needed */
+  }
+  .small{
+    font-size: 14px;
+  }
+
+  /* Add these styles to your component's CSS file */
+
+  .comment-container {
+    display: flex;
+    align-items: flex-start; /* Align items vertically at the start */
+    // margin-bottom: 2px; /* Add margin between comments */
+  }
+  
+  .comment-content {
+    flex: 1; /* Allow the content to take remaining space */
+    padding-right: 20px; /* Add some space between text and image */
+  }
+  
+  .circle-image {
+    width: 30px; /* Set your desired width for the circular image */
+    height: 30px; /* Set your desired height for the circular image */
+    border-radius: 50%; /* Makes the element a circle */
+    overflow: hidden; /* Ensures the image stays within the circle */
+  }
+
+
+  
+  
+
+  

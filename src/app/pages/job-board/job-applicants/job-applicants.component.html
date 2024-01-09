@@ -1,0 +1,427 @@
+<div class="flex flex-wrap gap-2 justify-content-between">
+    <h2>Job Applicants</h2>
+    <div class="flex flex-wrap gap-2">
+        <button pButton pRipple icon="pi pi-chevron-left" (click)="backToJob()" label="Back to Job Board"
+            style="background-color: #007EA7;">
+        </button>
+    </div>
+</div>
+<div class="card">
+    <p-tabView>
+        <p-tabPanel header="Job Posted by You">
+            <div *ngIf="jobView">
+                <div class="grid p-fluid">
+                    <div class="col-12">
+                        <div class="flex flex-column md:flex-row md:justify-content-between">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input type="search" class="p-inputtext-sm pInputText" pInputText
+                                    [(ngModel)]="filterText" (input)="filterData()" placeholder="Search...">
+                            </span>
+                        </div>
+                        <div class="grid formgrid">
+                            <div class="col-12" *ngFor="let data of jobDetails">
+                                <div class="flex mt-4">
+                                    <div class="flex-1 flex flex-column">
+                                        <h4 class=" font-bold mb-0">{{data?.jobTitle}}</h4>
+                                        <span><i class="pi pi-building"></i> {{data?.companyName}}</span>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <div class="verified-logo" *ngIf="data?.isVerified === 1" tooltipPosition="top"
+                                            pTooltip="Verified Job">
+                                            <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="disabled-logo" *ngIf="data?.isVerified === 0" tooltipPosition="top"
+                                            pTooltip="unverified Job">
+                                            <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between mt-2">
+                                    <div class="col-md-3"><i class="pi pi-briefcase"></i> {{data?.experienceFrom}} to
+                                        {{data?.experienceTo}}
+                                        Yrs</div>
+                                    <div class="col-md-3"><i class="bi bi-currency-rupee" style="font-weight: 800;"></i>
+                                        {{data?.salaryPackage}}
+                                    </div>
+                                    <div class="col-md-3"><i class="bi bi-geo-alt" style="font-weight: 800;"></i>
+                                        {{data?.jobLocation}}
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                    <span><i class="pi pi-clock"></i> {{ data.timeAgo }}</span>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="viewDetails" (click)="viewApplicant(data)">View Applied
+                                            Candidates</span>
+                                    </div>
+                                </div>
+                                <p-divider></p-divider>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-content-center">
+                    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
+                        (pageChanged)="onPageChanged($event)"></app-pagination>
+                </div>
+            </div>
+
+            <!--  -->
+            <div class="grid p-fluid" *ngIf="applicantView">
+                <div class="col-12 md:col-5">
+                    <div>
+                        <div class="flex flex-wrap gap-2 justify-content-between">
+                            <div class="flex flex-wrap gap-2">
+                                <button pButton pRipple icon="pi pi-chevron-left" (click)="backToApplicant()"
+                                    label="Back to Job Applicant" style="background-color: #007EA7;">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="flex">
+                                <div class="flex-1 flex flex-column">
+                                    <h4 class=" font-bold mb-0">{{jobDescription?.jobTitle}}</h4>
+                                    <span><i class="pi pi-building"></i> {{jobDescription?.companyName}}</span>
+                                </div>
+                            </div>
+                            <div class="row justify-content-between mt-2">
+                                <div class="col-md-3"><i class="pi pi-briefcase"></i> {{jobDescription?.experienceFrom}}
+                                    to {{jobDescription?.experienceTo}} years</div>
+                                <div class="col-md-3"><i class="bi bi-currency-rupee" style="font-weight: 800;"></i>
+                                    {{jobDescription?.salaryPackage}}
+                                </div>
+                                <div class="col-md-3"><i class="bi bi-geo-alt" style="font-weight: 800;"></i>
+                                    {{jobDescription?.jobLocation}}
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                <span><i class="pi pi-clock"></i> {{jobDescription?.timeAgo}}</span>
+                            </div>
+                            <p-divider></p-divider>
+                        </div>
+                    </div>
+                    <div class="formgrid grid">
+                        <div class="col-12 md:col-6 mb-2 label">
+                            JOB/INTERNSHIP Visible To :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{jobDescription?.visibleTo}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Description :
+                        </div>
+                        <div class="col-12 md:col-12 mb-2">
+                            <div [innerHtml]="sanitizedHtml"></div>
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Skills :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{jobDescription?.skills}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Education/Qualification :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{jobDescription?.education}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Role :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{jobDescription?.role}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Industry Type :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{jobDescription?.industryType}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Department :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{jobDescription?.department}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Employment Type :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{jobDescription?.employmentType}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-7">
+                    <h5>Applied Candidates</h5>
+                    <div class="flex flex-column md:flex-row md:justify-content-between">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input type="search" class="p-inputtext-sm pInputText" pInputText
+                                [(ngModel)]="filterTextAppliedJob" (input)="filterDataAppliedJob()"
+                                placeholder="Search...">
+                        </span>
+
+                    </div>
+                    <div class="card mb-0" *ngFor="let data of applicantData">
+                        <div class="d-flex justify-content-end space"
+                            *ngIf="data?.applicationStatus === 'shortlisted' || data?.applicationStatus === 'rejected'">
+                            <i class="pi pi-check" pTooltip="Application Shortlisted"
+                                *ngIf="data?.applicationStatus === 'shortlisted'"></i>
+                            <i class="pi pi-times" pTooltip="Application Rejected"
+                                *ngIf="data?.applicationStatus === 'rejected'"></i>
+                        </div>
+                        <div class="row justify-content-between mt-0">
+                            <div class="col-md-4"><i class="pi pi-user"></i> {{data.applicantFullName}}</div>
+                            <div class="col-md-5"><i class="pi pi-envelope"></i>
+                                {{data.applicantEmail}}
+                            </div>
+                            <div class="col-md-3"><i class="pi pi-mobile"></i>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mb-0 mt-1">
+                            <div class="col-md-7"><i class="pi pi-user"></i> {{data.applicantRelevantSkills}}
+                            </div>
+
+                            <div class="col-md-3 "><i class="pi pi-file-pdf"></i><span class="view-Resume"
+                                    (click)="viewResume(data.applicationStatus,data.jobApplicantId)">View
+                                    Resume</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2 mb-0"
+                            *ngIf="data?.applicationStatus === 'applicationSubmitted' || data?.applicationStatus === 'applicationViewed'">
+                            <div class="col-md-2"><p-tag icon="pi pi-check" class="tag" severity="success"
+                                    (click)="applicationStatus('shortlisted',data.jobApplicantId)"
+                                    value="Shortlist"></p-tag>
+                            </div>
+                            <div class="col-md-2"><p-tag icon="pi pi-check" class="tag" severity="danger"
+                                    (click)="applicationStatus('rejected',data.jobApplicantId)" value="Reject"></p-tag>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-content-center mt-2">
+                        <app-pagination [currentPage]="currentPage" [totalPages]="totalAppliedJob"
+                            (pageChanged)="onPageChangedAppliedCandidates($event)"></app-pagination>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Job Seeker">
+            <div class="grid p-fluid">
+                <div class="col-12 mb-0">
+                    <div class="flex flex-column md:flex-row md:justify-content-between">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input type="search" class="p-inputtext-sm pInputText" [(ngModel)]="filterTextSeeker"
+                                (input)="filterDataSeeker()" pInputText #jobApplicant placeholder="Search...">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12 md:col-6" *ngFor="let data of jobSeekerDetails">
+                    <div class="card mb-0">
+                        <div class="row justify-content-between mt-0">
+                            <div class="col-md-4"><i class="pi pi-user"></i> {{data.applicantFullName}}</div>
+                            <div class="col-md-5"><i class="pi pi-envelope"></i>
+                                {{data.applicantEmail}}
+                            </div>
+                            <div class="col-md-3"><i class="pi pi-mobile"></i>{{data.mobileNumber}}
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mb-0 mt-1">
+                            <div class="col-md-7"><i class="pi pi-user"></i> {{data.applicantRelevantSkills}}
+                            </div>
+
+                            <div class="col-md-3 "><i class="pi pi-file-pdf"></i> View Resume
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-content-center mt-6 mb-0">
+                <app-pagination [currentPage]="currentPage" [totalPages]="totalJobSeeker"
+                    (pageChanged)="onPageChangedJobSeeker($event)"></app-pagination>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Applied Job">
+            <div *ngIf="alumniAppliedJobView">
+                <div class="grid p-fluid">
+                    <div class="col-12 mb-0">
+                        <div class="flex flex-column md:flex-row md:justify-content-between">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input type="search" class="p-inputtext-sm pInputText"
+                                    [(ngModel)]="filterTextAlumniApplied" (input)="filterDataAlumniApplied()" pInputText
+                                    #jobApplicant placeholder="Search...">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid formgrid">
+                    <div class="col-12" *ngFor="let data of alumniJobData">
+                        <div class="flex mt-4">
+                            <div class="flex-1 flex flex-column">
+                                <h4 class=" font-bold mb-0">{{ data?.job?.jobTitle}}</h4>
+                                <span><i class="pi pi-building"></i>{{ data?.job?.companyName }}</span>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between mt-2">
+                            <div class="col-md-3"><i class="pi pi-briefcase"></i>
+                                {{data?.job?.experienceFrom}} to
+                                {{data?.job?.experienceTo}}
+                                Yrs</div>
+                            <div class="col-md-3"><i class="bi bi-currency-rupee" style="font-weight: 800;"></i>
+                                {{ data?.job?.salaryPackage}}
+                            </div>
+                            <div class="col-md-3"><i class="bi bi-geo-alt" style="font-weight: 800;"></i>
+                                {{data?.job?.jobLocation}}
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                            <span><i class="pi pi-clock"></i><span class="font-bold"> DeadLine</span>
+                                {{data?.job?.applicationDeadline | date:'dd
+                                MMM,yyyy'}}
+                            </span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="viewDetails" (click)="viewAlumniJobStatus(data)">View Job Status</span>
+                            </div>
+                        </div>
+                        <p-divider></p-divider>
+                    </div>
+                </div>
+                <app-pagination [currentPage]="currentPage" [totalPages]="totalAlumniAppliedJob"
+                    (pageChanged)="onPageChangedAlumniApplied($event)"></app-pagination>
+            </div>
+            <div class="grid p-fluid" *ngIf="alumniAppliedDescription">
+                <div class="col-12 md:col-6">
+                    <div>
+                        <div class="flex flex-wrap gap-2 justify-content-between">
+                            <div class="flex flex-wrap gap-2">
+                                <button pButton pRipple icon="pi pi-chevron-left" (click)="backToAppliedApplicant()"
+                                    label="Back to Job Applicant" style="background-color: #007EA7;">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="flex">
+                                <div class="flex-1 flex flex-column">
+                                    <h4 class=" font-bold mb-0">{{appliedJobDescription?.job?.jobTitle}}</h4>
+                                    <span><i class="pi pi-building"></i>
+                                        {{appliedJobDescription?.job?.companyName}}</span>
+                                </div>
+                            </div>
+                            <div class="row justify-content-between mt-2">
+                                <div class="col-md-3"><i class="pi pi-briefcase"></i>
+                                    {{appliedJobDescription?.job?.experienceFrom}}
+                                    to {{appliedJobDescription?.job?.experienceTo}} years</div>
+                                <div class="col-md-3"><i class="bi bi-currency-rupee" style="font-weight: 800;"></i>
+                                    {{appliedJobDescription?.job?.salaryPackage}}
+                                </div>
+                                <div class="col-md-3"><i class="bi bi-geo-alt" style="font-weight: 800;"></i>
+                                    {{appliedJobDescription?.job?.jobLocation}}
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                <span><i class="pi pi-clock"></i> {{appliedJobDescription?.job?.applicationDeadline |
+                                    date:'dd
+                                    MMM,yyyy'}}</span>
+                            </div>
+                            <p-divider></p-divider>
+                        </div>
+                    </div>
+                    <h5 class="mt-0">Job Applied Status</h5>
+                    <ol class="stepper">
+                        <!-- application submitted -->
+                        <li class="stepper-item complete">
+                            <span class="stepper-counter"></span>
+                            <span class="stepper-link">Job Application Submitted </span>
+                            <span class="stepper-line"></span>
+                        </li>
+                        <span class="message">Application submitted
+                            successfully. Fingers crossed for the next step!</span>
+                        <!-- application viewed -->
+                        <li class="stepper-item"
+                            *ngIf="appliedJobDescription.applicationStatus === 'applicationSubmitted'">
+                            <span class="stepper-counter"></span>
+                            <span class="stepper-link">Recruiter Viewed your Application</span>
+                        </li>
+                        <li class="stepper-item complete"
+                            *ngIf="appliedJobDescription.applicationStatus ==='shortlisted' || appliedJobDescription.applicationStatus ==='rejected' || appliedJobDescription.applicationStatus ==='applicationViewed'">
+                            <span class="stepper-counter"></span>
+                            <span class="stepper-link">Recruiter Viewed your Application</span>
+                            <span class="stepper-line"></span>
+                        </li>
+                        <span
+                            *ngIf="appliedJobDescription.applicationStatus ==='shortlisted' || appliedJobDescription.applicationStatus ==='rejected' || appliedJobDescription.applicationStatus ==='applicationViewed' "
+                            class="message">Recruiter has viewed your application. Stay tuned for updates!</span>
+                        <!-- shortlisted -->
+                        <li class="stepper-item shortlisted"
+                            *ngIf="appliedJobDescription.applicationStatus ==='shortlisted'">
+                            <span class="stepper-counter"></span>
+                            <span class="stepper-link">Application Shortlisted</span>
+                        </li>
+                        <span *ngIf="appliedJobDescription.applicationStatus ==='shortlisted'"
+                            class="message">Congratulations! Your application has been shortlisted. Exciting
+                            times
+                            ahead - stay tuned for further details!</span>
+                        <!-- rejected -->
+                        <li *ngIf="appliedJobDescription.applicationStatus ==='rejected'" class="stepper-item rejected">
+                            <span class="stepper-counter"></span>
+                            <span class="stepper-link">Application Rejected</span>
+                        </li>
+                        <span *ngIf="appliedJobDescription.applicationStatus ==='rejected'" class="message">Thank you
+                            for applying. Unfortunately, your application has not been
+                            selected this time. Keep exploring new
+                            opportunities!</span>
+                    </ol>
+                </div>
+                <div class="col-12 md:col-6">
+                    <div class="formgrid grid">
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Description :
+                        </div>
+                        <div class="col-12 md:col-12 mb-2">
+                            <div [innerHtml]="sanitizedHtml"></div>
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Skills :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{appliedJobDescription?.job?.skills}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Education/Qualification :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{appliedJobDescription?.job?.education}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Role :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{appliedJobDescription?.job?.role}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Industry Type :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{appliedJobDescription?.job?.industryType}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Department :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{appliedJobDescription?.job?.department}}
+                        </div>
+                        <div class="col-12 md:col-6 mb-2 label">
+                            Employment Type :
+                        </div>
+                        <div class="col-12 md:col-6 mb-2">
+                            {{appliedJobDescription?.job?.employmentType}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

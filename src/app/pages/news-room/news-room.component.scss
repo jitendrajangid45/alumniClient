@@ -1,0 +1,141 @@
+.container {
+    max-width: 1200px;
+    margin: 5 auto;
+  }
+
+.row {
+    background-color: #E6EDEF;
+    border-radius: 15px;
+  }
+
+.blockabout{
+    border-radius: 20px;
+  }
+
+.fa-heart {
+  color: black;
+  transition: color 0.1s;
+}
+
+/* Styles for the "liked" state where the heart is filled with red */
+.isLiked {
+  color: rgb(201, 11, 11);
+}
+
+.smaller-text {
+  font-size: 12px;
+  position: absolute;
+  bottom: 1%;
+  right: 0;
+}
+.small{
+  font-size: 18px;
+}
+
+/* Add these styles to your component's CSS file */
+
+.comment-container {
+  display: flex;
+  align-items: flex-start; /* Align items vertically at the start */
+  // margin-bottom: 2px; /* Add margin between comments */
+}
+
+.comment-content {
+  flex: 1; /* Allow the content to take remaining space */
+  padding-right: 20px; /* Add some space between text and image */
+  margin-top: 5px;
+  margin-left: 10px;
+  font-size: 2rem;
+
+}
+
+.circle-image {
+  width: 40px; /* Set your desired width for the circular image */
+  height: 40px; /* Set your desired height for the circular image */
+  border-radius: 50%; /* Makes the element a circle */
+  overflow: hidden; /* Ensures the image stays within the circle */
+  margin-top: -40px;
+  margin-left: 10px;
+}
+
+.card-with-shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.484);
+}
+
+.card-with-larger-shadow {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-no-border {
+  border: none;
+  border-radius: 0; /* Optional: If you want to remove the rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-no-border-lg {
+  border: none;
+  border-radius: 0; /* Optional: If you want to remove the rounded corners */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.add-button{
+  background-color: #003459;
+  border-color:#003459 ;
+}
+
+.comment-card {
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.circle-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-user-info h6 {
+  margin: 0;
+}
+
+.comment-user-info p {
+  margin: 0;
+  color: #999;
+}
+
+.comment-content {
+  padding-left: 50px; /* Adjust this value based on your design */
+}
+
+@keyframes blinkColor {
+  0% {
+      color: #ef0e0e; /* Initial color */
+  }
+  50% {
+      color: #100502ec; /* Blinking color */
+  }
+  100% {
+      color: red; /* Back to the initial color */
+  }
+}
+
+.news-title{
+  background-color: rgb(61, 165, 235);
+  margin-left: 400px; 
+  margin-top: 10px;
+  border-radius: 20px;
+  animation: blinkColor 1s infinite;
+}
+
+.all-news{
+  background-color: rgb(61, 165, 235);
+  border-radius: 20px;
+  animation: blinkColor 1s infinite;
+}

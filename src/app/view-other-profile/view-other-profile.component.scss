@@ -1,0 +1,546 @@
+// .card {
+//     padding: 20px; /* This will create spacing between the card edge and the content */
+// }
+
+// .d-flex img {
+//     margin-right: 20px; /* This will create 20px spacing between the image and the heading */
+// }
+// .color{
+//     color: rgb(9, 41, 136)
+// }
+
+// /* Apply styles directly to the image for the frame */
+// .image-frame {
+//     border: 2px solid #000; /* Border styling */
+//     padding: 5px; /* Padding around the image */
+//     display: inline-block; /* Ensure the frame doesn't take full width */
+// }
+// .ellipse-background {
+//     color: white;
+//     background-color: #00a8e8;
+//      /* Creating a curved shape */
+//     padding: 5px 20px; /* Adjust padding as needed */
+//     display: inline-block;
+//     text-align: center;
+// }
+// .verified-logo {
+//     color: green;
+// }
+
+// .ellipse-background{
+//     border-radius: 20px;
+// }
+
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+
+/* ===== =====>>  Universal Selector  <<===== =====  */
+* {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-family: sans-serif;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== =====>>  Body Font Size  <<===== =====  */
+.main {
+  font-size: 10px;
+}
+
+
+
+/* ===== =====>>  Body Css  <<===== =====  */
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* ===== =====>>  Body Main-Background Css  <<===== =====  */
+.main_bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-position: left;
+  z-index: -1;
+  filter: blur(10px);
+}
+
+/* ===== =====>>  Main-Container Css  <<===== =====  */
+.container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas:
+    "header header"
+    "userProfile userDetails"
+    "work_skills timeline_about"
+    "work_skills timeline_about";
+  width: 85%;
+  height: 90vh;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.3)
+  );
+  padding: 1.5rem;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== =====>>  Container Cards Grid-Area Css Start  <<===== =====  */
+header {
+  grid-area: header;
+}
+
+.userProfile {
+  grid-area: userProfile;
+}
+
+.work_skills {
+  grid-area: work_skills;
+}
+
+.userDetails {
+  grid-area: userDetails;
+}
+
+.timeline_about {
+  grid-area: timeline_about;
+}
+
+/* ===== =====>>  Container Cards Css  <<===== =====  */
+.container .card {
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.3)
+  );
+  backdrop-filter: blur(3rem);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+}
+
+/* ===== =====>>  Container Header/Navbar Css  <<===== =====  */
+.container header {
+  padding: 0 2.5rem;
+}
+
+
+
+
+
+/* ===== =====>>  User Main-Profile Css Start  <<===== ===== */
+.container .userProfile {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.container .userProfile .profile figure img {
+  width: 300px; /* Set the width */
+  height: 300px; /* Set the height to match the width */
+  border-radius: 50%; /* Make the image circular */
+}
+
+
+/* ===== =====>>  Work & Skills Css Start  <<===== ===== */
+.container .work_skills {
+  padding: 1.5rem;
+}
+
+.work_skills .work .heading,
+.work_skills .skills .heading {
+  position: relative;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.work_skills .work .heading::before,
+.work_skills .skills .heading::before {
+  // content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 0.1rem;
+  width: 88%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.work_skills .work .primary,
+.work_skills .work .secondary {
+  position: relative;
+}
+
+.work_skills .work .primary h1,
+.work_skills .work .secondary h1 {
+  font-size: 1.4rem;
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0.6rem;
+}
+
+
+
+.work_skills .primary span,
+.work_skills .secondary span {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #0099cc;
+  background: #e6f2ff;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+}
+
+@media screen and (max-width: 768px) {
+  .work_skills .primary span,
+  .work_skills .secondary span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 0; /* Remove the margin-top */
+    transform: translateY(-100%);/* Ensures buttons are displayed in line */
+    display: inline-block;
+  }
+}
+
+
+.edit {
+  position: absolute;
+  top: 10px;
+  right: auto;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #0099cc;
+  background: #e6f2ff;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+}
+
+@media screen and (max-width: 768px) {
+  .edit {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-top: 1rem;
+  }
+}
+
+.work_skills .work .primary p,
+.work_skills .work .secondary p {
+  margin-bottom: 1.8rem;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.6rem;
+}
+
+/* =====>>  Skills Bars Css  <<===== */
+.work_skills .skills ul li {
+  position: relative;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  margin: 0.5rem;
+  color: #000;
+  font-weight: 500;
+}
+
+.work_skills .skills ul li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  height: 0.2rem;
+  background: #33ccff;
+  animation: skills 8s linear infinite;
+  animation-delay: calc(-2s * var(--i));
+}
+
+@keyframes skills {
+  0% {
+    width: 50%;
+    filter: hue-rotate(180deg);
+  }
+
+  50% {
+    width: 0;
+  }
+
+  100% {
+    width: 50%;
+    filter: hue-rotate(0);
+  }
+}
+
+/* ===== =====>>  User Details Css Start  <<===== ===== */
+.userDetails {
+  position: relative;
+  padding: 1.5rem 2.5rem;
+}
+
+.userDetails .userName h1 {
+  font-size: 2.2rem;
+}
+
+.userDetails .userName .map {
+  position: absolute;
+  top: 2.5rem;
+  left: 18.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userDetails .userName .map .ri {
+  margin-right: var(--m-0-3);
+  font-size: 1.2rem;
+}
+
+.userDetails .userName .map span {
+  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 700;
+}
+
+.userDetails .userName p {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0099cc;
+  margin-bottom: 1.8rem;
+}
+
+.userDetails .rank {
+  position: relative;
+  margin-bottom: 1.8rem;
+}
+
+.userDetails .rank .heading {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.userDetails .rank span {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+// .userDetails .rank .rating {
+//   position: absolute;
+//   top: 2.7rem;
+//   left: 3.5rem;
+// }
+
+.userDetails .rank .rating .rate {
+  color: #0099cc;
+  font-size: 1.4rem;
+}
+
+.userDetails .rank .rating .underrate {
+  color: #88cee6;
+}
+
+.userDetails .btns ul,
+.userDetails .btns ul li {
+  display: flex;
+  align-items: center;
+}
+
+.userDetails .btns ul li {
+  margin-right:2.5rem;
+  border-radius: 0.5rem;
+}
+
+.userDetails .btns ul li .ri {
+  margin-right: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.userDetails .btns ul li a {
+  font-size: 1.4rem;
+  color: #000;
+  font-weight: 500;
+}
+
+.userDetails .btns ul .active {
+  background: #e6f2ff;
+  padding: 0.5rem 1.5rem;
+}
+
+.userDetails .btns ul .active a,
+.userDetails .btns ul .active .ri {
+  color: #0099cc;
+}
+
+/* ===== =====>>  Timeline & About Css Start  <<===== ===== */
+.timeline_about {
+  padding: 2.5rem;
+}
+
+.timeline_about .tabs ul {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.timeline_about .tabs ul::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.timeline_about .tabs ul li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 2.5rem;
+  padding-bottom: 0.8rem;
+  cursor: pointer;
+}
+
+.timeline_about .tabs ul li span {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.timeline_about .tabs ul li .ri {
+  margin-right: 0.5rem;
+}
+
+.timeline_about .tabs ul .active::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #0099cc;
+}
+
+.timeline_about .contact_info .heading,
+.timeline_about .basic_info .heading {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.timeline_about .contact_info ul,
+.timeline_about .basic_info ul {
+  margin-bottom: 1.5rem;
+}
+
+.timeline_about .contact_info ul li,
+.timeline_about .basic_info ul li {
+  display: flex;
+  margin: 0.5rem 0;
+}
+
+.timeline_about .contact_info ul li h1,
+.timeline_about .basic_info ul li h1 {
+  font-weight: 500;
+  font-size: 1.2rem;
+  min-width: 12rem;
+}
+
+.timeline_about .contact_info ul li span,
+.timeline_about .basic_info ul li span {
+  font-size: 1.2rem;
+}
+
+.timeline_about .contact_info ul .phone span,
+.timeline_about .contact_info ul .email span,
+.timeline_about .contact_info ul .site span {
+  color: #0099cc;
+}
+
+@media screen and (max-width: 1024px) {
+  .main {
+    font-size: 9px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .main {
+    font-size: 8px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main {
+    font-size: 10px;
+  }
+/* Mobile Devices */
+
+  /* ===== =====>>  Container Css Start  <<===== ===== */
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "userProfile"
+      "userDetails"
+      "work_skills"
+      "timeline_about";
+    overflow-x: hidden;
+    overflow-y: inherit;
+    padding: 0;
+    width: 90%;
+    height: 100%;
+    box-shadow: none;
+  }
+
+  /* ===== =====>>  Container Card Css Start  <<===== ===== */
+  .container .card {
+    backdrop-filter: none;
+  }
+
+  .userDetails {
+    margin-bottom: 3rem;
+  }
+
+  .container::before,
+  .container::after {
+    display: none;
+  }
+
+  /* ===== =====>>  Header/Navbar Css Start  <<===== ===== */
+  .container header {
+    padding: 2.5rem;
+  } 
+}
+
+@media screen and (max-width: 500px) {
+  .container {
+    width: 100%;
+    overflow: initial;
+  }
+
+}
+
+@media screen and (max-width: 350px) {
+  .main_bg {
+    animation: none;
+  }
+}
+

@@ -1,0 +1,40 @@
+
+<div class="container">
+    <h3>Members</h3>
+    <span>Search and connect with friends, batchmates, and other alumni</span>
+
+    <div class="input-group" style="height: 50px; position: relative;">
+        <input type="search" class="form-control rounded pl-4 pr-5" placeholder="Search" aria-label="Search"
+            aria-describedby="search-addon" [(ngModel)]="filterText" (input)="filterData()"
+            style="padding-right: 40px;" />
+        <span class="search-icon" >
+            <i class="pi pi-search" style="font-weight: 700; color: #007EA7; font-size: 1.5rem;"></i>
+        </span>
+    </div>
+    
+    
+
+    <div class="row">
+        <div class="col-md-4"  *ngFor="let data of memberDetails">
+            <div class="card " style="height: 300px;" >
+                <div class="card-body text-center">
+                    <div class="verified-logo" *ngIf="data.isVerified; else disabledSection">
+                        <i class="fa fa-check-circle fa-2x"></i>
+                    </div>
+                    <ng-template #disabledSection>
+                        <div class="disabled-logo">
+                            <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </ng-template>
+
+                    <div>
+                        <img [src]="data?.profilePic"
+                        class="img-fluid small-profile-image" (click)="viewOtherProfile(data.id,data.role)"/>
+                    </div>
+                    <h3 class="card-title" >{{data?.firstName}}</h3>
+                    <h6 class="card-text" > {{data?.batch?.batchName}}</h6> 
+                </div>
+            </div>
+        </div>
+    </div>     
+</div>

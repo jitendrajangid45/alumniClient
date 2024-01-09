@@ -1,0 +1,637 @@
+<div class="flex flex-wrap gap-2 justify-content-between">
+    <h2>Events</h2>
+    <div class="flex flex-wrap gap-2">
+        <button #btn type="button" pButton icon="pi pi-plus" label="Add" style="background-color: #007EA7;"
+            (click)="menu.toggle($event)"> </button>
+        <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
+    </div>
+</div>
+
+<div class="grid p-fluid">
+    <p-toast></p-toast>
+    <div class="col-12">
+        <div class="card">
+            <p-tabView (onChange)="onTabChange($event)">
+                <p-tabPanel header="All">
+                    <div *ngIf="!showDetails">
+                        <div class="flex flex-column md:flex-row md:justify-content-between">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input type="search" class="p-inputtext-sm pInputText" pInputText
+                                    [(ngModel)]="filterText" (input)="filterData()"
+                                    placeholder="Search by location or college">
+                            </span>
+                        </div>
+                        <div class="grid formgrid">
+                            <div class="col-12" *ngFor="let data of eventDetails">
+                                <div class="flex mt-2">
+                                    <div class="flex-1 flex flex-column">
+                                        <h4 class=" font-bold mb-0">{{data.eventTitle}}</h4>
+                                        <span><i class="pi pi-building"></i> {{data.collegeOrUniversity}}</span>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between mt-2">
+                                    <div class="col-md-6"><i class="pi pi-compass"></i>
+                                        {{data.startDate | date:'EEEE ,dd MMM,yyyy'}} - {{data.startTime}} to
+                                        {{data.endDate === data.startDate ? '': data.endDate | date:'EEEE ,dd MMM,yyyy
+                                        -'}}
+                                        {{data.endTime}}
+                                    </div>
+                                    <div class="col-md-2"><i class="pi pi-map-marker"></i>
+                                        {{data.eventVenue === '' ? 'Online' : data.eventVenue}}
+                                    </div>
+                                    <div class="flex col-md-4 tags justify-content-center"
+                                        *ngIf="data.join === null && data.mayBe === null && data.decline === null">
+                                        <div class="broker-tagJoin" (click)="updateStatus('join',data?.eventId)">I will
+                                            join</div>
+                                        <div class="broker-tagMayBe" (click)="updateStatus('mayBe',data?.eventId)">Maybe
+                                        </div>
+                                        <div class="broker-tagDecline" (click)="updateStatus('decline',data?.eventId)">
+                                            Decline
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                    <span><i class="pi pi-clock"></i> Posted by {{data.firstName}}
+                                        {{data.lastName}} on {{ data.createdAt | date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                        }}</span>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="viewDetails" (click)="viewDetails(data)">View More Details</span>
+                                    </div>
+                                </div>
+                                <p-divider></p-divider>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="showDetails">
+                        <div class="grid formgrid">
+                            <div class="col-12">
+                                <div class="flex flex-wrap gap-2 justify-content-end">
+                                    <div class="flex flex-wrap gap-2">
+                                        <button pButton pRipple label="Back to Event Tab" icon="pi pi-chevron-left"
+                                            style="background-color: #007EA7;" (click)="backTOEvent()"> </button>
+                                    </div>
+                                </div>
+                                <div class="flex mt-2">
+                                    <div class="flex-1 flex flex-column">
+                                        <h4 class=" font-bold mb-0"> {{this.viewMoreDetails?.eventTitle}}</h4>
+                                        <span><i class="pi pi-building"></i>
+                                            {{this.viewMoreDetails.collegeOrUniversity}}</span>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between mt-2">
+                                    <div class="col-md-5"><i class="pi pi-compass"></i> {{this.viewMoreDetails.startDate
+                                        | date:'EEEE ,dd
+                                        MMM,yyyy'}} - {{this.viewMoreDetails.startTime}} to
+                                        {{this.viewMoreDetails.endDate === this.viewMoreDetails.startDate ? '':
+                                        this.viewMoreDetails.endDate | date:'EEEE ,dd MMM,yyyy
+                                        -'}}
+                                        {{this.viewMoreDetails.endTime}}</div>
+                                    <div class="col-md-3"><i class="pi pi-map-marker"></i>
+                                        {{this.viewMoreDetails.eventVenue === '' ?
+                                        'Online' : this.viewMoreDetails.eventVenue}}
+                                    </div>
+                                    <div class="flex col-md-4 tags"
+                                        *ngIf="this.viewMoreDetails.join === null && this.viewMoreDetails.mayBe === null && this.viewMoreDetails.decline === null">
+                                        <div class="broker-tagJoin"
+                                            (click)="updateStatus('join',this.viewMoreDetails?.eventId)">I will
+                                            join</div>
+                                        <div class="broker-tagMayBe"
+                                            (click)="updateStatus('mayBe',this.viewMoreDetails?.eventId)">Maybe
+                                        </div>
+                                        <div class="broker-tagDecline"
+                                            (click)="updateStatus('decline',this.viewMoreDetails?.eventId)">Decline
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                    <span><i class="pi pi-clock"></i> Posted by {{this.viewMoreDetails.firstName}}
+                                        {{this.viewMoreDetails.lastName}} on {{ this.viewMoreDetails.createdAt |
+                                        date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                        }} </span>
+                                </div>
+                                <p-divider></p-divider>
+                            </div>
+                        </div>
+                        <div class="grid p-fluid">
+                            <div class="col-12 md:col-6">
+                                <div class="container1">
+                                    <img [src]="photoURL" alt="eventImage" style="width:100%;">
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-1">
+                                <p-divider layout="vertical" *ngIf="!this.isUserOnMobile"></p-divider>
+                                <p-divider *ngIf="this.isUserOnMobile"></p-divider>
+                            </div>
+                            <div class="col-12 md:col-5">
+                                <div class="formgrid grid">
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Description :
+                                    </div>
+                                    <div class="col-12 md:col-12 mb-2">
+                                        <div [innerHtml]="sanitizedHtml"></div>
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Address :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventAddress}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Is Registration ? :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.isRegistration}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Registration Fee :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventRegistrationFee}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Registration Deadline :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventRegistrationCloseDate | date:'EEEE, dd MMM,yyyy' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p-accordion [activeIndex]="0">
+                                <p-accordionTab header="Going" *ngIf="this.imgGoing?.length > 0">
+                                    <div class="p-fluid p-formgrid grid mt-2">
+                                        <div *ngFor="let data of imgGoing" class="field col-12 md:col-4 mb-0">
+                                            <div class="card test">
+                                                <div class="row justify-content-between">
+                                                    <div class="col">
+                                                        <img class="rounded-circle" alt="avatar1"
+                                                            [src]="data.profilePic" />
+                                                    </div>
+                                                    <div class="col mt-3">
+                                                        <span class="font-bold justify-content-center">
+                                                            {{data.firstName}}
+                                                        </span>
+                                                        <span class="row det">{{data.batchName}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                                <p-accordionTab header="Maybe" *ngIf="this.imgMayBe?.length > 0">
+                                    <div *ngFor="let data of imgMayBe" class="field col-12 md:col-4 mb-0">
+                                        <div class="card test">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <img class="rounded-circle" alt="avatar1" [src]="data.profilePic" />
+                                                </div>
+                                                <div class="col mt-3">
+                                                    <span class="font-bold justify-content-center">
+                                                        {{data.firstName}}
+                                                    </span>
+                                                    <span class="row det">{{data.batchName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                                <p-accordionTab header="Decline" *ngIf="this.imgDecline?.length > 0">
+                                    <div *ngFor="let data of imgDecline" class="field col-12 md:col-4 mb-0">
+                                        <div class="card test">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <img class="rounded-circle" alt="avatar1" [src]="data.profilePic" />
+                                                </div>
+                                                <div class="col mt-3">
+                                                    <span class="font-bold justify-content-center">
+                                                        {{data.firstName}}
+                                                    </span>
+                                                    <span class="row det">{{data.batchName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Reunion">
+                    <div *ngIf="!showDetails">
+                        <div class="flex flex-column md:flex-row md:justify-content-between">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input type="search" class="p-inputtext-sm pInputText" pInputText
+                                    [(ngModel)]="filterText" (input)="filterData()"
+                                    placeholder="Search by location or college">
+                            </span>
+                        </div>
+                        <div class="grid formgrid">
+                            <div class="col-12" *ngFor="let data of eventDetails">
+                                <div class="flex mt-2">
+                                    <div class="flex-1 flex flex-column">
+                                        <h4 class=" font-bold mb-0">{{data.eventTitle}}</h4>
+                                        <span><i class="pi pi-building"></i> {{data.collegeOrUniversity}}</span>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between mt-2">
+                                    <div class="col-md-6"><i class="pi pi-compass"></i>
+                                        {{data.startDate | date:'EEEE ,dd MMM,yyyy'}} - {{data.startTime}} to
+                                        {{data.endDate === data.startDate ? '': data.endDate | date:'EEEE ,dd MMM,yyyy
+                                        -'}}
+                                        {{data.endTime}}
+                                    </div>
+                                    <div class="col-md-2"><i class="pi pi-map-marker"></i>
+                                        {{data.eventVenue === '' ? 'Online' : data.eventVenue}}
+                                    </div>
+                                    <div class="flex col-md-4 tags justify-content-center"
+                                        *ngIf="data.join === null && data.mayBe === null && data.decline === null">
+                                        <div class="broker-tagJoin" (click)="updateStatus('join',data?.eventId)">I will
+                                            join</div>
+                                        <div class="broker-tagMayBe" (click)="updateStatus('mayBe',data?.eventId)">Maybe
+                                        </div>
+                                        <div class="broker-tagDecline" (click)="updateStatus('decline',data?.eventId)">
+                                            Decline
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                    <span><i class="pi pi-clock"></i> Posted by {{data.firstName}}
+                                        {{data.lastName}} on {{ data.createdAt | date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                        }}</span>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="viewDetails" (click)="viewDetails(data)">View More Details</span>
+                                    </div>
+                                </div>
+                                <p-divider></p-divider>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="showDetails">
+                        <div class="grid formgrid">
+                            <div class="col-12">
+                                <div class="flex flex-wrap gap-2 justify-content-end">
+                                    <div class="flex flex-wrap gap-2">
+                                        <button pButton pRipple label="Back to Event Tab" icon="pi pi-chevron-left"
+                                            style="background-color: #007EA7;" (click)="backTOEvent()">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flex mt-2">
+                                    <div class="flex-1 flex flex-column">
+                                        <h4 class=" font-bold mb-0"> {{this.viewMoreDetails?.eventTitle}}</h4>
+                                        <span><i class="pi pi-building"></i>
+                                            {{this.viewMoreDetails.collegeOrUniversity}}</span>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between mt-2">
+                                    <div class="col-md-5"><i class="pi pi-compass"></i> {{this.viewMoreDetails.startDate
+                                        | date:'EEEE ,dd
+                                        MMM,yyyy'}} - {{this.viewMoreDetails.startTime}} to
+                                        {{this.viewMoreDetails.endDate === this.viewMoreDetails.startDate ? '':
+                                        this.viewMoreDetails.endDate | date:'EEEE ,dd MMM,yyyy
+                                        -'}}
+                                        {{this.viewMoreDetails.endTime}}</div>
+                                    <div class="col-md-3"><i class="pi pi-map-marker"></i>
+                                        {{this.viewMoreDetails.eventVenue === '' ?
+                                        'Online' : this.viewMoreDetails.eventVenue}}
+                                    </div>
+                                    <div class="flex col-md-4 tags"
+                                        *ngIf="this.viewMoreDetails.join === null && this.viewMoreDetails.mayBe === null && this.viewMoreDetails.decline === null">
+                                        <div class="broker-tagJoin"
+                                            (click)="updateStatus('join',this.viewMoreDetails?.eventId)">I will
+                                            join</div>
+                                        <div class="broker-tagMayBe"
+                                            (click)="updateStatus('mayBe',this.viewMoreDetails?.eventId)">Maybe
+                                        </div>
+                                        <div class="broker-tagDecline"
+                                            (click)="updateStatus('decline',this.viewMoreDetails?.eventId)">
+                                            Decline
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                    <span><i class="pi pi-clock"></i> Posted by {{this.viewMoreDetails.firstName}}
+                                        {{this.viewMoreDetails.lastName}} on {{ this.viewMoreDetails.createdAt |
+                                        date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                        }} </span>
+                                </div>
+                                <p-divider></p-divider>
+                            </div>
+                        </div>
+                        <div class="grid p-fluid">
+                            <div class="col-12 md:col-6">
+                                <div class="container1">
+                                    <img [src]="photoURL" alt="eventImage" style="width:100%;">
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-1">
+                                <p-divider layout="vertical" *ngIf="!this.isUserOnMobile"></p-divider>
+                                <p-divider *ngIf="this.isUserOnMobile"></p-divider>
+                            </div>
+                            <div class="col-12 md:col-5">
+                                <div class="formgrid grid">
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Description :
+                                    </div>
+                                    <div class="col-12 md:col-12 mb-2">
+                                        <div [innerHtml]="sanitizedHtml"></div>
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Address :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventAddress}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Is Registration ? :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.isRegistration}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Registration Fee :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventRegistrationFee}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Registration Deadline :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventRegistrationCloseDate | date:'EEEE, dd MMM,yyyy' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p-accordion [activeIndex]="0">
+                                <p-accordionTab header="Going" *ngIf="this.imgGoing?.length > 0">
+                                    <div *ngFor="let data of imgGoing" class="field col-12 md:col-4 mb-0">
+                                        <div class="card test">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <img class="rounded-circle" alt="avatar1" [src]="data.profilePic" />
+                                                </div>
+                                                <div class="col mt-3">
+                                                    <span class="font-bold justify-content-center name">
+                                                        {{data.firstName}}
+                                                    </span>
+                                                    <span class="row det">{{data.batchName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                                <p-accordionTab header="Maybe" *ngIf="this.imgMayBe?.length > 0">
+                                    <div *ngFor="let data of imgMayBe" class="field col-12 md:col-4 mb-0">
+                                        <div class="card test">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <img class="rounded-circle" alt="avatar1" [src]="data.profilePic" />
+                                                </div>
+                                                <div class="col mt-3">
+                                                    <span class="font-bold justify-content-center">
+                                                        {{data.firstName}}
+                                                    </span>
+                                                    <span class="row det">{{data.batchName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                                <p-accordionTab header="Decline" *ngIf="this.imgDecline?.length > 0">
+                                    <div *ngFor="let data of imgDecline" class="field col-12 md:col-4 mb-0">
+                                        <div class="card test">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <img class="rounded-circle" alt="avatar1" [src]="data.profilePic" />
+                                                </div>
+                                                <div class="col mt-3">
+                                                    <span class="font-bold justify-content-center">
+                                                        {{data.firstName}}
+                                                    </span>
+                                                    <span class="row det">{{data.batchName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="Webinar">
+                    <div *ngIf="!showDetails">
+                        <div class="flex flex-column md:flex-row md:justify-content-between">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input type="search" class="p-inputtext-sm pInputText" pInputText
+                                    [(ngModel)]="filterText" (input)="filterData()"
+                                    placeholder="Search by location or college">
+                            </span>
+                        </div>
+                        <div class="grid formgrid">
+                            <div class="col-12" *ngFor="let data of eventDetails">
+                                <div class="flex mt-2">
+                                    <div class="flex-1 flex flex-column">
+                                        <h4 class=" font-bold mb-0">{{data.eventTitle}}</h4>
+                                        <span><i class="pi pi-building"></i> {{data.collegeOrUniversity}}</span>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between mt-2">
+                                    <div class="col-md-6"><i class="pi pi-compass"></i>
+                                        {{data.startDate | date:'EEEE ,dd MMM,yyyy'}} - {{data.startTime}} to
+                                        {{data.endDate === data.startDate ? '': data.endDate | date:'EEEE ,dd MMM,yyyy
+                                        -'}}
+                                        {{data.endTime}}
+                                    </div>
+                                    <div class="col-md-2"><i class="pi pi-map-marker"></i>
+                                        {{data.eventVenue === '' ? 'Online' : data.eventVenue}}
+                                    </div>
+                                    <div class="flex col-md-4 tags justify-content-center"
+                                        *ngIf="data.join === null && data.mayBe === null && data.decline === null">
+                                        <div class="broker-tagJoin" (click)="updateStatus('join',data?.eventId)">I will
+                                            join</div>
+                                        <div class="broker-tagMayBe" (click)="updateStatus('mayBe',data?.eventId)">Maybe
+                                        </div>
+                                        <div class="broker-tagDecline" (click)="updateStatus('decline',data?.eventId)">
+                                            Decline
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                    <span><i class="pi pi-clock"></i> Posted by {{data.firstName}}
+                                        {{data.lastName}} on {{ data.createdAt | date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                        }}</span>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="viewDetails" (click)="viewDetails(data)">View More Details</span>
+                                    </div>
+                                </div>
+                                <p-divider></p-divider>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="showDetails">
+                        <div class="grid formgrid">
+                            <div class="col-12">
+                                <div class="flex flex-wrap gap-2 justify-content-end">
+                                    <div class="flex flex-wrap gap-2">
+                                        <button pButton pRipple label="Back to Event Tab" icon="pi pi-chevron-left"
+                                            style="background-color: #007EA7;" (click)="backTOEvent()">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flex mt-2">
+                                    <div class="flex-1 flex flex-column">
+                                        <h4 class=" font-bold mb-0"> {{this.viewMoreDetails?.eventTitle}}</h4>
+                                        <span><i class="pi pi-building"></i>
+                                            {{this.viewMoreDetails.collegeOrUniversity}}</span>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between mt-2">
+                                    <div class="col-md-5"><i class="pi pi-compass"></i> {{this.viewMoreDetails.startDate
+                                        | date:'EEEE ,dd
+                                        MMM,yyyy'}} - {{this.viewMoreDetails.startTime}} to
+                                        {{this.viewMoreDetails.endDate === this.viewMoreDetails.startDate ? '':
+                                        this.viewMoreDetails.endDate | date:'EEEE ,dd MMM,yyyy
+                                        -'}}
+                                        {{this.viewMoreDetails.endTime}}</div>
+                                    <div class="col-md-3"><i class="pi pi-map-marker"></i>
+                                        {{this.viewMoreDetails.eventVenue === '' ?
+                                        'Online' : this.viewMoreDetails.eventVenue}}
+                                    </div>
+                                    <div class="flex col-md-4 tags"
+                                        *ngIf="this.viewMoreDetails.join === null && this.viewMoreDetails.mayBe === null && this.viewMoreDetails.decline === null">
+                                        <div class="broker-tagJoin"
+                                            (click)="updateStatus('join',this.viewMoreDetails?.eventId)">I will
+                                            join</div>
+                                        <div class="broker-tagMayBe"
+                                            (click)="updateStatus('mayBe',this.viewMoreDetails?.eventId)">Maybe
+                                        </div>
+                                        <div class="broker-tagDecline"
+                                            (click)="updateStatus('decline',this.viewMoreDetails?.eventId)">
+                                            Decline
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                                    <span><i class="pi pi-clock"></i> Posted by {{this.viewMoreDetails.firstName}}
+                                        {{this.viewMoreDetails.lastName}} on {{ this.viewMoreDetails.createdAt |
+                                        date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                        }} </span>
+                                </div>
+                                <p-divider></p-divider>
+                            </div>
+                        </div>
+                        <div class="grid p-fluid">
+                            <div class="col-12 md:col-6">
+                                <div class="container1">
+                                    <img [src]="photoURL" alt="eventImage" style="width:100%;">
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-1">
+                                <p-divider layout="vertical" *ngIf="!this.isUserOnMobile"></p-divider>
+                                <p-divider *ngIf="this.isUserOnMobile"></p-divider>
+                            </div>
+                            <div class="col-12 md:col-5">
+                                <div class="formgrid grid">
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Description :
+                                    </div>
+                                    <div class="col-12 md:col-12 mb-2">
+                                        <div [innerHtml]="sanitizedHtml"></div>
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Address :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventAddress}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Is Registration ? :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.isRegistration}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Registration Fee :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventRegistrationFee}}
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2 label">
+                                        Registration Deadline :
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-2">
+                                        {{this.viewMoreDetails?.eventRegistrationCloseDate | date:'EEEE, dd MMM,yyyy' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p-accordion [activeIndex]="0">
+                                <p-accordionTab header="Going" *ngIf="this.imgGoing?.length > 0">
+                                    <div *ngFor="let data of imgGoing" class="field col-12 md:col-4 mb-0">
+                                        <div class="card test">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <img class="rounded-circle" alt="avatar1" [src]="data.profilePic" />
+                                                </div>
+                                                <div class="col mt-3">
+                                                    <span class="font-bold justify-content-center">
+                                                        {{data.firstName}}
+                                                    </span>
+                                                    <span class="row det">{{data.batchName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                                <p-accordionTab header="Maybe" *ngIf="this.imgMayBe?.length > 0">
+                                    <div *ngFor="let data of imgMayBe" class="field col-12 md:col-4 mb-0">
+                                        <div class="card test">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <img class="rounded-circle" alt="avatar1" [src]="data.profilePic" />
+                                                </div>
+                                                <div class="col mt-3">
+                                                    <span class="font-bold justify-content-center">
+                                                        {{data.firstName}}
+                                                    </span>
+                                                    <span class="row det">{{data.batchName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                                <p-accordionTab header="Decline" *ngIf="this.imgDecline?.length > 0">
+                                    <div *ngFor="let data of imgDecline" class="field col-12 md:col-4 mb-0">
+                                        <div class="card test">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <img class="rounded-circle" alt="avatar1" [src]="data.profilePic" />
+                                                </div>
+                                                <div class="col mt-3">
+                                                    <span class="font-bold justify-content-center">
+                                                        {{data.firstName}}
+                                                    </span>
+                                                    <span class="row det">{{data.batchName}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="card" style="margin: 20px;">
+    <div *ngIf="imgType !== 'pdf'" style="height: 650px; width: 100%;">
+        <img [src]="photoURL" style="height: 100%; width: 100%;" alt="file">
+    </div>
+    <div *ngIf="imgType === 'pdf'" style="height: 650px; width: 100%;">
+        <embed [src]="photoURL" type="application/pdf" style="height: 100%; width: 100%;">
+    </div>
+</div>

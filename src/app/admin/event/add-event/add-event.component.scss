@@ -1,0 +1,72 @@
+ 
+
+.add-spacing {
+    margin-left: 10px;
+}
+
+.card-title {
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.card-data {
+    padding: 20px;
+}
+
+
+.form {
+    align-items: center;
+    justify-content: center;
+    // max-width: 70%;
+    // width: 1000px; 
+}
+
+.label {
+    justify-content: flex-start;
+}
+
+// .card-form{
+//     padding: 5px;
+// }
+
+.input {
+    padding-bottom: 15px;
+}
+
+input {
+    border-radius: .5rem;
+    height: 35px;
+}
+
+// /* Style for the dropdown container */
+// .row.input select {
+//     width: 100%;
+//     padding: 8px;
+//     border: 1px solid #ccc;
+//     border-radius: 4px;
+//     box-sizing: border-box;
+// }
+
+/* Style for the dropdown options */
+.row.input select option {
+    background-color: #fff;
+    color: #333;
+}
+
+.required{
+   color: red;
+   font-size: 20px;
+}
+
+.radio{
+    width: 17px;
+    height: 17px;
+}
+
+label {
+    font-weight: 500;
+}
+
+.invalid-input {
+    border: 1px solid red;
+}

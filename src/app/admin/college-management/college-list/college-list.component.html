@@ -1,0 +1,156 @@
+
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<p-toast></p-toast>
+
+<div class="card" *ngIf="showColleges">
+    <div class="row">
+      <div class="col-12 d-flex  justify-content-sm-end">
+        <button class="btn btn-primary" (click)="backToCollege('add')">{{ showCollegeForm ? 'Close' : 'Add College' }}</button>
+      </div>
+    </div>
+  
+    <div class="row">
+     
+  
+      <div class="col-12" *ngIf="!showCollegeForm">
+        <h3 class="card-body  justify-content-end">List of Colleges</h3>
+        <ul class="list-unstyled">
+          <li *ngFor="let college of colleges" class="mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+              
+              <div class="d-flex align-items-center">
+                   <div *ngIf="college.collegeLogoPath!==null">
+                    <img  [src]="college.collegeLogoPath" alt="College Image" height="50" width="50"  class="rounded-circle me-2">
+                   </div>
+                    <h3 style="margin-left: 10px;">{{ college.collegeName }}</h3>
+                  </div>
+          
+            
+                
+            
+            <div class="d-flex justify-content-start justify-content-sm-end">
+              <button class="btn btn-primary me-3" (click)="editCollege(college)">Edit</button>
+                <button class="btn btn-primary" (click)="ViewCourses(college); showCourses()">View Courses</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col" *ngIf="showCollegeForm">
+        <div class="card">
+          <div class="card-body">
+            <form [formGroup]="collegeForm">
+              <div class="row">
+                <div class="col">
+                  <div>
+                    <label for="collegeName">College Name:</label>
+                    <input type="text" formControlName="collegeName" />
+                    <div *ngIf="!collegeForm.get('collegeName')?.valid && (collegeForm.get('collegeName')?.dirty ||collegeForm.get('collegeName')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!collegeForm.get('collegeName')?.errors?.['required']">College Name is required</div>
+                        </div> 
+                  </div>
+                </div>
+                <div class="col">
+                  <div>
+                    <label for="collegeCode">College Code:</label>
+                    <input type="text" formControlName="collegeCode" />
+                    <div *ngIf="!collegeForm.get('collegeCode')?.valid && (collegeForm.get('collegeCode')?.dirty ||collegeForm.get('collegeCode')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!collegeForm.get('collegeCode')?.errors?.['required']">College Code is required</div>
+                        </div> 
+                  </div>
+                </div>
+                <div class="col">
+                  <div *ngIf="collegeLogoPath == ' ' ||  collegeLogoPath=='undefined'||collegeLogoPath==null ">
+                    <label for="collegeLogoPath">Add College Image:</label>
+                    <input type="file" accept="image/*" (change)="handleFileInput($event)" formControlName="collegeLogoPath" />
+                    <div *ngIf="!collegeForm.get('collegeLogoPath')?.valid && (collegeForm.get('collegeLogoPath')?.dirty ||collegeForm.get('collegeLogoPath')?.touched)"
+                    [ngStyle]="{color:'red'}">
+                    <div [hidden]="!collegeForm.get('collegeLogoPath')?.errors?.['required']">College Logo is required</div>
+                </div> 
+                  </div>
+                  <div *ngIf="hideIcon">
+                    <div *ngIf="collegeLogoPath!==null">
+                      <i class="fa fa-picture-o fa-2x" aria-hidden="true" (click)="viewCollegeLogo(collegeLogoPath)"></i>
+                      <i class="fa fa-trash fa-2x ml-2" aria-hidden="true" (click)="deleteCollegeLogo(collegeId)"></i>
+                   </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-success" (click)="saveCollege()">Save</button>
+                <button class="btn btn-secondary" (click)="backToCollege('')">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="container" style="background-color:whitesmoke;" *ngIf="showCourse">
+  <button (click)="goBack()"><i class="fa fa-arrow-left fa-2x" ></i></button>
+  <h1 class="text-center mt-3">{{college}} Courses</h1>
+  <p-toast></p-toast>
+  <div class="text-end mb-3">
+      <button class="btn btn-primary" (click)="backToCourse()">{{showNewCourse?'Close':'Add Course'}}</button>
+  </div>
+  <div class="card" *ngIf="showNewCourse">
+    <div class="card-body">
+      <form [formGroup]="courseForm">
+        <div class="row">
+          <h4>Course Details</h4>
+          <div class="col">
+            <div>
+                <label for="selectedCollege">College Code:</label>
+                <input type="text" class="form-control mb-2" placeholder="Enter College Code" formControlName="collegeCode" readonly>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="selectedStream">Course Name:</label>
+                <input type="text" class="form-control mb-2" placeholder="Enter CourseName" formControlName="courseName">
+                <div *ngIf="!courseForm.get('courseName')?.valid && (courseForm.get('courseName')?.dirty ||courseForm.get('courseName')?.touched)"
+                [ngStyle]="{color:'red'}">
+                <div [hidden]="!courseForm.get('courseName')?.errors?.['required']">Course Name is required</div>
+            </div> 
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end" >
+          <button class="btn btn-success" (click)="saveCourse()" >Save</button>
+          <button class="btn btn-secondary" (click)="backToCourse()" style="margin-left: 8px;">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+      <div class="card">
+          <h5 style="padding: 10px; margin-bottom: -5px;"></h5>
+          <div class="card-body">
+          <div class="batch-container" >
+            <div *ngFor="let course of courses">
+                <div class="row">
+                  <div class="col">
+                    <div>
+                        <h5>{{course?.courseName}}</h5>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div>
+                        <button class="btn btn-primary" (click)="editCourse(course)">Edit</button>
+                        <button class="btn btn-danger" (click)="deleteCourse(course)">Delete</button>
+                    </div>
+                  </div>
+                </div>
+               
+             
+            </div>
+           
+          </div>
+          
+      </div>
+  </div> 
+</div>   

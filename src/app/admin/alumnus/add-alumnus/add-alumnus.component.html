@@ -1,0 +1,107 @@
+<h1>Add Alumnus</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">              
+                <div class="col-lg-6">
+                    <label for="firstName" class="form-label">Select Collage</label>
+                    <select class="form-select" [(ngModel)]="selectedCollage" aria-label="Default select example">
+                        <option value="">Select Collage</option>
+                        <option *ngFor="let collage of collages" [value]="collage.collegeCode">{{collage.collegeName}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <label for="firstName" class="form-label">Select Batch</label>
+                    <select class="form-select" [(ngModel)]="selectedBatch" aria-label="Default select example">
+                        <option value="">Select Batch</option>
+                        <option *ngFor="let batch of batches" [value]="batch.batchId">{{batch.batchYear}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <label for="formFile" class="form-label">Upload Excel</label>
+                    <input class="form-control" type="file" (change)="onFileChange($event)" [(ngModel)]="selectedFile" id="formFile">
+                </div> 
+                <div class="col-3">
+                    <button type="button" class="btn btn-success form-control" (click)="downloadExcelForAddAlumni()" data-bs-toggle="button">Download Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="container">
+            <form [formGroup]="addAlumni">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" id="firstName" formControlName="firstName" placeholder="Enter First Name" class="form-control">  
+                        <div *ngIf="!addAlumni.get('firstName')?.valid && (addAlumni.get('firstName')?.dirty ||addAlumni.get('firstName')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!addAlumni.get('firstName')?.errors?.['required']">First Name is required</div>
+                            <div [hidden]="!addAlumni.get('firstName')?.errors?.['pattern']">First Name should contain only alphabets
+                            </div>
+                        </div>          
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" id="lastName" formControlName="lastName" placeholder="Enter Last Name" class="form-control"> 
+                        <div *ngIf="!addAlumni.get('lastName')?.valid && (addAlumni.get('lastName')?.dirty ||addAlumni.get('lastName')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!addAlumni.get('lastName')?.errors?.['required']">Last Name is required</div>
+                            <div [hidden]="!addAlumni.get('lastName')?.errors?.['pattern']">Last Name should contain only alphabets
+                            </div>
+                        </div>           
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" formControlName="email" placeholder="Enter Email" class="form-control"> 
+                        <div *ngIf="!addAlumni.get('email')?.valid && (addAlumni.get('email')?.dirty ||addAlumni.get('email')?.touched)" [ngStyle]="{color:'red'}">
+                            <div [hidden]="!addAlumni.get('email')?.errors?.['required']">Email is required</div>
+                            <div [hidden]="!addAlumni.get('email')?.errors?.['email']">Please enter a valid email</div>
+                        </div>           
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="dob" class="form-label">Date Of Birth</label>
+                        <input type="date" id="dob" formControlName="dateOfBirth"class="form-control">  
+                        <div *ngIf="!addAlumni.get('dateOfBirth')?.valid && (addAlumni.get('dateOfBirth')?.dirty ||addAlumni.get('dateOfBirth')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!addAlumni.get('dateOfBirth')?.errors?.['required']">Date Of Birth is required</div>
+                        </div>          
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <label for="userType" class="form-label">User Type</label>
+                        <select class="form-select" id="userType" formControlName="role" aria-label="Default select example">
+                            <option [value]="''">Select User Type</option>
+                            <option *ngFor="let role of userTypes" [value]="role">{{role}}</option>
+                        </select>  
+                        <div *ngIf="!addAlumni.get('role')?.valid && (addAlumni.get('role')?.dirty ||addAlumni.get('role')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!addAlumni.get('role')?.errors?.['required']">User Type is required</div>
+                        </div>     
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select class="form-select" formControlName="gender" id="gender">
+                            <option *ngFor="let gender of genders" [value]="gender.value">{{gender.name}}</option>
+                        </select>
+                        <div *ngIf="!addAlumni.get('gender')?.valid && (addAlumni.get('gender')?.dirty ||addAlumni.get('gender')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!addAlumni.get('gender')?.errors?.['required']">Gender is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center m-5">
+                    <div class="col-2">
+                        <button type="button" class="btn btn-success" data-bs-toggle="button" (click)="saveAlumni()">Add Alumni</button>
+                    </div>
+                </div>
+                 
+            </form>
+        </div>
+    </div>
+</div>

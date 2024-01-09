@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="card">
+          <div class="card-body">
+            <div class="card shadow-lg">
+              <div class="card-body">
+                <div class="col-lg-12">
+                <h2>{{ data.news.heading }}</h2>
+                <p class="card-text "><b>Date: </b>{{ data.news.createdAt }}</p>
+                <p class="card-text">{{ data.news.newsContent }}</p>
+                <div class="sosmed-horizontal pt-3 pb-3">
+                  <i class="fa fa-heart" [ngClass]="{'liked': isLiked}" (click)="toggleLike()"></i> {{ data.likeCount }} Likes
+                  <span style="margin-left: 10px;"></span>
+                  <a href="javascript:void(0)" (click)="toggleComments()" style="text-decoration: none;"><i class="fa fa-comment"></i>{{ data.commentCount }} Comment</a> <!-- Click to toggle comment visibility -->
+                  <span style="margin-left: 10px;"></span>
+                  <span (click)="shareNews()"><i class="fa fa-share"></i> Share</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-11">
+              <div class="card shadow-lg">
+                <div class="card-body">
+                  <!-- Comment Input (displayed only when showCommentInput is true) -->
+                  <div *ngIf="showCommentInput" class="mt-4">
+                    <input type="text" [(ngModel)]="newsComments" placeholder="Add a comment" class="form-control">
+                    <button (click)="addComment()" class="btn btn-primary mt-2">Add Comment</button><br>
+                    <input type="text" class="msger-input" placeholder="Enter your message...">
+                    <button type="submit" class="msger-send-btn"><i class="fa fa-send-o" style="font-size:30px;color:blue"></i></button>
+                  </div>
+                  <!-- Display Comments -->
+                  <div *ngIf="showComments">
+                    <div *ngFor="let data of comments" class="comment-container">
+                      <div class="containers darker">
+                        <img class="circle-image" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_05.jpg" alt="Avatar">
+                        <h6>{{data.user.firstName +' '+ data.user.lastName}}</h6><br>
+                        <p class="small">{{data.newsComments}}</p>
+                        <span class="time-right">{{data.newsCommentDate}}</span>
+                      </div>
+                    </div>
+                  </div> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

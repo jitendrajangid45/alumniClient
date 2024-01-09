@@ -1,0 +1,182 @@
+<div class="flex flex-wrap gap-2 justify-content-between">
+    <h2>JobBoard</h2>
+    <div class="flex flex-wrap gap-2">
+        <button pButton pRipple label="View Job Applicants" (click)="viewJobApplicants()"
+            style="background-color: #007EA7;"> </button>
+        <button #btn type="button" pButton icon="pi pi-plus" label="Add" style="background-color: #007EA7;"
+            (click)="menu.toggle($event)"> </button>
+        <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
+    </div>
+</div>
+<p-toast></p-toast>
+<div class="grid p-fluid">
+    <div class="col-12 md:col-4">
+        <div class=" card">
+            <h5>Submit Resume</h5>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <p>Did not find a suitable career opportunity for you or your friend?</p>
+                </div>
+                <div class="col-8 ml-6 mt-2 mr-2">
+                    <button pButton styleClass="p-button-sm" style="background-color: #007EA7;justify-content: center;"
+                        type="button" routerLink="/pages/job-board/submit-resume" routerLinkActive="active">Click
+                        Here!</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card">
+            <div class="grid">
+                <div class="col-12 justify-content-center">
+                    <h5>Job Statistics</h5>
+                    <p-chart type="pie" [data]="data" [options]="options"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-8" *ngIf="jobView">
+        <div class="card">
+            <h5>Jobs</h5>
+            <div class="flex flex-column md:flex-row md:justify-content-between">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="search" class="p-inputtext-sm pInputText" [(ngModel)]="filterText"
+                        (input)="filterData()" pInputText placeholder="Search...">
+                </span>
+
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12" *ngFor="let data of jobDetails">
+                    <div class="flex mt-2">
+                        <div class="flex-1 flex flex-column">
+                            <h4 class=" font-bold mb-0">{{data?.jobTitle}}</h4>
+                            <span><i class="pi pi-building"></i> {{data?.companyName}}</span>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between mt-2">
+                        <div class="col-md-3"><i class="pi pi-briefcase"></i> {{data?.experienceFrom}} to
+                            {{data?.experienceTo}}
+                            Yrs</div>
+                        <div class="col-md-3"><i class="bi bi-currency-rupee"
+                                style="font-weight: 800;"></i>{{data?.salaryPackage}}
+                        </div>
+                        <div class="col-md-3"><i class="pi pi-map-marker"></i>
+                            {{data?.jobLocation}}</div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                        <span><i class="pi pi-clock"></i> {{ data.timeAgo }}</span>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="viewDetails" (click)="click(data)">View Job Details</span>
+                        </div>
+                    </div>
+                    <p-divider></p-divider>
+                </div>
+            </div>
+            <div class="flex justify-content-center">
+                <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
+                    (pageChanged)="onPageChanged($event)"></app-pagination>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-8" *ngIf="descriptionView">
+        <div class="grid card p-fluid">
+            <div class="flex flex-wrap gap-2 justify-content-between">
+                <div class="flex flex-wrap gap-2">
+                    <button pButton pRipple icon="pi pi-chevron-left" (click)="backToJob()" label="Back to Job"
+                        style="background-color: #007EA7;">
+                    </button>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="flex">
+                    <div class="flex-1 flex flex-column">
+                        <h4 class=" font-bold mb-0">{{this.jobDescription.jobTitle}}</h4>
+                        <span><i class="pi pi-building"></i> {{jobDescription?.companyName}}</span>
+                    </div>
+                </div>
+                <div class="row justify-content-between mt-2">
+                    <div class="col-md-3"><i class="pi pi-briefcase"></i> {{jobDescription?.experienceFrom}}
+                        to {{jobDescription?.experienceTo}} years</div>
+                    <div class="col-md-3"><i class="bi bi-currency-rupee" style="font-weight: 800;"></i>
+                        {{jobDescription?.salaryPackage}}
+                    </div>
+                    <div class="col-md-3"><i class="bi bi-geo-alt" style="font-weight: 800;"></i>
+                        {{jobDescription?.jobLocation}}
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-content-between mt-2">
+                    <span><i class="pi pi-clock"></i> {{jobDescription?.timeAgo}}</span>
+                </div>
+                <p-divider></p-divider>
+            </div>
+            <div class="formgrid grid">
+                <div class="col-12 md:col-6 mb-2 label">
+                    <button pButton pRipple *ngIf="appliedByUser?.length === 0 && appliedUser === false" label="Apply"
+                        (click)="applyForJob('user',this.jobDescription.jobId)" style="background-color: #007EA7;">
+                    </button>
+                    <button *ngIf="appliedByUser?.length !== 0 || appliedUser" pButton pRipple label="Applied"
+                        style="background-color: #003459;">
+                    </button>
+                </div>
+                <div class="col-12 md:col-6 mb-2">
+                    <button pButton pRipple *ngIf="appliedByFriend?.length === 0 && appliedFriend === false"
+                        label="Apply For Friend" (click)="applyForJob('friend',this.jobDescription.jobId)"
+                        style="background-color: #007EA7;">
+                    </button>
+                    <button pButton pRipple label="Applied For
+                            Friend" *ngIf="appliedByFriend?.length !== 0 || appliedFriend"
+                        style="background-color: #007EA7;">
+                    </button>
+                </div>
+            </div>
+            <div class="formgrid grid">
+                <div class="col-12 md:col-6 mb-2 label">
+                    Description :
+                </div>
+                <div class="col-12 md:col-12 mb-2">
+                    <div [innerHtml]="sanitizedHtml"></div>
+                </div>
+                <div class="col-12 md:col-6 mb-2 label">
+                    Skills :
+                </div>
+                <div class="col-12 md:col-6 mb-2">
+                    {{jobDescription?.skills}}
+                </div>
+                <div class="col-12 md:col-6 mb-2 label">
+                    Education/Qualification :
+                </div>
+                <div class="col-12 md:col-6 mb-2">
+                    {{jobDescription?.education}}
+                </div>
+                <div class="col-12 md:col-6 mb-2 label">
+                    Role :
+                </div>
+                <div class="col-12 md:col-6 mb-2">
+                    {{jobDescription?.role}}
+                </div>
+                <div class="col-12 md:col-6 mb-2 label">
+                    Industry Type :
+                </div>
+                <div class="col-12 md:col-6 mb-2">
+                    {{jobDescription?.industryType}}
+                </div>
+                <div class="col-12 md:col-6 mb-2 label">
+                    Department :
+                </div>
+                <div class="col-12 md:col-6 mb-2">
+                    {{jobDescription?.department}}
+                </div>
+                <div class="col-12 md:col-6 mb-2 label">
+                    Employment Type :
+                </div>
+                <div class="col-12 md:col-6 mb-2">
+                    {{jobDescription?.employmentType}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

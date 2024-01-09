@@ -1,0 +1,28 @@
+<ul class="layout-birthday">
+
+    <div class="container">
+        <div class="shape">
+            <img class="image" alt="avatar1" *ngIf="profilePic === null"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGf_8UZ3xLijdkOtv3qWnUpyknARbKMrcVJA&usqp=CAU" />
+            <img class="image" [src]="photoURL" *ngIf="profilePic !== null" alt="Profile Pic">
+        </div>
+        <h3>{{this.profileData?.firstName}} {{this.profileData?.lastName}}</h3>
+        <h3 class="title">{{this.profileData?.workingDetails[0]?.position}}</h3>
+        <p>{{this.profileData?.batch?.batchName}}</p>
+    </div>
+    <p-divider></p-divider>
+    <div>
+        <span class="header-text">🎉 Upcoming Birthdays 🎂</span>
+        <div class="birthday-content" *ngFor="let birthday of upcomingBirthdays">
+           
+            <div class="info mt-4">
+                <i class="fas fa-birthday-cake me-2 birthday-icon"></i>
+              <span class="birthday-name">{{ birthday.firstName }} {{ birthday.lastName }}</span>
+              <span class="birthday-date">{{ birthday.dateOfBirth | date:'MMM d'}}</span>
+            </div>
+            <hr class="border-line" />
+          </div>
+          
+            </div>
+      
+</ul>

@@ -1,0 +1,227 @@
+ <!-- .........................card 1...................... -->
+ <p-card> 
+ <div >
+  <div [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <!-- <h5 class="card-title">Welcome, {{userDetails.firstName}}</h5> -->
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+      
+          <div class="p-inputgroup">
+          
+            <textarea class="form-control" pInputTextarea placeholder="What's New, Type here to start a discussion..." (click)="toggleCardSize()" [(ngModel)]="discussionText" formControlName="content"></textarea>
+            <span class="p-inputgroup-addon"> <label class="btn btn-primary " style="margin-left: 5px;">
+              <i class="bi bi-file-image"></i>
+              <input type="file" style="display: none;" id="picture" (change)="onFileSelected($event)" (click)="openFileInput()">
+            </label></span>
+            <span class="p-inputgroup-addon">  <button class="btn btn-success" (click)="onSubmit()" style="margin-left: 2px;">
+              <i class="fas fa-paper-plane"></i>
+            </button></span>
+        </div>
+        
+      <div *ngIf="selectedImageData" class="selected-image">
+         <!-- {{ selectedImageName }} -->
+         <img [src]="selectedImageData" alt="Selected Image" class="img-fluid" />
+
+        <button class="btn btn-link btn-md " (click)="cancelImageSelection()"><i class="bi bi-x"></i></button>
+      </div>
+    </div>
+  </div>
+    <div *ngIf="isCardExpanded" class="expanded-content mt-3">
+        </div>
+  </div>
+</div>
+
+ <!-- Card 2: User Post -->
+ <div *ngIf="posts">
+<div *ngIf="posts.length > 0">
+  <div *ngFor="let post of posts">
+    <div *ngIf="post.type === 'post'" >
+      <div class="card" >  
+        <!-- Card Header with User Info -->
+        <div class=" d-flex align-items-center justify-content-between flex-wrap mt-3">
+          <div class="d-flex align-items-center" style="margin-left: 10px;">
+          <img *ngIf="post?.profilePic" [src]="post?.profilePic" alt="Profile Image" class="rounded-circle" style="width: 50px; height: 50px;  margin-right: 10px;">
+                  <div class="d-flex flex-column">
+            <h5 class="card-title mb-0 ">{{ post?.user?.firstName + ' ' + post?.user?.lastName }}</h5>
+            <p class="card-subtitle" style="white-space: nowrap; margin-bottom: 0; color: gray;">{{ post.createdAt | date:'yyyy-MMM-dd | hh:mm a' }}</p>
+          </div>
+        </div>
+      </div>
+        <!-- Card Body with Post Content -->
+        <div class="card-body">
+          <h5 class="card-title"> {{ post?.postTitle }} </h5>
+          <p class="card-text">{{ post?.postContent }}</p>
+            <img *ngIf="post?.postFilePath" [src]="post?.photoURL" alt="Post Image" class="img-fluid mt-3" style="width: 100%; height: auto; max-height: 400px;">
+        </div>
+  
+        <!-- Like, Reply, and Share Buttons -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap p-3 ">
+          <div class="d-flex mb-2">
+            <button class="btn btn-outline  me-3"> <i class="far fa-heart" (click)="toggleLike()" [class.isLiked]="isLiked" style="color: red;"></i>    {{ data?.data?.likeCount || 0 }} Likes</button>
+            <button class="btn btn-outline me-3"> <i class="far fa-comment" (click)="toggleComments(post.postId, 'post')" style="color: black;"> {{ comments[post.postId]?.length || 0 }}  Comments</i></button>
+            <button class="btn btn-outline me-3"><i class="far fa-share-square"style="color: green;"></i></button>
+          </div>
+        </div>
+     
+      
+    <div *ngIf="showComments[post.postId] && this.postType === 'post'">
+      <!-- Comment Input (displayed only when showCommentInput is true) -->
+      <div *ngIf="showCommentInput[post.postId]" class="mb-4">
+        <input type="text" [(ngModel)]="newComment" placeholder="Add a comment" class="form-control">
+        <button (click)="addComment(post.postId, 'post',post.user.id)" class="btn btn-primary mt-2">Add Comment</button>
+      </div>
+      <!-- Display Comments -->
+      <div *ngFor="let data of comments[post.postId]" class="card mb-2" style="border: none;">
+        <div class="card-body">
+          <div class="d-flex align-items-start mb-2">
+            <div class="circle-image">
+              <img *ngIf="post?.profilePic" [src]="post?.profilePic" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
+            </div>
+            <div class="comment-content">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <div>
+                  <h6>{{data.user?.firstName +' '+ data.user?.lastName}}</h6>
+                  <p class="smaller-text">{{data.postsCommentDate}}</p>
+                </div>
+              </div>
+              <p class="small mb-1">{{data.postsCommentContent}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+    <!-- .........................card 3...................... -->
+    <div *ngIf="post.type === 'news'">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title post-title"> 📰  {{ post?.newsHeading }}</h5>
+        <p class="card-text  post-subtitle">{{ post?.newsContent }}</p>
+        <p class="card-text">
+          {{ post?.subTitle }}
+          <!-- You can create your profile by importing your existing profile from Facebook or LinkedIn and connect to all the alumni. -->
+        </p>
+      
+        <p class="card-text"><small class="text-muted">{{ post?.createdAt | date:'yyyy-MMM-dd | hh:mm a' }}</small></p>
+  
+        <div >
+          <!-- Like, Reply, and Share Buttons -->
+          <div class="d-flex justify-content-between flex-wrap">
+              <div class="d-flex mb-2">
+                <button class="btn btn-outline me-3">
+                  <i class="fa fa-heart"  (click)="toggleLike()" [class.isLiked]="isLiked"></i>
+                  {{ data?.data?.likeCount || 0 }} Likes
+                </button>               
+                 <button class="btn btn-outline me-3"> <i class="far fa-comment"(click)="toggleComments(post.newsId, 'news')" style="color: black;">  {{ comments[post.newsId]?.length || 0 }}  Comment</i>  </button>
+                <button class="btn btn-outline me-3"><i class="far fa-share-square"style="color: green;"></i></button>
+              </div>
+              
+             
+             <!-- Inside the card where post.type === 'news' -->
+             <button class="btn btn-success btn-md  view-full-button me-3" (click)="viewFullPost(post.newsId)">
+              View Full Posts
+            </button>
+            
+          </div>
+      </div>
+      <div *ngIf="showComments[post.newsId] && this.postType === 'news'" >
+        <div class="card-body">
+          <!-- Comment Input (displayed only when showCommentInput is true) -->
+          <div *ngIf="showCommentInput[post.newsId]" class="mb-4">
+            <input type="text" [(ngModel)]="newComment" placeholder="Add a comment" class="form-control">
+            <button (click)="addComment(post.newsId, 'news',post.user.id)" class="btn btn-primary mt-2">Add Comment</button>
+          </div>
+      
+          <!-- Display Comments -->
+          <div *ngFor="let data of comments[post.newsId]" class="card mb-2" style="border: none;">
+            <div class="card-body">
+              <div class="d-flex align-items-start mb-2">
+                <div class="circle-image">
+                  <img *ngIf="post?.profilePic" [src]="post?.profilePic" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
+                </div>
+                <div class="comment-content">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <div>
+                      <h6>{{data.user?.firstName +' '+ data.user?.lastName}}</h6>
+                      <p class="smaller-text">{{data.newsCommentDate}}</p>
+                    </div>
+                  </div>
+                  <p class="small mb-1">{{data.newsComments}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+  </div>
+</div>
+</div>
+
+  <!-- .........................card 4...................... -->
+  <div *ngIf="post.type === 'event'">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title post-title">📅  {{ post?.eventTitle }}</h5>
+        <p class="card-text"><strong>DATE:</strong>{{ post?.startDate }} </p>
+        <p class="card-text"><strong>TIME:</strong> {{ post?.startTime }}</p>
+        <p class="card-text"><strong>VENUE:</strong> {{ post?.eventVenue }}</p>
+        <p class="card-text"><small class="text-muted">{{ post?.createdAt | date:'yyyy-MMM-dd | hh:mm a' }}</small></p> 
+        
+        <div >
+          <!-- Like, Reply, and Share Buttons -->
+          <div class="d-flex justify-content-between flex-wrap">
+              <div class="d-flex mb-2">
+                <button class="btn btn-outline me-3">
+                  <i class="fa fa-heart"  (click)="toggleLike()" [class.isLiked]="isLiked"></i> {{ data?.data?.likeCount || 0 }} Likes</button>
+                <button class="btn btn-outline me-3"> <i class="far fa-comment" (click)="toggleComments(post.eventId, 'event')" style="color: black;">  {{ comments[post.eventId]?.length || 0 }} Comments</i> </button>
+                <button class="btn btn-outline me-3"><i class="far fa-share-square"style="color: green;"></i></button>
+              </div>
+              
+              <button class="btn btn-primary btn-md  view-full-button me-3" (click)="viewEvent()">
+                  View Event Details & RSVP
+              </button>
+          </div>
+      </div>
+
+      <div *ngIf="showComments[post.eventId] && this.postType === 'event'" >
+        <div class="card-body">
+          <!-- Comment Input (displayed only when showCommentInput is true) -->
+          <div *ngIf="showCommentInput[post.eventId]" class="mb-4">
+            <input type="text" [(ngModel)]="newComment" placeholder="Add a comment" class="form-control">
+            <button (click)="addComment(post.eventId, 'event', post.user.id)" class="btn btn-primary mt-2">Add Comment</button>
+          </div>
+      
+          <!-- Display Comments -->
+          <div *ngFor="let data of comments[post.eventId]" class="card mb-2" style="border: none;">
+            <div class="card-body">
+              <div class="d-flex align-items-start mb-2">
+                <div class="circle-image">
+                  <img *ngIf="post?.profilePic" [src]="post?.profilePic" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">
+                </div>
+                <div class="comment-content">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <div>
+                      <h6>{{ data.user?.firstName + ' ' + data.user?.lastName }}</h6>
+                      <p class="small">{{ data.eventsCommentDate | date:'yyyy-MMM-dd | hh:mm a' }}</p>
+                    </div>
+                  </div>
+                  <p class="smaller-text mb-1">{{ data.eventsCommentContent }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+ 
+</div>
+</div>
+</div>
+ </div>
+ </div>
+</p-card>

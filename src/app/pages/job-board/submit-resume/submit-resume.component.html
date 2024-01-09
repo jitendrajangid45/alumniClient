@@ -1,0 +1,91 @@
+<div class="grid">
+    <p-toast></p-toast>
+    <p-confirmDialog [style]="{width: '350px'}" icon="pi pi-exclamation-triangle"
+        acceptButtonStyleClass="p-button-danger" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    <div class="col-12">
+        <div class="card">
+            <div *ngIf="resumeType === 'user'">
+                <h4 class="bold">Submit Resume</h4>
+                <p class="mb-0"> Please use the below form to submit a resume in case you did not find any matching
+                    opportunities
+                    under Jobs and Internships section.
+                </p>
+                <span>(To submit your friend's resume <a (click)="switchResume('friend')"><u>Click
+                            here</u></a>)</span>
+            </div>
+            <div *ngIf="resumeType === 'friend'">
+                <h4 class="bold">Submit Friend's Resume</h4>
+                <p class="mb-0">
+                    Please use the below form to submit a resume in case you did not find any matching opportunities
+                    under Jobs
+                    and
+                    Internships section.
+                </p>
+                <span>(To submit your resume <a (click)="switchResume('user')"><u>Click
+                            here</u></a>)</span>
+            </div>
+            <form [formGroup]="formResume">
+                <div class="p-fluid p-formgrid grid mt-2 ">
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="firstName">{{resumeType === 'user' ? 'Full Name' : 'Full Name of Your
+                            Friend'}}<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="applicantFullName"
+                            id="firstName" type="text" />
+                    </div>
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="email">{{resumeType === 'user' ? 'Email Address' : 'Your Friend Email'}}<span
+                                class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="applicantEmail" id="email"
+                            type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="number">{{resumeType === 'user' ? 'Mobile Number' : 'Your Friend Mobile
+                            Number'}}<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="mobileNumber" id="number"
+                            type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="skills">{{resumeType === 'user' ? 'Relevant Skills' : 'Your Friend Relevant
+                            Skills'}}<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="applicantRelevantSkills"
+                            id="skills" type="text" />
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <label htmlFor="file">Upload Resume<span class="required">*</span></label>
+                        <div *ngIf="resumeType === 'user'">
+                            <input *ngIf="this.fileNameUser === undefined" class="form-control pInputText"
+                                (change)="handleFileInput($event)" formControlName="file" accept=".pdf, image/*"
+                                type="file" id="formFile">
+                            <div *ngIf="this.fileNameUser !== undefined">
+                                <i class="pi pi-file-pdf mt-2 mr-2 ml-2 icon-view"></i>
+                                <i class="pi pi-trash ml-2 icon-delete" (click)="deleteResume('user')"></i>
+                            </div>
+                        </div>
+                        <div *ngIf="resumeType === 'friend'">
+                            <input *ngIf="this.fileNameFriend === undefined" class="form-control pInputText"
+                                (change)="handleFileInput($event)" formControlName="file" accept=".pdf, image/*"
+                                type="file" id="formFile">
+                            <div *ngIf="this.fileNameFriend !== undefined">
+                                <i class="pi pi-file-pdf mt-2 mr-2 ml-2 icon-view"></i>
+                                <i class="pi pi-trash ml-2 icon-delete" (click)="deleteResume('friend')"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-12 md:col-6">
+                        <label htmlFor="notes">Any Notes to Recruiter<span class="required">*</span></label>
+                        <textarea type="text" formControlName="noteForRecruiter"
+                            class="form-control pInputText"></textarea>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-content-center">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="button"
+                        (click)="cancelSubmission()">
+                    </button>
+                    <button type="button" pButton icon="pi pi-check" label="Submit" class="button"
+                        (click)="submitResume(resumeType)">
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

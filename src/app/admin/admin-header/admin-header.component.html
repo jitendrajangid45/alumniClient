@@ -1,0 +1,54 @@
+<div class="head" [ngClass]="getHeadClass()">
+    <div class="head-content">
+        <div class="head-content-left">
+            <!-- <div class="search-container">
+                <div class="normal-search">
+                    <input type="search" class="search">
+                    <i class="far fa-search search-icon"></i>
+                </div>
+            </div> -->
+            <img src="../../../assets/alumnilogo.jpg " alt="logo" class="logo" >
+        </div>
+        <div class="head-content-right">
+            <div class="head-menu">
+                <!-- <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple">
+                        <img src="assets/us.jpg" alt="flag" class="flag">
+                    </button>
+                </div> -->
+                <!-- <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple">
+                        <i class="far fa-expand menu-icon"></i>
+                    </button>
+                </div> -->
+                <!-- <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="far fa-bell menu-icon"></i>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><button class="dropdown-item" type="button">notification</button></li>
+                            <li><button class="dropdown-item" type="button">notification</button></li>
+                            <li><button class="dropdown-item" type="button">notification</button></li>
+                        </ul>
+                    </button>
+                </div> -->
+                <!-- <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple">
+                        <i class="far fa-comment-alt menu-icon"></i>
+                    </button>
+                </div> -->
+
+            </div>
+            <div class="head-user-avatar-container">
+                <div class="head-user-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../../../assets/profile.png" alt="user" class="user-avatar">
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <!-- <li><button class="dropdown-item" type="button"><i class="fas fa-user"></i>Profile</button>
+                        </li> -->
+                        <li><button class="dropdown-item" type="button" (click)="logout()">
+                                <i class="fas fa-sign-out-alt"></i>LogOut</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

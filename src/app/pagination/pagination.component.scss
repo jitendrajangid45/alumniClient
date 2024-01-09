@@ -1,0 +1,38 @@
+nav[aria-label="Page navigation example"] {
+    ul.pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+
+        .page-item {
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+
+            &.active {
+                background-color: #007EA7;
+                border-color: #007EA7;
+
+                a.page-link {
+                                    background-color: #007EA7;
+                                        border-color: #007EA7;
+                    color: #fff;
+                }
+            }
+
+            a.page-link {
+                color: #007EA7;
+                border: 1px solid #007EA7;
+                padding: 0.5rem 1rem;
+                text-decoration: none;
+                transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+
+                &:hover {
+                    background-color: #007EA7;
+                    border-color: #007EA7;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

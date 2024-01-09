@@ -1,0 +1,49 @@
+<h1>Alumni</h1>
+<div class="card">
+  <div class="card-body">
+    <div class="container mt-4">
+        <div class="col-6">
+            <div class="input-group mb-3">
+            <input type="search" class="form-control" placeholder="Search by Full Name, Email" [(ngModel)]="filterText" aria-label="Search" aria-describedby="basic-addon2" id="searchInput">
+            <div class="input-group-append">
+                <button class="btn btn-outline-dark" type="button" id="searchButton" (click)="searchAlumni()">Search</button>
+            </div>
+            </div>
+        </div>
+      <div class="table-responsive" *ngIf="alumnus?.length > 0; else noDataMessage">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Full Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">DOB</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Batch</th>
+              <th scope="col">College</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let alumni of alumnus; let i=index">
+              <th scope="row">{{i}}</th>
+              <td>{{alumni.firstName}} {{alumni.lastName}}</td>
+              <td>{{alumni.email}}</td>
+              <td>{{alumni.dateOfBirth | date}}</td>
+              <td>{{alumni.gender}}</td>
+              <td>{{alumni?.batch?.batchName}}</td>
+              <td>{{alumni?.collage?.collegeName}}</td>
+              <td class="text-center">
+                <button class="btn" [ngClass]="{'btn-outline-success': alumni.isVerified === 0, 'btn-success': alumni.isVerified === 1}" (click)="verifyUser(alumni.id)">{{alumni.isVerified === 0 ? 'verify' :'verified' }}</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noDataMessage>
+        <div class="alert alert-info">No data found.</div>
+      </ng-template>
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChanged)="onPageChanged($event)"></app-pagination>
+    </div>
+  </div>
+</div>

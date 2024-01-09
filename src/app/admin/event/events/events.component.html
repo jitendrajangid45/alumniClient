@@ -1,0 +1,685 @@
+<h1>Events</h1>
+<div class="card">
+    <div class="card-body">
+        <p-toast></p-toast>
+        <!-- <div class="card"> -->
+        <p-tabView styleClass="tabview-custom" (onChange)="onTabChange($event)">
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="pi pi-calendar"></i>
+                    <span>Events Added By You</span>
+                </ng-template>
+                <div *ngIf="viewSelfEvent ===  false">
+                    <div class="search">
+                        <div class="search-container">
+                            <input type="text" name="search" placeholder="Search..." [(ngModel)]="filterTextSelf"
+                                (input)="filterData()" class="search-input">
+                            <a class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>Total Events posted By you: <span>{{totalItems}}</span></p>
+                        <div class="col-6" *ngFor="let data of eventDetailsSelf">
+                            <div class="card">
+                                <div class="card-data">
+                                    <div class="row">
+                                        <p class="card-title">{{data.eventTitle}} </p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="col"><i class="bi bi-building-fill"></i>{{data.collegeOrUniversity}}
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="col-md-8"><i class="bi bi-pin-map-fill"></i>
+                                            {{data.startDate
+                                            | date:'EEEE ,dd
+                                            MMM,yyyy'}} - {{data.startTime}} to
+                                            {{data.endDate === data.startDate ? '':
+                                            data.endDate | date:'EEEE ,dd MMM,yyyy
+                                            -'}}
+                                            {{data.endTime}}
+                                        </p>
+                                        <p class="col-md-4"><i class="bi bi-geo-alt-fill"></i> {{data.eventVenue === ''
+                                            ?
+                                            'Online' : data.eventVenue}}</p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="col-md-8">Posted by {{data.firstName}}
+                                            {{data.lastName}} on {{ data.createdAt |
+                                            date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                            }}</p>
+
+                                        <div class="col-md-4 viewDetails" (click)="viewDescription(data)">View More
+                                            Details...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
+                            (pageChanged)="onPageChanged($event)"></app-pagination>
+                    </div>
+                </div>
+                <div *ngIf="viewSelfEvent ===  true">
+                    <button type="button" (click)="backToEvent()"
+                        class="btn btn-outline-success btn-rounded btn-sm px-4">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="card">
+                        <div class="p-4">
+                            <div class="row">
+                                <div class="header">{{viewSelfEventData.eventType}}</div>
+                                <p-divider></p-divider>
+                                <div class="col">
+                                    <i class="bi bi-building-fill"></i> {{viewSelfEventData.collegeOrUniversity}}
+                                </div>
+                                <div class="col">
+                                    <i class="bi bi-pin-map-fill"></i> {{viewSelfEventData.startDate}}
+                                </div>
+                                <div class="col">
+                                    <i class="bi bi-geo-alt-fill"></i> {{viewSelfEventData.eventVenue}}
+                                </div>
+                                <p-divider></p-divider>
+                                <div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="col-12 md:col-6">
+                                                <div class="container1">
+                                                    <img [src]="photoURL" alt="eventImage" style="width:100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <p class="sub-head">{{viewSelfEventData.eventTitle}}</p>
+                                            <div class="row">
+                                                <div class="col inner-head">
+                                                    Date :
+                                                </div>
+                                                <div class="col innerData">
+                                                    {{viewSelfEventData.eventTitle}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col inner-head">
+                                                    Time :
+                                                </div>
+                                                <div class="col innerData">
+                                                    {{viewSelfEventData.startTime}} to {{viewSelfEventData.endTime}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col inner-head">
+                                                        Registration Fee :
+                                                    </div>
+                                                    <div class="col innerData">
+                                                        {{viewSelfEventData.eventRegistrationFee}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col inner-head">
+                                                        Registration Close Date :
+                                                    </div>
+                                                    <div class="col innerData">
+                                                        {{viewSelfEventData.eventRegistrationCloseDate}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col inner-head">
+                                                    Address :
+                                                </div>
+                                                <div class="col innerData">
+                                                    {{viewSelfEventData.eventAddress}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col inner-head">
+                                                    Description :
+                                                </div>
+                                                <div class="col innerData">
+                                                    {{viewSelfEventData.eventDescription}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p-accordion [activeIndex]="0">
+                                                <p-accordionTab header="Going" *ngIf="this.imgGoing?.length > 0">
+                                                    <div class="p-fluid p-formgrid grid mt-2">
+                                                        <div *ngFor="let data of imgGoing"
+                                                            class="field col-12 md:col-4 mb-0">
+                                                            <div class="card test">
+                                                                <div class="row justify-content-between">
+                                                                    <div class="col">
+                                                                        <img class="rounded-circle" alt="avatar1"
+                                                                            [src]="data.profilePic" />
+                                                                    </div>
+                                                                    <div class="col mt-3">
+                                                                        <span class="font-bold justify-content-center">
+                                                                            {{data.firstName}}
+                                                                        </span>
+                                                                        <span class="row det">{{data.batchName}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </p-accordionTab>
+                                                <p-accordionTab header="Maybe" *ngIf="this.imgMayBe?.length > 0">
+                                                    <div *ngFor="let data of imgMayBe"
+                                                        class="field col-12 md:col-4 mb-0">
+                                                        <div class="card test">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col">
+                                                                    <img class="rounded-circle" alt="avatar1"
+                                                                        [src]="data.profilePic" />
+                                                                </div>
+                                                                <div class="col mt-3">
+                                                                    <span class="font-bold justify-content-center">
+                                                                        {{data.firstName}}
+                                                                    </span>
+                                                                    <span class="row det">{{data.batchName}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </p-accordionTab>
+                                                <p-accordionTab header="Decline" *ngIf="this.imgDecline?.length > 0">
+                                                    <div *ngFor="let data of imgDecline"
+                                                        class="field col-12 md:col-4 mb-0">
+                                                        <div class="card test">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col">
+                                                                    <img class="rounded-circle" alt="avatar1"
+                                                                        [src]="data.profilePic" />
+                                                                </div>
+                                                                <div class="col mt-3">
+                                                                    <span class="font-bold justify-content-center">
+                                                                        {{data.firstName}}
+                                                                    </span>
+                                                                    <span class="row det">{{data.batchName}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </p-accordionTab>
+                                            </p-accordion>
+                                        </div>
+                                        <p>Posted on <b>{{viewSelfEventData.createdAt | date:'dd MMM
+                                                ,yyyy'}}</b> by
+                                            <b>{{viewSelfEventData.firstName}} {{viewSelfEventData.lastName}}</b>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+
+
+            <p-tabPanel header="Header II">
+                <ng-template pTemplate="header">
+                    <i class="pi pi-calendar"></i>
+                    <span>Events Added By Others</span>
+                </ng-template>
+                <p-tabView (onChange)="verifiedUnverified($event)">
+                    <p-tabPanel header="Unverified Events">
+                        <div *ngIf="viewSelfEvent ===  false">
+                            <p>Total UnVerified Events posted By Others: <span>{{totalItemsOthers}}</span></p>
+                            <div class="search">
+                                <div class="search-container">
+                                    <input type="text" name="search" placeholder="Search..."
+                                        [(ngModel)]="filterTextOthers" (input)="filterDataOthers()"
+                                        class="search-input">
+                                    <a class="search-btn">
+                                        <i class="fas fa-search"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6" *ngFor="let data of eventDetailsOthers">
+                                    <div class="card">
+                                        <div class="card-data">
+                                            <div class="row">
+                                                <p class="card-title">{{data.eventTitle}} </p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col"><i class="bi bi-building-fill"></i>
+                                                    {{data.collegeOrUniversity}}
+                                                </p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-md-8"><i class="bi bi-pin-map-fill"></i> Friday, 28th Apr
+                                                    2023, 3
+                                                    pm to
+                                                    6
+                                                    pm
+                                                    (IST)</p>
+                                                <p class="col-md-4"><i class="bi bi-geo-alt-fill"></i>
+                                                    {{data.eventVenue}}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-md-8">Posted by {{data.firstName}}
+                                                    {{data.lastName}} on {{ data.createdAt |
+                                                    date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                                    }}</p>
+                                                <div class="col-md-4 viewDetails" (click)="viewDescription(data)">View
+                                                    More
+                                                    Details...</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <app-pagination [currentPage]="currentPage" [totalPages]="totalPagesOthers"
+                                    (pageChanged)="onPageChangedOthers($event)"></app-pagination>
+                            </div>
+                        </div>
+                        <div *ngIf="viewSelfEvent ===  true">
+                            <button type="button" (click)="backToEvent()"
+                                class="btn btn-outline-success btn-rounded btn-sm px-4">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <div class="card">
+                                <div class="p-4">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="header">{{viewSelfEventData.eventType}}</div>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button"
+                                                class="btn btn-outline-success btn-rounded btn-sm px-4"
+                                                (click)="verifyEvent(viewSelfEventData?.eventId)">Verify
+                                                this Event
+                                            </button>
+                                        </div>
+                                        <p-divider></p-divider>
+                                        <div class="col">
+                                            <i class="bi bi-building-fill"></i>
+                                            {{viewSelfEventData.collegeOrUniversity}}
+                                        </div>
+                                        <div class="col">
+                                            <i class="bi bi-pin-map-fill"></i> {{viewSelfEventData.startDate}}
+                                        </div>
+                                        <div class="col">
+                                            <i class="bi bi-geo-alt-fill"></i> {{viewSelfEventData.eventVenue}}
+                                        </div>
+                                        <p-divider></p-divider>
+                                        <div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="container1">
+                                                            <img [src]="photoURL" alt="eventImage" style="width:100%;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="sub-head">{{viewSelfEventData.eventTitle}}</p>
+                                                    <div class="row">
+                                                        <div class="col inner-head">
+                                                            Date :
+                                                        </div>
+                                                        <div class="col innerData">
+                                                            {{viewSelfEventData.eventTitle}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col inner-head">
+                                                            Time :
+                                                        </div>
+                                                        <div class="col innerData">
+                                                            {{viewSelfEventData.startTime}} to
+                                                            {{viewSelfEventData.endTime}}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="row">
+                                                            <div class="col inner-head">
+                                                                Registration Fee :
+                                                            </div>
+                                                            <div class="col innerData">
+                                                                {{viewSelfEventData.eventRegistrationFee}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col inner-head">
+                                                                Registration Close Date :
+                                                            </div>
+                                                            <div class="col innerData">
+                                                                {{viewSelfEventData.eventRegistrationCloseDate}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col inner-head">
+                                                            Address :
+                                                        </div>
+                                                        <div class="col innerData">
+                                                            {{viewSelfEventData.eventAddress}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col inner-head">
+                                                            Description :
+                                                        </div>
+                                                        <div class="col innerData">
+                                                            {{viewSelfEventData.eventDescription}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p-accordion [activeIndex]="0">
+                                                        <p-accordionTab header="Going"
+                                                            *ngIf="this.imgGoing?.length > 0">
+                                                            <div class="p-fluid p-formgrid grid mt-2">
+                                                                <div *ngFor="let data of imgGoing"
+                                                                    class="field col-12 md:col-4 mb-0">
+                                                                    <div class="card test">
+                                                                        <div class="row justify-content-between">
+                                                                            <div class="col">
+                                                                                <img class="rounded-circle"
+                                                                                    alt="avatar1"
+                                                                                    [src]="data.profilePic" />
+                                                                            </div>
+                                                                            <div class="col mt-3">
+                                                                                <span
+                                                                                    class="font-bold justify-content-center">
+                                                                                    {{data.firstName}}
+                                                                                </span>
+                                                                                <span
+                                                                                    class="row det">{{data.batchName}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </p-accordionTab>
+                                                        <p-accordionTab header="Maybe"
+                                                            *ngIf="this.imgMayBe?.length > 0">
+                                                            <div *ngFor="let data of imgMayBe"
+                                                                class="field col-12 md:col-4 mb-0">
+                                                                <div class="card test">
+                                                                    <div class="row justify-content-between">
+                                                                        <div class="col">
+                                                                            <img class="rounded-circle" alt="avatar1"
+                                                                                [src]="data.profilePic" />
+                                                                        </div>
+                                                                        <div class="col mt-3">
+                                                                            <span
+                                                                                class="font-bold justify-content-center">
+                                                                                {{data.firstName}}
+                                                                            </span>
+                                                                            <span
+                                                                                class="row det">{{data.batchName}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </p-accordionTab>
+                                                        <p-accordionTab header="Decline"
+                                                            *ngIf="this.imgDecline?.length > 0">
+                                                            <div *ngFor="let data of imgDecline"
+                                                                class="field col-12 md:col-4 mb-0">
+                                                                <div class="card test">
+                                                                    <div class="row justify-content-between">
+                                                                        <div class="col">
+                                                                            <img class="rounded-circle" alt="avatar1"
+                                                                                [src]="data.profilePic" />
+                                                                        </div>
+                                                                        <div class="col mt-3">
+                                                                            <span
+                                                                                class="font-bold justify-content-center">
+                                                                                {{data.firstName}}
+                                                                            </span>
+                                                                            <span
+                                                                                class="row det">{{data.batchName}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </p-accordionTab>
+                                                    </p-accordion>
+                                                </div>
+                                                <p>Posted on <b>{{viewSelfEventData.createdAt | date:'dd MMM
+                                                        ,yyyy'}}</b> by
+                                                    <b>{{viewSelfEventData.firstName}}
+                                                        {{viewSelfEventData.lastName}}</b>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Verified Events">
+                        <div *ngIf="viewSelfEvent ===  false">
+                            <div class="search">
+                                <div class="search-container">
+                                    <input type="text" name="search" placeholder="Search..."
+                                        [(ngModel)]="filterTextOthers" (input)="filterDataOthers()"
+                                        class="search-input">
+                                    <a class="search-btn">
+                                        <i class="fas fa-search"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>Total Verified Events posted By Others: <span>{{totalItemsOthers}}</span></p>
+                            <div class="row">
+                                <div class="col-6" *ngFor="let data of eventDetailsOthers">
+                                    <div class="card">
+                                        <div class="card-data">
+                                            <div class="row">
+                                                <p class="card-title">{{data.eventTitle}} </p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col"><i class="bi bi-building-fill"></i>
+                                                    {{data.collegeOrUniversity}}
+                                                </p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-md-8"><i class="bi bi-pin-map-fill"></i> Friday, 28th Apr
+                                                    2023, 3
+                                                    pm to
+                                                    6
+                                                    pm
+                                                    (IST)</p>
+                                                <p class="col-md-4"><i class="bi bi-geo-alt-fill"></i>
+                                                    {{data.eventVenue}}</p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-md-8">Posted by {{data.firstName}}
+                                                    {{data.lastName}} on {{ data.createdAt |
+                                                    date:'EEEE,dd MMM,yyyy | hh:mm a'
+                                                    }}</p>
+                                                <div class="col-md-4 viewDetails" (click)="viewDescription(data)">View
+                                                    More
+                                                    Details...</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <app-pagination [currentPage]="currentPage" [totalPages]="totalPagesOthers"
+                                    (pageChanged)="onPageChangedOthers($event)"></app-pagination>
+                            </div>
+                        </div>
+                        <div *ngIf="viewSelfEvent ===  true">
+                            <button type="button" (click)="backToEvent()"
+                                class="btn btn-outline-success btn-rounded btn-sm px-4">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <div class="card">
+                                <div class="p-4">
+                                    <div class="row">
+                                        <div class="header">{{viewSelfEventData.eventType}}</div>
+                                        <p-divider></p-divider>
+                                        <div class="col">
+                                            <i class="bi bi-building-fill"></i>
+                                            {{viewSelfEventData.collegeOrUniversity}}
+                                        </div>
+                                        <div class="col">
+                                            <i class="bi bi-pin-map-fill"></i> {{viewSelfEventData.startDate}}
+                                        </div>
+                                        <div class="col">
+                                            <i class="bi bi-geo-alt-fill"></i> {{viewSelfEventData.eventVenue}}
+                                        </div>
+                                        <p-divider></p-divider>
+                                        <div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="col-12 md:col-6">
+                                                        <div class="container1">
+                                                            <img [src]="photoURL" alt="eventImage" style="width:100%;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <p class="sub-head">{{viewSelfEventData.eventTitle}}</p>
+                                                    <div class="row">
+                                                        <div class="col inner-head">
+                                                            Date :
+                                                        </div>
+                                                        <div class="col innerData">
+                                                            {{viewSelfEventData.eventTitle}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col inner-head">
+                                                            Time :
+                                                        </div>
+                                                        <div class="col innerData">
+                                                            {{viewSelfEventData.startTime}} to
+                                                            {{viewSelfEventData.endTime}}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="row">
+                                                            <div class="col inner-head">
+                                                                Registration Fee :
+                                                            </div>
+                                                            <div class="col innerData">
+                                                                {{viewSelfEventData.eventRegistrationFee}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col inner-head">
+                                                                Registration Close Date :
+                                                            </div>
+                                                            <div class="col innerData">
+                                                                {{viewSelfEventData.eventRegistrationCloseDate}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col inner-head">
+                                                            Address :
+                                                        </div>
+                                                        <div class="col innerData">
+                                                            {{viewSelfEventData.eventAddress}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col inner-head">
+                                                            Description :
+                                                        </div>
+                                                        <div class="col innerData">
+                                                            {{viewSelfEventData.eventDescription}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p-accordion [activeIndex]="0">
+                                                        <p-accordionTab header="Going"
+                                                            *ngIf="this.imgGoing?.length > 0">
+                                                            <div class="p-fluid p-formgrid grid mt-2">
+                                                                <div *ngFor="let data of imgGoing"
+                                                                    class="field col-12 md:col-4 mb-0">
+                                                                    <div class="card test">
+                                                                        <div class="row justify-content-between">
+                                                                            <div class="col">
+                                                                                <img class="rounded-circle"
+                                                                                    alt="avatar1"
+                                                                                    [src]="data.profilePic" />
+                                                                            </div>
+                                                                            <div class="col mt-3">
+                                                                                <span
+                                                                                    class="font-bold justify-content-center">
+                                                                                    {{data.firstName}}
+                                                                                </span>
+                                                                                <span
+                                                                                    class="row det">{{data.batchName}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </p-accordionTab>
+                                                        <p-accordionTab header="Maybe"
+                                                            *ngIf="this.imgMayBe?.length > 0">
+                                                            <div *ngFor="let data of imgMayBe"
+                                                                class="field col-12 md:col-4 mb-0">
+                                                                <div class="card test">
+                                                                    <div class="row justify-content-between">
+                                                                        <div class="col">
+                                                                            <img class="rounded-circle" alt="avatar1"
+                                                                                [src]="data.profilePic" />
+                                                                        </div>
+                                                                        <div class="col mt-3">
+                                                                            <span
+                                                                                class="font-bold justify-content-center">
+                                                                                {{data.firstName}}
+                                                                            </span>
+                                                                            <span
+                                                                                class="row det">{{data.batchName}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </p-accordionTab>
+                                                        <p-accordionTab header="Decline"
+                                                            *ngIf="this.imgDecline?.length > 0">
+                                                            <div *ngFor="let data of imgDecline"
+                                                                class="field col-12 md:col-4 mb-0">
+                                                                <div class="card test">
+                                                                    <div class="row justify-content-between">
+                                                                        <div class="col">
+                                                                            <img class="rounded-circle" alt="avatar1"
+                                                                                [src]="data.profilePic" />
+                                                                        </div>
+                                                                        <div class="col mt-3">
+                                                                            <span
+                                                                                class="font-bold justify-content-center">
+                                                                                {{data.firstName}}
+                                                                            </span>
+                                                                            <span
+                                                                                class="row det">{{data.batchName}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </p-accordionTab>
+                                                    </p-accordion>
+                                                </div>
+                                                <p>Posted on <b>{{viewSelfEventData.createdAt | date:'dd MMM
+                                                        ,yyyy'}}</b> by
+                                                    <b>{{viewSelfEventData.firstName}}
+                                                        {{viewSelfEventData.lastName}}</b>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                </p-tabView>
+            </p-tabPanel>
+        </p-tabView>
+        <!-- </div> -->
+    </div>
+</div>

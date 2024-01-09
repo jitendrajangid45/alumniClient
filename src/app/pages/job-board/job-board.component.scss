@@ -1,0 +1,56 @@
+
+.jobss{
+    // color: #699190;
+    background-color: rgb(217, 225, 230);
+    padding: 20px 20px 0 20px;
+}
+
+.resume{
+    background-color: rgb(226, 204, 233);
+        padding: 10px 20px 5px 20px;
+        text-align: center;
+}
+
+.bi-building-fill {
+    color: #ee1010; 
+}
+
+.all{
+    justify-content: space-between; 
+}
+
+.pInputText:hover {
+    border-color: #007EA7;
+}
+
+.pInputText:focus {
+    border-color: #003459;                                   
+}
+
+.p-input-icon-left .pi-search {
+    color:#00A8E8
+}
+
+.viewDetails{
+    cursor: pointer;
+}
+
+.viewDetails:hover{
+font-size: 1.05rem;
+font-weight:500;
+color: #00A8E8;
+}
+
+.pi {
+    color: #007EA7;
+    font-weight: 800;
+}
+
+.bi {
+    color: #007EA7;  
+    font-weight: 800; 
+}
+
+.label{
+    font-weight: 600;
+}

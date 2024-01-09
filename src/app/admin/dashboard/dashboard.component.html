@@ -1,0 +1,144 @@
+<h1>Dashboard</h1>
+<div class="card">
+    <div class="card-head"> Welcome Back!</div>
+    <div class="card-body">
+        <div class="grid">
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card mb-0">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Total Alumni</span>
+                            <div class="text-900 font-medium text-xl">{{alumniCountData?.totalAlumni}}</div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                            [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                            <i class="pi pi-user text-blue-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card mb-0">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Total Faculty</span>
+                            <div class="text-900 font-medium text-xl">{{alumniCountData?.totalFaculty}}</div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                            [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                            <i class="pi pi-user text-purple-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card mb-0">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Verified Alumni</span>
+                            <div class="text-900 font-medium text-xl">{{alumniCountData?.totalVerifiedAlumni}}</div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-green-100 border-round"
+                            [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                            <i class="pi pi-user text-green-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-3">
+                <div class="card mb-0">
+                    <div class="flex justify-content-between mb-3">
+                        <div>
+                            <span class="block text-500 font-medium mb-3">Unverified Alumni</span>
+                            <div class="text-900 font-medium text-xl">{{alumniCountData?.totalUnverifiedAlumni}}</div>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-red-100 border-round"
+                            [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                            <i class="pi pi-user text-red-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12 lg:col-6">
+                <div class="card flex flex-column align-items-center">
+                    <h5 class="text-left w-full">Job Board</h5>
+                    <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6">
+                <div class="card flex flex-column align-items-center">
+                    <h5>News & Posts Board</h5>
+                    <p-chart type="polarArea" [data]="polarData" [options]="polarOptions"></p-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-12 lg:col-6">
+                <div class="row">
+                    <div class="col-12 lg:col-6">
+                        <div class="row">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span class="block text-500 font-medium mb-3">Total College</span>
+                                        <div class="text-900 font-medium text-xl">{{collegeDataCount?.totalCollege}}
+                                        </div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                                        [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                        <i class="pi pi-building text-blue-500 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 lg:col-6">
+                        <div class="row">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span class="block text-500 font-medium mb-3">Total Batches</span>
+                                        <div class="text-900 font-medium text-xl">{{collegeDataCount?.totalBatch}}</div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-green-100 border-round"
+                                        [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                        <i class="pi pi-briefcase text-green-500 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 lg:col-6">
+                        <div class="row">
+                            <div class="card mb-0">
+                                <div class="flex justify-content-between mb-3">
+                                    <div>
+                                        <span class="block text-500 font-medium mb-3">Total Courses</span>
+                                        <div class="text-900 font-medium text-xl">{{collegeDataCount?.totalCourses}}
+                                        </div>
+                                    </div>
+                                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                                        [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                                        <i class="pi pi-book text-orange-500 text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 lg:col-6">
+                <div class="card flex flex-column align-items-center">
+                    <h5 class="text-left w-full">Event Board</h5>
+                    <p-chart type="doughnut" [data]="pieEventData" [options]="pieEventOptions"></p-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

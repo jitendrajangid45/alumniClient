@@ -1,0 +1,79 @@
+.required {
+    color: red;
+    font-size: 15px;
+}
+
+:host ::ng-deep .p-calendar {
+    height: 2.8rem;
+    /* Adjust the height value as needed */
+}
+
+:host ::ng-deep .p-calendar .p-inputtext:hover {
+    border-color: #007EA7;
+}
+
+:host ::ng-deep .p-calendar .p-datepicker-trigger {
+    background-color: #007EA7;
+}
+
+:host ::ng-deep .p-chips .p-inputtext:hover {
+    border-color: #007EA7;
+}
+.file {
+    height: 2.7rem;
+    // background-color: #003459;
+    color: #003459;
+}
+
+
+input::file-selector-button {
+    font-weight: bold;
+    color: black;
+    background-color: #007EA7;
+    padding: 0.5em;
+    border: thin solid grey;
+    border-radius: 6px;
+    height: 2.7rem;
+}
+
+
+.pInputText:hover {
+    border-color: #007EA7;
+}
+
+.pInputText:focus {
+    border-color: #003459;
+}
+
+.button {
+    background-color: #007EA7;
+}
+
+
+.button:hover {
+    background-color: #003459; 
+}
+
+.form-check-input.radio {
+    font-size: 18px;
+    
+        &:checked {
+            background-color: #007EA7;
+            border-color: #007EA7;
+            color: #fff;
+        }
+}
+
+.form-check-label{
+    font-size: 15px;
+    margin-top: 3px;
+}
+
+:host ::ng-deep .p-dropdown {
+    height: 2.9rem;
+    &:hover{
+        border-color:#007EA7;
+    }
+}
+
+ 

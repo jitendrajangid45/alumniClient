@@ -1,0 +1,217 @@
+<h1>Add Job</h1>
+<div class="card">
+    <div class="card-body">
+        <p-toast [style]="{'padding-top':'100px'}"></p-toast>
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="card" style="width: 60%;background-color: antiquewhite;">
+                <div class="card-body">
+                    <div>
+                        <button (click)="selectOption('job')"
+                            [ngClass]="{'button': true, 'selected': selectedOption === 'job' }">JOB</button>
+                        <button (click)="selectOption('internship')"
+                            [ngClass]="{ 'button': true,'selected': selectedOption === 'internship' }">INTERNSHIP</button>
+                    </div>
+
+                    <!-- Card content goes here -->
+                    <form [formGroup]="addJob">
+                        <div class="row">
+                            <label for="companyName">Title<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="jobTitle" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('jobTitle').invalid && ( addJob.get('jobTitle').touched)}">
+                            <span *ngIf="submitted && addJob.get('jobTitle').invalid"><span style="color:red;">Job Title
+                                    is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Company Name<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="companyName" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('companyName').invalid && (addJob.get('companyName').dirty || addJob.get('companyName').touched)}">
+                            <span *ngIf="submitted && addJob.get('companyName').invalid "><span
+                                    style="color:red;">Company Name is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Company Website<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="companyWebsite" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('companyWebsite').invalid && (addJob.get('companyWebsite').dirty || addJob.get('companyWebsite').touched)}">
+                            <span *ngIf="submitted && addJob.get('companyWebsite').invalid"><span
+                                    style="color:red;">Company Website is required</span></span>
+                        </div>
+                        <div class="row">
+                            visible To
+                        </div>
+                        <div class="row input">
+                            <p-dropdown [style]="{'width':'100%'}" [options]="eventViewedOptions" optionLabel="label"
+                                formControlName="isSelectOption" (onChange)="selectViewedOption($event.value)"
+                                placeholder="Select College/Batch/All" [showClear]="true"></p-dropdown>
+                        </div>
+                        <div class="row">
+                            select options
+                        </div>
+                        <div class="row input">
+                            <input pInputText class="p-inputtext-sm pInputText" formControlName="visibleTo"
+                                class="form-control" id="visibleTo" *ngIf="isSelected" [readOnly]="isSelected"
+                                type="text" />
+                            <p-dropdown [style]="{'width':'100%'}" [options]="collegeData" [filter]="true"
+                                optionLabel="collegeName" *ngIf="isCollege"
+                                (onChange)="changeCollegeNameVisible($event.value)" formControlName="visibleTo"
+                                [editable]="true" placeholder="Select College" [showClear]="true"
+                                [virtualScrollItemSize]="30" [virtualScroll]="true"></p-dropdown>
+                            <p-dropdown [style]="{'width':'100%'}" [options]="batchData" [filter]="true"
+                                optionLabel="batchName" [editable]="true" *ngIf="!isCollege && !isSelected"
+                                (onChange)="changeBatchNameVisible($event.value)" formControlName="visibleTo"
+                                placeholder="Select Batch" [showClear]="true" [virtualScrollItemSize]="30"
+                                [virtualScroll]="true"></p-dropdown>
+                        </div>
+                        <div class="row">
+                            <label for="">Experience<span class="required">*</span></label>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p-dropdown formControlName="experienceFrom" [options]="getExperienceYear"
+                                    [style]="{'width':'250px'}" optionLabel="label"
+                                    placeholder="-Select Experience From-"></p-dropdown>
+                                <span *ngIf="submitted && addJob.get('experienceFrom').invalid"><span
+                                        style="color:red;">ExperienceFrom is
+                                        required</span></span>
+                            </div>
+                            <div class="col">
+                                <p class="to">to</p>
+                            </div>
+                            <div class="col">
+                                <p-dropdown formControlName="experienceTo" [options]="getExperienceYear"
+                                    [style]="{'width':'250px'}" optionLabel="label"
+                                    placeholder="--Select Experience To--"></p-dropdown>
+                                <span *ngIf="submitted && addJob.get('experienceTo').invalid"><span
+                                        style="color:red;">Experience To is
+                                        required</span></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Contact Email<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="contactEmail" class="form-control"
+                                [ngClass]="{'invalid-input':  addJob.get('contactEmail').invalid && (addJob.get('contactEmail').dirty || addJob.get('contactEmail').touched)}">
+                            <span *ngIf="submitted && addJob.get('contactEmail').invalid"><span
+                                    style="color:red;">Contact Email is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Location<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="jobLocation" class="form-control"
+                                [ngClass]="{'invalid-input': addJob.get('jobLocation').invalid && (addJob.get('jobLocation').dirty || addJob.get('jobLocation').touched)}">
+                            <span *ngIf="submitted && addJob.get('jobLocation').invalid"><span
+                                    style="color:red;">Location is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Skills<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <p-chips formControlName="skills" id="skills"
+                                placeholder="Type skill and press Enter"></p-chips>
+                            <span *ngIf="submitted && addJob.get('skills').invalid"><span style="color:red;">Skill is
+                                    required</span></span>
+                        </div>
+                        <div class="row" *ngIf="selectedOption === 'job'">
+                            <label for="companyName">Package<span class="required">*</span></label>
+                        </div>
+                        <div class="row input" *ngIf="selectedOption === 'job'">
+                            <input type="text" formControlName="salaryPackage" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('salaryPackage').invalid && (addJob.get('salaryPackage').dirty || addJob.get('salaryPackage').touched)}">
+                            <span *ngIf="submitted && addJob.get('salaryPackage').invalid"><span
+                                    style="color:red;">Package is required</span></span>
+                        </div>
+                        <div class="row" *ngIf="selectedOption === 'internship'">
+                            <label for="companyName">Stipend<span class="required">*</span></label>
+                        </div>
+                        <div class="row input" *ngIf="selectedOption === 'internship'">
+                            <input type="text" formControlName="salaryStipend" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('salaryStipend').invalid && (addJob.get('salaryStipend').dirty || addJob.get('salaryStipend').touched)}">
+
+                            <span *ngIf="submitted && addJob.get('salaryStipend').invalid"><span
+                                    style="color:red;">Stipend is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Application Deadline<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="date" formControlName="applicationDeadline" class="form-control"
+                                min="{{ getCurrentDate() | date: 'yyyy-MM-dd' }}"
+                                [ngClass]="{'invalid-input':addJob.get('applicationDeadline').invalid && (addJob.get('applicationDeadline').dirty || addJob.get('applicationDeadline').touched)}">
+                            <span *ngIf="submitted && addJob.get('applicationDeadline').invalid"><span
+                                    style="color:red;">Application Deadline is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Education<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="education" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('education').invalid && (addJob.get('education').dirty || addJob.get('education').touched)}">
+                            <span *ngIf="submitted && addJob.get('education').invalid"><span
+                                    style="color:red;">Education is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Role<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="role" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('role').invalid && (addJob.get('role').dirty || addJob.get('role').touched)}">
+                            <span *ngIf="submitted && addJob.get('role').invalid"><span style="color:red;">Role is
+                                    required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Industry Type<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="industryType" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('industryType').invalid && (addJob.get('industryType').dirty || addJob.get('industryType').touched)}">
+
+                            <span *ngIf="submitted && addJob.get('industryType').invalid"><span
+                                    style="color:red;">Industry Type is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Employment Type<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="employmentType" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('employmentType').invalid && (addJob.get('employmentType').dirty || addJob.get('employmentType').touched)}">
+                            <span *ngIf="submitted && addJob.get('employmentType').invalid"><span
+                                    style="color:red;">Employment Type is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Department<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <input type="text" formControlName="department" class="form-control"
+                                [ngClass]="{'invalid-input':addJob.get('department').invalid && (addJob.get('department').dirty || addJob.get('department').touched)}">
+                            <span *ngIf="submitted && addJob.get('department').invalid"><span
+                                    style="color:red;">Department is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Description<span class="required">*</span></label>
+                        </div>
+                        <div class="row input">
+                            <p-editor [style]="{ height: '320px' }" formControlName="jobsDescription"></p-editor>
+                            <span *ngIf="submitted && addJob.get('jobsDescription').invalid"><span
+                                    style="color:red;">Description is required</span></span>
+                        </div>
+                        <div class="row">
+                            <label for="companyName">Upload</label>
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control" (change)="handleFileInput($event)" formControlName="file"
+                                accept=".pdf, image/*" type="file" id="formFile">
+                        </div>
+                        <button type="button" class="btn btn-outline-info" (click)="postJobIntern()">ADD</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

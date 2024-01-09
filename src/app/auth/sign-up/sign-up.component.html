@@ -1,0 +1,43 @@
+<!-- Sign Up form -->
+
+<div class="man">
+
+    <div class="backgroud"></div>
+
+    <div class="containe">
+        <div class="rightlaer"></div>
+
+        <div class="z3">
+            <div class="about">
+                <img width="100" height="100" src="https://img.icons8.com/bubbles/100/trophy.png" alt="trophy" />
+                <h3 class="px480">Already Have An Account ? <a  routerLink="/auth/login">Login</a> </h3>
+            </div>
+            <form cForm [formGroup]="verifyEmail">
+
+                <h2>{{typeOfComponent==='forgetPassword' ? 'Forget Password' : 'Welcome!' }}</h2>
+
+                <br>
+
+                <div class="input-container">
+                    <input autocomplete="off" type="email" id="email" required="" formControlName="email">
+                    <label for="email">Email</label>
+                    <b *ngIf="!verifyEmail.get('email')?.valid && (verifyEmail.get('email')?.dirty ||verifyEmail.get('email')?.touched)">
+                        <div [hidden]="!verifyEmail.get('email')?.errors?.['required']">Email is required</div>
+                        <div [hidden]="!verifyEmail.get('email')?.errors?.['email']">Please enter a valid email</div>
+                    </b>
+                </div>
+                <br>
+                <div class="bttn">
+                    <button type="Submit" [ngClass]="{'disabled':verifyEmail.invalid }" (click)="sendOTP()">{{typeOfComponent==='forgetPassword' ? 'Forget Password' : 'Send OTP' }}</button>
+                </div>
+                <h6 class="ppx480">Already Have An Account ? <a  routerLink="/auth/login">Login</a> </h6>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="new">
+        <div class="right"></div>
+        <div class="left"></div>
+    </div>
+</div>

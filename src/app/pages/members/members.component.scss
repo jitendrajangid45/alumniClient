@@ -1,0 +1,134 @@
+.fa-question-circle-small {
+    font-size: 1rem; /* Set the font size to make the icon smaller */
+    position: relative;
+    display: inline-block;
+    cursor: help; /* Change the cursor to a question mark on hover */
+  }
+
+  /* Define the tooltip text */
+  .fa-question-circle-small::before {
+    content: "Verification Pending"; /* Tooltip text */
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    top: -30px; /* Adjust the tooltip position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  /* Show the tooltip text when hovering over the element */
+  .fa-question-circle-small:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+
+.verified-logo {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: green;
+}
+
+// .disabled-logo{
+//     position: absolute;
+//     top: 5px;
+//     right: 5px;
+//     color:gray
+// }
+
+.disabled-logo {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color:gray
+  }
+
+  /* Define the tooltip text */
+  .disabled-logo::before {
+    content: "Verification Pending"; /* Tooltip text */
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    top: -30px; /* Adjust the tooltip position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  /* Show the tooltip text when hovering over the element */
+  .disabled-logo:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+
+
+
+
+  /* Define the tooltip text */
+  .verified-logo::before {
+    content: "Verified User"; /* Tooltip text */
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    top: -30px; /* Adjust the tooltip position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  /* Show the tooltip text when hovering over the element */
+  .verified-logo:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+
+.small-profile-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.card {
+    position: relative;
+}
+
+.card-body {
+    margin: 10px;
+}
+
+
+.card-text{
+  color : rgb(105, 100, 109);
+  font-weight: 450;font-family: 'Montserrat', sans-serif
+}
+.search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px; /* Adjust as needed for positioning */
+  pointer-events: none;
+  margin-right: 8px; /* Add margin to create space */
+}
+
+// /* Adjust padding-left of input to accommodate the icon */
+// .input-group .form-control {
+//   padding-left: 35px; /* Adjust based on the width of the icon and desired space */
+// }
+
+ #placeholder{
+  margin-left: 20px;
+}

@@ -1,0 +1,179 @@
+/* Toast notification position */
+p-toast {
+    bottom: 5px;
+    right: 5px;
+}
+
+/* Card container styles */
+.card {
+    background-color: #e8d2e1;
+    padding: 20px;
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styles */
+.header {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    color: #050a0d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-left {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    color: #050a0d;
+}
+
+/* Custom button styles */
+.custom-button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 7px 14px;
+    /* Adjusted padding for a smaller button */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    /* Reduced font size */
+    transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+    background-color: #c0392b;
+}
+
+/* Download CSV button styles */
+.btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+.container {
+    position: relative;
+}
+
+.btn {
+    top: 0;
+    right: 800px;
+    /* Other button styles */
+}
+
+.buttonupload {
+    background-color: #b2119c;
+    color: white;
+    padding: 5px 10px;
+    /* Adjusted padding for a smaller button */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.buttonupload:hover {
+    background-color: #2980b9;
+}
+
+.buttonupload {
+    top: 0;
+    right: 700px;
+}
+
+/* Styling for form input boxes */
+.form-control {
+    padding: 10px;
+    border: 1px solid #d2bebe;
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 8px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Style for the input box when it's focused */
+.form-control:focus {
+    outline: none;
+    /* Remove default focus outline */
+    border-color: #3498db;
+    /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    /* Add a subtle shadow on focus */
+}
+
+/* Invalid input message styles */
+.invalid {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Loader styles */
+.loader {
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #3498db;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+/* Save button styles */
+.save {
+    background: linear-gradient(to right, #ec93ca, #61c6ee);
+    color: white;
+    padding: 12px 25px;
+    border: 2px solid #9b59b6;
+    /* Added a border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    /* Added a box-shadow */
+
+}
+
+.save:hover {
+    background: linear-gradient(to right, #8e44ad, #2980b9);
+    border-color: #8e44ad;
+    /* Adjusted border color on hover */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    /* Increased shadow on hover */
+}
+
+.save {
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    .btn,
+    .buttonupload {
+        right: 10px;
+    }
+}

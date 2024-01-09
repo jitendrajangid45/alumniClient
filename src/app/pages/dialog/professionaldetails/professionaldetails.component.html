@@ -1,0 +1,52 @@
+<div class="pos">
+
+  <h2>Working Details</h2><br><br>
+  <form [formGroup]="profForm" (ngSubmit)="onSubmit()">
+      <label for="position" class="form-label">Position : </label><span class="text-danger">*</span>
+    <input type="text" id="position" formControlName="position" placeholder="Enter position" class="form-control">
+    <div
+      *ngIf="!profForm.get('position')?.valid && (profForm.get('position')?.dirty || profForm.get('position')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!profForm.get('position')?.errors?.['required']">position required</div>
+    </div>
+    <label for="companyName" class="form-label">Company Name : </label><span class="text-danger">*</span>
+    <input type="text" id="companyName" formControlName="companyName" placeholder="Enter Degree" class="form-control">
+    <div
+      *ngIf="!profForm.get('companyName')?.valid && (profForm.get('companyName')?.dirty || profForm.get('companyName')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!profForm.get('companyName')?.errors?.['required']">Company Name required</div>
+    </div>
+    <div style="margin-top: 20px;">
+      <input type="checkbox" id="isWorking" name="check" formControlName="isWorking" value="isWorking" (change)="onCheckboxChange($event)"> I am currently working under this role
+    </div>
+    <br>
+    <br>
+    <div>
+      <label for="joiningMonth">From:</label><span class="text-danger">*</span>
+      <select id="joiningMonth" formControlName="joiningMonth" style="margin-left: 20px;">
+        <option value="">Month</option>
+        <option *ngFor="let month of month" [value]="month">{{ month }}</option>
+      </select>
+      <select id="joiningYear" formControlName="joiningYear" style="margin-left: 20px;">
+        <option value="">Year</option>
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>      
+    </div>
+    <div  *ngIf="isChecked === false" style="margin-top: 20px;">
+      <label for="leavingMonth">To:</label>
+      <select name="leavingMonth" id="leavingMonth" formControlName="leavingMonth" style="margin-left: 40px;">
+        <option *ngFor="let month of month" [value]="month">{{ month }}</option>
+      </select>
+      <select name="leavingYear" id="leavingYear" formControlName="leavingYear" style="margin-left: 20px;">
+        <option aria-placeholder="2023" *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+    <br>
+    <br>
+    <div>
+      <input type="submit" [disabled]="profForm.invalid" class="btn btn-success" value="Save">
+      <span style="margin-left: 20px;"></span>
+      <input type="button" (click)="onReset()" class="btn btn-primary" value="Reset">
+    </div>
+  </form>
+</div>

@@ -1,0 +1,96 @@
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
+  <div class="logo-container">
+    <button class="logo" (click)="toggleCollapse()"> <a class="navbar-brand">
+        <img src="../../../assets/Alumini_logo-.png" height="50" alt="Alumini" loading="lazy" />
+      </a></button>
+    <div class="logo-text" @fadeInOut *ngIf="collapsed">Alumini <div class="text-center">
+
+      </div>
+    </div>
+    <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
+      <i class="fal fa-times close-icon"></i>
+    </button>
+  </div>
+  <div class="scrollwrap scrollwrap_delayed">
+    <ul class="sidenav-nav">
+      <li class="sidenav-nav-item" *ngFor="let data of navData">
+        <a class="sidenav-nav-link" (click)="handleClick(data)" *ngIf="data.items && data.items.length > 0"
+          [ngClass]="getActiveClass(data)">
+          <i class="sidenav-link-icon" [class]="data.icon"></i>
+          <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+            {{data.label}}
+          </span>
+          <i *ngIf="data.items && !collapsed" class="menu-collapse-icon"
+            [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
+          <span class="tooltip" *ngIf="!collapsed">{{data.label}}</span>
+        </a>
+
+        <a class="sidenav-nav-link" *ngIf="!data.items || (data.items && data.items.length === 0)"
+          [routerLink]="[data.routerLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          (click)="shrinkItems(data)">
+          <i class="sidenav-link-icon" [class]="data.icon"></i>
+          <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+            {{data.label}}
+          </span>
+          <span class="tooltip" *ngIf="!collapsed">{{data.label}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- bell icon -->
+<div id="top-right-icon">
+  <div class="notification-icon">
+    <i class="fas fa-bell"></i>
+    <span class="badge rounded-pill badge-notification bg-danger">1</span>
+  </div>
+  <i class="fas fa-comment-dots me-2 comment-icon"></i>
+</div>
+
+
+
+<!-- Right Sidebar -->
+<nav id="sidebarMenuRight" style="bottom: 0px;"class="collapse d-lg-block sidebar collapse  position:fixed right-sidebar">
+  <div class="dropdown">
+    <a class="text-reset me-3  hidden-arrow margin-top:20px"  id="navbarDropdownDropdown"
+      role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="me-3" style="margin-left: 60px; color: black; font-size:18px;"> Rutuja Gherade</span>
+      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" class="rounded-circle" height="24"
+        alt="Avatar" loading="lazy" />
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownDropdown">
+      <!-- Add dropdown items here  -->
+      <li><a class="dropdown-item" (click)="viewProfile()">View Profile</a></li>
+      <li><a class="dropdown-item">Change Password</a></li>
+      <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
+<!-- sidenav.component.html -->
+<div class="container pt-4">
+  <div class="card card-container border-info mb-3">
+    <div class="card-header">
+      <div class="header-content">
+        <span class="birthday-icon"></span>
+        <span class="header-text">🎉 Upcoming Birthdays 🎂</span>
+      </div>
+    </div>
+    <div class="card-body text-info">
+      <h6 *ngFor="let birthday of upcomingBirthdays" class="card-title">
+        <div class="birthday-content">
+          <i class="fas fa-birthday-cake birthday-icon me-2"></i>
+          <div class="info">
+            <span class="birthday-name">{{ birthday.firstName }} {{ birthday.lastName }}</span>
+            <span class="birthday-date">{{ birthday.dateOfBirth | date:'MMM d'}}</span>
+            <br>
+          </div>
+        </div>
+        <hr class="border-line" />
+      </h6>
+    </div>
+  </div>
+</div>
+
+</nav>

@@ -1,0 +1,382 @@
+<div class="man">
+
+    <div class="backgroud"></div>
+
+    <div class="containe">
+        <div class="rightlaer"></div>
+
+        <div class="z3">
+
+            <div class="form">
+                <form [formGroup]="registerForm" *ngIf="register">
+                    <h2>Register</h2>
+
+                    <div class="input-container">
+                        <input type="text" id="firstname" required="" formControlName="firstName">
+                        <label for="firstname">FirstName</label>
+                        <div *ngIf="!registerForm.get('firstName')?.valid && (registerForm.get('firstName')?.dirty ||registerForm.get('firstName')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!registerForm.get('firstName')?.errors?.['required']">First Name is required
+                            </div>
+                            <div [hidden]="!registerForm.get('firstName')?.errors?.['pattern']">First Name should
+                                contain
+                                only alphabets</div>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <input type="text" id="lastname" required="" formControlName="lastName">
+                        <label for="lastname">LastName</label>
+                        <div *ngIf="!registerForm.get('lastName')?.valid && (registerForm.get('lastName')?.dirty ||registerForm.get('lastName')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!registerForm.get('lastName')?.errors?.['required']">Last Name is required
+                            </div>
+                            <div [hidden]="!registerForm.get('lastName')?.errors?.['pattern']">Last Name should contain
+                                only
+                                alphabets</div>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <input id="password" formControlName="password" [type]="showPassword ? 'text' : 'passWord'"
+                            [ngClass]="{ 'is-invalid': submitted && f['password'].errors } " required="">
+                        <label for="password">Password</label>
+                        <div class="eye">
+                            <i alt="show" class="far fa-eye eye-show" [hidden]="showPassword"
+                                (click)="showPassword = !showPassword" [class.hide]="showPassword"></i>
+                            <i alt="hide" class="far fa-eye-slash eye-hide" [hidden]="!showPassword"
+                                (click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
+                        </div>
+                        <div *ngIf="!registerForm.get('password')?.valid && (registerForm.get('password')?.dirty ||registerForm.get('password')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!registerForm.get('password')?.errors?.['required']">Password is required
+                            </div>
+                            <div [hidden]="!registerForm.get('password')?.errors?.['minlength']">The minimum password
+                                length
+                                is 6 characters</div>
+                        </div>
+                        <div *ngIf=" !submitted && f['passwordCtrl']?.errors?.hasOwnProperty('minlength')"
+                            style="font-size: 13px; color: #de5555;">Password must be at least 6 characters
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <input id="cPassword" formControlName="confirmPassword"
+                            [type]="showConfirmPassword ? 'text' : 'passWord'"
+                            [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }" required="">
+                        <label for="cPassword">Confirm Password</label>
+                        <div class="eye">
+                            <i alt="show" class="far fa-eye eye-show" [hidden]="showConfirmPassword"
+                                (click)="showConfirmPassword = !showConfirmPassword"
+                                [class.hide]="showConfirmPassword"></i>
+                            <i alt="hide" class="far fa-eye-slash eye-hide" [hidden]="!showConfirmPassword"
+                                (click)="showConfirmPassword = !showConfirmPassword"
+                                [class.hide]="!showConfirmPassword"></i>
+                        </div>
+
+                        <div *ngIf="submitted && f['confirmPassword'].errors" style="font-size: 13px; color: #de5555;">
+                            <div *ngIf="f['confirmPassword'].errors['required']">Confirm Password is required</div>
+                            <div *ngIf="f['confirmPassword'].errors['mustMatch']">Passwords doesn't match</div>
+                        </div>
+                        <div *ngIf="!submitted && f['confirmPassword'].errors" style="font-size: 13px; color: #de5555;">
+                            <div *ngIf="f['confirmPassword'].errors['mustMatch']">Passwords doesn't match</div>
+                        </div>
+                    </div>
+
+                    <div class="select">
+                        <label for="gender">Gender</label>
+                        <select formControlName="gender" id="gender">
+                            <option *ngFor="let gender of genders" [value]="gender.value">{{gender.name}}</option>
+                            <div *ngIf="!registerForm.get('gender')?.valid && (registerForm.get('gender')?.dirty ||registerForm.get('gender')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerForm.get('gender')?.errors?.['required']">Gender is required
+                                </div>
+                            </div>
+                        </select>
+                    </div>
+
+                    <div class="input-container">
+                        <input type="date" id="dob" required="" formControlName="dateOfBirth">
+                        <label for="dob">Date Of Birth :</label>
+                        <div *ngIf="!registerForm.get('dateOfBirth')?.valid && (registerForm.get('dateOfBirth')?.dirty ||registerForm.get('dateOfBirth')?.touched)"
+                            [ngStyle]="{color:'red'}">
+                            <div [hidden]="!registerForm.get('dateOfBirth')?.errors?.['required']">Date Of Birth is
+                                required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bttn">
+                        <button type="button" (click)="submitPersonalDetails()">Submit</button>
+                    </div>
+                    <div>
+                        <span>Already Have An Account?</span><a routerLink="/auth/login">Login</a>
+                    </div>
+
+                </form>
+
+                <ng-container class="registerAsUserType" *ngIf="registerAsUserType">
+                    <div class="btnn">
+                        <button type="button" (click)="selectRole('alumni')">Register as Alumni</button>
+                        <button type="button" (click)="selectRole('faculty_alumni')">Register as Faculty</button>
+                    </div>
+
+                    <form [formGroup]="registerAlumni" *ngIf="userType==='alumni'">
+                        <h4 class="heading">Register as Alumni</h4>
+
+                        <div class="select">
+                            <label for="collage">Collage Name:</label>
+                            <select formControlName="collageName" id="collage">
+                                <option *ngFor="let collage of collages" [value]="collage.collegeCode">{{collage.collegeName}}</option>
+                            </select>
+                            <div *ngIf="!registerAlumni.get('collageName')?.valid && (registerAlumni.get('collageName')?.dirty ||registerAlumni.get('collageName')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerAlumni.get('collageName')?.errors?.['required']">Collage is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="select">
+                            <label for="course">Course/Degree:</label>
+                            <select formControlName="programDegree" id="course">
+                                <option *ngFor="let course of courses" [value]="course.courseName">{{course.courseName}}</option>
+                            </select>
+                            <div *ngIf="!registerAlumni.get('programDegree')?.valid && (registerAlumni.get('programDegree')?.dirty ||registerAlumni.get('programDegree')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerAlumni.get('programDegree')?.errors?.['required']">Course/Degree
+                                    is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="select">
+                            <label for="stream">Stream:</label>
+                            <select formControlName="stream" id="stream">
+                                <option *ngFor="let stream of streams" [value]="stream.name">{{stream.name}}</option>
+                            </select>
+                            <div *ngIf="!registerAlumni.get('stream')?.valid && (registerAlumni.get('stream')?.dirty ||registerAlumni.get('stream')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerAlumni.get('stream')?.errors?.['required']">Stream is required
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="select">
+                            <label for="end-date">End Date:</label>
+                            <select formControlName="endYear" id="end-date">
+                                <option value="">Year</option>
+                                <option *ngFor="let year of getYears" [value]="year">{{year}}</option>
+                            </select>
+                            <div *ngIf="!registerAlumni.get('endYear')?.valid && (registerAlumni.get('endYear')?.dirty ||registerAlumni.get('endYear')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerAlumni.get('endYear')?.errors?.['required']">End Date is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btnn">
+                            <button type="button" (click)="backToThePreviousForm('personal')"><img width="20"
+                                    height="20" src="https://img.icons8.com/ios-filled/20/ffffff/back.png"
+                                    alt="back" />Back</button>
+                            <button type="button" (click)="registerAsAlumni()">Next <img width="20" height="20"
+                                    src="https://img.icons8.com/ios-filled/20/ffffff/forward--v1.png"
+                                    alt="forward--v1" /></button>
+                        </div>
+                    </form>
+
+
+
+                    <form [formGroup]="registerFaculty" *ngIf="userType==='faculty_alumni'">
+                        <h4 class="heading">Register as Faculty</h4>
+
+                        <div class="input-container">
+                            <input type="text" required="" id="job-title" formControlName="jobTitle">
+                            <label for="job-title">Job Title</label>
+                            <div *ngIf="!registerFaculty.get('jobTitle')?.valid && (registerFaculty.get('jobTitle')?.dirty ||registerFaculty.get('jobTitle')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('jobTitle')?.errors?.['required']">job Title is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <input type="text" required="" id="department" formControlName="department">
+                            <label for="department">Department</label>
+                            <div *ngIf="!registerFaculty.get('department')?.valid && (registerFaculty.get('department')?.dirty ||registerFaculty.get('department')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('department')?.errors?.['required']">Department is
+                                    required</div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="input-container">
+                            <input type="month" required="" id="joined" formControlName="joined" [disabled]="true">
+                            <label for="joined">Start month / joined in:</label>
+                            <div *ngIf="!registerFaculty.get('joined')?.valid && (registerFaculty.get('joined')?.dirty ||registerFaculty.get('joined')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('joined')?.errors?.['required']">start Month and
+                                    Year are required
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <input type="month" required="" id="endYear" formControlName="endYear" [disabled]="true">
+                            <label for="endYear">Start month / end in:</label>
+                            <div *ngIf="!registerFaculty.get('endYear')?.valid && (registerFaculty.get('endYear')?.dirty ||registerFaculty.get('endYear')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('endYear')?.errors?.['required']">End Month and Year
+                                    are required
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div>
+                            <label for="start-year">Start Date/joined in:</label>
+                            <select formControlName="startYear" id="start-year">
+                                <option value="">Year</option>
+                                <option *ngFor="let year of getYears" [value]="year">{{year}}</option>
+                            </select>
+                            <div *ngIf="!registerFaculty.get('startYear')?.valid && (registerFaculty.get('startYear')?.dirty ||registerFaculty.get('startYear')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('startYear')?.errors?.['required']">startYear is
+                                    required</div>
+                            </div>
+                            <select name="start-month" formControlName="startMonth" id="start-month">
+                                <option value="">Month</option>
+                                <option *ngFor="let month of getMonths" [value]="month">{{month}}</option>
+                            </select>
+                            <div *ngIf="!registerFaculty.get('startMonth')?.valid && (registerFaculty.get('startMonth')?.dirty ||registerFaculty.get('startMonth')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('startMonth')?.errors?.['required']">startMonth is
+                                    required</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="end-year">End Date/Left in:</label>
+                            <select formControlName="endYear" id="end-year">
+                                <option value="">Year</option>
+                                <option *ngFor="let year of getYears" [value]="year">{{year}}</option>
+                            </select>
+                            <div *ngIf="!registerFaculty.get('endYear')?.valid && (registerFaculty.get('endYear')?.dirty ||registerFaculty.get('endYear')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('endYear')?.errors?.['required']">endYear is
+                                    required
+                                </div>
+                            </div>
+                            <select name="end-month" formControlName="endMonth" id="end-month">
+                                <option value="">Month</option>
+                                <option *ngFor="let month of getMonths" [value]="month">{{month}}</option>
+                            </select>
+                            <div *ngIf="!registerFaculty.get('endMonth')?.valid && (registerFaculty.get('endMonth')?.dirty ||registerFaculty.get('endMonth')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('endMonth')?.errors?.['required']">endMonth is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <input type="text" required="" id="employee-id" formControlName="employeeId">
+                            <label for="employee-id">Employee ID</label>
+                            <div *ngIf="!registerFaculty.get('employeeId')?.valid && (registerFaculty.get('employeeId')?.dirty ||registerFaculty.get('employeeId')?.touched)"
+                                [ngStyle]="{color:'red'}">
+                                <div [hidden]="!registerFaculty.get('employeeId')?.errors?.['required']">employeeId is
+                                    required</div>
+                            </div>
+                        </div>
+
+                        <div class="btnn" style="padding-bottom: 15px;">
+                            <button type="button" (click)="backToThePreviousForm('personal')"><img width="20"
+                                height="20" src="https://img.icons8.com/ios-filled/20/ffffff/back.png"
+                                alt="back" />Back</button>
+                            <button type="button" (click)="registerAsFaculty()">Next <img width="20" height="20"
+                                src="https://img.icons8.com/ios-filled/20/ffffff/forward--v1.png"
+                                alt="forward--v1" /></button>
+                        </div>
+
+                    </form>
+                </ng-container>
+
+
+                <ng-container *ngIf="workDetails">
+                    <b>Current/Latest work details</b><br>
+                    <span>Please enter your Current Work details & Work Experience details</span><br>
+                    <form [formGroup]="alumniWorkDetails">
+
+                        <div>
+                            <input type="checkbox" id="not-working" formControlName="isWorking" value="coding" />
+                            <label for="not-working">I am not working anywhere</label>
+                        </div>
+
+                        <div>
+                            <label for="company">Company/Organization</label>
+                            <input type="text" id="company" formControlName="companyName">
+                        </div>
+                        <div>
+                            <label for="role">Position/Role</label>
+                            <input type="text" id="role" formControlName="position">
+                        </div>
+                        <div>
+                            <label for="start-year">Time Period</label>
+                            <select formControlName="joiningDate">
+                                <option value="">From Year</option>
+                                <option *ngFor="let year of getYears" [value]="year">{{year}}</option>
+                            </select>
+                            <select formControlName="leavingDate">
+                                <option value="">Present</option>
+                                <option *ngFor="let year of getYears" [value]="year">{{year}}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="experience">Total Year Of relevant Experience</label>
+                            <input type="text" id="experience" formControlName="overallWorkExperience">
+                        </div>
+
+
+                        <div>
+                            <label for="roles">Roles you where in</label>
+                            <select formControlName="roles" id="roles">
+                                <option *ngFor="let c of country" [value]="c.value">{{c.name}}</option>
+                            </select>
+                        </div><br>
+
+
+                        <div>
+                            <label for="industrie">Industries you work in</label>
+                            <select formControlName="industriesWorkIn" id="industrie">
+                                <option *ngFor="let c of country" [value]="c.value">{{c.name}}</option>
+                            </select>
+                        </div><br>
+
+
+                        <div>
+                            <label for="skill">Professional skills</label>
+                            <select formControlName="professionalSkills" id="skill">
+                                <option *ngFor="let c of country" [value]="c.value">{{c.name}}</option>
+                            </select>
+                        </div><br>
+                        <button type="button" (click)="submitRegistrationForm()">Register</button>
+                        <button type="button" (click)="backToThePreviousForm('educational')">Back</button>
+                    </form>
+                </ng-container>
+            </div>
+
+
+
+            <div class="about">
+                <img width="100" height="100" src="https://img.icons8.com/bubbles/100/trophy.png" alt="trophy" />
+                <h3>Already Have An Account? <a href="" routerLink="/auth/login">Login</a> </h3>
+            </div>
+        </div>
+    </div>
+    
+    <div class="new">
+        <div class="right"></div>
+        <div class="left"></div>
+    </div>
+</div>

@@ -1,0 +1,331 @@
+<!-- <div class="pas card" style="width: 950px; margin-left: 290px;">
+  <div class="card-body">
+    <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <p-toast></p-toast>
+    ​
+    ​
+    <div class="det ">
+      <div>
+        
+        <div style="display: flex;">
+          <img width="35" height="35" src="https://img.icons8.com/pastel-glyph/28/person-male--v2.png" alt="students" />  
+          <h4 style="text-align: center; color: rgb(9, 41, 136); margin-right: 150px">Personal Details</h4>
+          <p class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            (click)="show(false,true,false,false,userDetails)" style="margin-left: 0px;"><i class="fa fa-edit"></i></p>
+        </div>
+        ​
+        ​
+
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+
+            <p style="margin-bottom: 0;"><strong>Name : {{userDetails?.firstName}} {{ userDetails?.lastName}}</strong></p>
+            <p style="margin-bottom: 0;"><strong>DOB : {{userDetails?.dateOfBirth.slice(0,10)}}</strong></p>
+            <p style="margin-bottom: 0;"><strong>Phone :{{userDetails?.userDetails[0]?.mobileNo}} </strong></p>
+            <p style="margin-bottom: 0;"><strong>Email:{{userDetails?.email}}</strong></p>
+            <p style="margin-bottom: 0;"><strong>Social Accounts:</strong></p>
+            ​
+            <a href="{{userDetails?.userDetails[0]?.facebookProfile}}" target="_blank">
+              <img src="https://img.icons8.com/ios-filled/25/007ea7/facebook-new.png" alt="facebook-new" *ngIf="userDetails?.userDetails[0]?.facebookProfile!=undefined || null" />
+            </a>
+            <a href="{{userDetails?.userDetails[0]?.linkedinProfile}}" target="_blank">
+              <img src="https://img.icons8.com/fluency/25/linkedin.png" alt="linkedin" *ngIf="userDetails?.userDetails[0]?.linkedinProfile!=undefined || null"/>
+            </a>
+            <a href="{{userDetails?.userDetails[0]?.instagramProfile}}" target="_blank">
+              <img src="https://img.icons8.com/color/25/instagram-new--v1.png" alt="instagram-new--v1" *ngIf="userDetails?.userDetails[0]?.instagramProfile!=undefined || null"/>
+            </a>
+            <a href="{{userDetails?.userDetails[0]?.twitterProfile}}" target="_blank">
+              <img src="https://img.icons8.com/color/25/twitter--v1.png" alt="twitter--v1" *ngIf="userDetails?.userDetails[0]?.twitterProfile!=undefined || null"/>
+            </a>
+            <a href="{{userDetails?.userDetails[0]?.youtubeChannel}}" target="_blank">
+              <img src="https://img.icons8.com/fluency/25/youtube-play.png" alt="youtube-play" *ngIf="userDetails?.userDetails[0]?.youtubeChannel!=undefined || null" />
+            </a>
+            <a href="{{userDetails?.userDetails[0]?.websitePortFolioBlog}}" target="_blank">
+              <img src="https://img.icons8.com/stickers/25/domain.png" *ngIf="userDetails?.userDetails[0]?.websitePortFolioBlog!=undefined || null"/>
+            </a> 
+          </div>
+        </div>
+      </div>
+      <div>
+        <div *ngIf="this.profilePic != undefined">
+          <img [src]="photoURL" alt="Profile Pic"  style="cursor: pointer;border-radius: 50%;" height="200" width="200">
+        </div>
+        <div *ngIf="this.profilePic == undefined || null">
+          <img src="../../../assets/profile.png" alt="profile img" height="150" 
+          style="cursor: pointer;">
+        </div>
+        <div class="plus-circle"><i class="fa fa-plus-circle fa-3x"(click)="openFileInput()"></i></div>
+        <input type="file" id="profile_picture" accept="image/*" name="profile_picture" #fileInput
+          style="display: none;" (change)="onFileSelected($event)">  
+      </div>
+    </div>
+    <hr>
+      <div>
+      <div>
+            <div>
+              <div class="d-flex justify-content-between align-items-center">
+                <img width="30" height="30" src="https://img.icons8.com/ios/25/business--v1.png"
+                  alt="open-book--v1" />
+                <div>
+                  <h4 style="text-align: center; color: rgb(9, 41, 136); margin-right: 540px">Professional Details</h4>
+                </div>
+                <div>
+                  <button class="btn btn-success"
+                    (click)="show(false,false,true,false,'') " style="margin-left: 50px;"><i
+                      class="fa fa-plus"></i></button>
+                </div>
+
+              </div>
+            </div>
+            <div style="margin-top: 30px;">
+              <div *ngFor="let details of profDetails" class="row mb-2">
+                <div class="col-md-4 mb-0">
+                  <p><strong>Designation:</strong>{{details?.position}}</p>
+                  <p><strong>Company:</strong>{{details?.companyName}}</p>
+                  <p><strong>Joining</strong> : {{details?.joiningMonth }}{{ details?.joiningYear}}</p>
+                  <p *ngIf="details.leavingMonth==undefined && details.leavingYear==undefined"><strong>Leaving : </strong>{{details?.leavingMonth }}{{ details?.leavingYear}}</p>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end align-items-center">
+                  <div class="button-group d-flex gap-2">
+                    <button class="btn btn-light" (click)="show(false,false,true,false,details)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger" (click)="deleteWorkingDetail(details.workId)">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+          </div>
+        
+        <div>
+          ​
+          <hr>
+          <div>
+            <div>
+              <div class="d-flex justify-content-between align-items-center">
+                <img width="32" height="32" src="https://img.icons8.com/color/48/all.png" alt="all" />
+                <div>
+                  <h4 style="text-align: center; color: rgb(9, 41, 136); margin-right: 550px">OverAll Experience</h4>
+                </div>
+                <div>
+
+                  <button class="btn btn-light"
+                    (click)="show(false,false,false,true,overAllDetails);expData(overAllDetails)" style="margin-left: 50px;"><i
+                      class="fa fa-edit"></i></button>
+                </div>
+
+              </div>
+            </div>
+            ​ 
+            <div *ngFor="let details of overAllDetails">
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 style="margin-bottom: 0;"><strong>Total year of experience:</strong> {{details?.overallWorkExperience}}</h6>
+                  <p style="margin-bottom: 0;"><strong>Roles played:</strong> {{details?.roles}}</p>
+                  <p style="margin-bottom: 0;"><strong>Industries worked in:</strong>{{details?.industriesWorkIn}}</p>
+                  <p style="margin-bottom: 0;"><strong>Professional skills:</strong>{{details?.professionalSkills}}</p>
+                </div>
+                ​
+              </div>
+            </div>
+          </div>
+          ​
+          <hr>
+          ​
+          <div >
+            <div>
+              <div class="d-flex justify-content-between align-items-center">
+                <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/000000/open-book--v1.png"
+                  alt="open-book--v1" />
+                <div>
+                  <h4 style="text-align: center; color: rgb(9, 41, 136); margin-right: 540px">Educational Details</h4>
+                </div>
+                <div>
+                  <button class="btn btn-success"
+                    (click)="show(true,false,false,false,'') " style="margin-left: 50px;"><i
+                      class="fa fa-plus"></i></button>
+                </div>
+
+              </div>
+            </div>
+            <div style="margin-top: 30px;">
+              <div *ngFor="let details of eduDetails" class="row mb-3">
+                <div class="col-md-4">
+                  <h6><strong>Institute Name: {{details?.collageName}}</strong></h6>
+                  <p><strong>Degree: {{details?.programDegree}}</strong></p>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end align-items-center">
+                  <div class="button-group d-flex gap-2">
+                    <button class="btn btn-light" (click)="show(true,false,false,false,details)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger" (click)="deleteEducation(details.eduId)">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+      ​</div>
+</div> -->
+
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<p-toast></p-toast>
+<div class="body">
+  <!-- ===== ===== Body Main-Background ===== ===== -->
+  <span class="main_bg"></span>
+
+
+  <!-- ===== ===== Main-Container ===== ===== -->
+      <div class="container">
+
+          <!-- ===== ===== Header/Navbar ===== ===== -->
+
+
+
+          <!-- ===== ===== User Main-Profile ===== ===== -->
+          <section class="userProfile card">
+              <div class="profile">
+                  <figure><div *ngIf="this.profilePic != undefined">
+                    <img [src]="photoURL" alt="Profile Pic"  style="cursor: pointer;border-radius: 50%;" height="200" width="200">
+                  </div>
+                  <div *ngIf="this.profilePic == undefined || null">
+                    <img src="../../../assets/profile.png" alt="profile img" height="150" 
+                    style="cursor: pointer;">
+                  </div>
+                  <button class="plus-circle"(click)="openFileInput()">Edit</button>
+                  <input type="file" id="profile_picture" accept="image/*" name="profile_picture" #fileInput
+                    style="display: none;" (change)="onFileSelected($event)"></figure>
+                  
+              </div>
+          </section>
+
+
+          <!-- ===== ===== Work & Skills Section ===== ===== -->
+          <section class="work_skills card">
+
+              <!-- ===== ===== Work Contaienr ===== ===== -->
+              <div class="work">
+                  <h1 class="heading">work</h1>
+                  <button class="btn btn-primary"
+                  (click)="show(false,false,true,false,'')">Add more</button>
+                  <div class="primary" *ngFor="let details of profDetails">
+                      <h1>{{details?.companyName}}</h1>
+                      <span (click)="show(false,false,true,false,details)">Edit</span>
+                      <button (click)="deleteWorkingDetail(details.workId)">delete</button>
+                      <p>{{details?.position}}<br>{{details?.companyName}}</p>
+                  </div>
+              </div>
+
+              <!-- ===== ===== Skills Contaienr ===== ===== -->
+              <div class="skills">
+                  <h1 class="heading">Skills</h1>
+                  <ul *ngFor="let skill of skillsArr; let i = index" style="--i: {{i}}">
+                      <li>{{skill}}</li>
+                  </ul>
+              </div>
+          </section>
+
+
+          <!-- ===== ===== User Details Sections ===== ===== -->
+          <section class="userDetails card">
+              <div class="userName">
+                  <h1 class="name">{{userDetails?.firstName}} {{userDetails?.lastName}}</h1>
+                  <!-- <div class="map">
+                      <i class="ri-map-pin-fill ri"></i>
+                      <span>Edit</span>
+                  </div> -->
+                  <p>{{profDetails?.[0]?.position}}</p>
+                   <span class="edit" (click)="show(false,true,false,false,userDetails)">Edit</span>
+              </div>
+              <div class="contact_Info">
+                  <h2 class="heading">Personal Information</h2>
+                  <ul>
+                      <li class="phone">
+                          <h2 class="label">Phone:</h2>
+                          <span class="info">{{userDetails?.userDetails[0]?.mobileNo}}</span>
+                      </li>
+
+                      <li class="address">
+                          <h2 class="label">Address:</h2>
+                          <span class="info">{{userDetails?.userDetails[0]?.address}}</span>
+                      </li>
+
+                      <li class="email">
+                          <h1 class="label">E-mail:</h1>
+                          <span class="info">{{userDetails?.email}}</span>
+                      </li>
+
+                      <li class="site">
+                          <h1 class="label">Site:</h1>
+                          <span><a href="{{userDetails?.userDetails[0]?.linkedinProfile}}" target="_blank">
+                            <img src="https://img.icons8.com/fluency/25/linkedin.png" alt="linkedin" *ngIf="userDetails?.userDetails[0]?.linkedinProfile!=undefined || null"/>
+                          </a></span>
+                          <span class="info"><a href="{{userDetails?.userDetails[0]?.websitePortFolioBlog}}" target="_blank">
+                            <img src="https://img.icons8.com/stickers/25/domain.png" *ngIf="userDetails?.userDetails[0]?.websitePortFolioBlog!=undefined || null"/>
+                          </a> </span>
+                          <span> <a href="{{userDetails?.userDetails[0]?.youtubeChannel}}" target="_blank">
+                            <img src="https://img.icons8.com/fluency/25/youtube-play.png" alt="youtube-play" *ngIf="userDetails?.userDetails[0]?.youtubeChannel!=undefined || null" />
+                          </a></span>
+                          <span><a href="{{userDetails?.userDetails[0]?.twitterProfile}}" target="_blank">
+                            <img src="https://img.icons8.com/color/25/twitter--v1.png" alt="twitter--v1" *ngIf="userDetails?.userDetails[0]?.twitterProfile!=undefined || null"/>
+                          </a></span>
+                          <span>
+                            <a href="{{userDetails?.userDetails[0]?.instagramProfile}}" target="_blank">
+                              <img src="https://img.icons8.com/color/25/instagram-new--v1.png" alt="instagram-new--v1" *ngIf="userDetails?.userDetails[0]?.instagramProfile!=undefined || null"/>
+                            </a></span>
+                            <span> <a href="{{userDetails?.userDetails[0]?.facebookProfile}}" target="_blank">
+                              <img src="https://img.icons8.com/ios-filled/25/007ea7/facebook-new.png" alt="facebook-new" *ngIf="userDetails?.userDetails[0]?.facebookProfile!=undefined || null" />
+                            </a></span>
+                      </li>
+                  </ul>
+              </div>
+          </section>
+
+
+          <!-- ===== ===== Timeline & About Sections ===== ===== -->
+          <section class="timeline_about card"> 
+
+              <section class="work_skills card">
+
+                  <!-- ===== ===== Work Contaienr ===== ===== -->
+                  <div class="work">
+                    <button class="btn btn-primary"
+                    (click)="show(true,false,false,false,'')">Add more</button>
+                      <h1 class="heading">Educational Details</h1>
+                      <div class="primary" *ngFor="let details of eduDetails">
+                          <h1>{{details?.universityInstitute}}</h1>
+                          <span (click)="show(true,false,false,false,details)">Edit</span>
+                          <button (click)="deleteEducation(details.eduId)">delete</button>
+                          <p>{{details?.programDegree}}</p>
+                      </div>
+                  </div>
+  
+              </section>
+
+              <section class="work_skills card">
+
+                  <!-- ===== ===== Work Contaienr ===== ===== -->
+                  <div class="work">
+                      <h1 class="heading">OverAll Experience</h1>
+                      <div class="primary" *ngFor="let details of overAllDetails">
+                          <h1>OverAll Experience</h1>
+                          <span (click) ="show(false,false,false,true,details)">Edit</span>
+                          <p>Total Experience : {{details?.overallWorkExperience}} <br>Industries Worked In : {{details?.industriesWorkIn}}<br> Roles played : {{details?.roles}}  </p>
+                      </div>
+                  </div>
+              </section>
+          </section>
+      </div>
+
+  </div>    

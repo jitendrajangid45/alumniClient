@@ -1,0 +1,145 @@
+<div class="grid">
+    <p-toast></p-toast>
+    <div class="col-12">
+        <div class="card">
+            <div class="flex flex-wrap gap-2 justify-content-between">
+                <div *ngIf="postType === 'postJob'">
+                    <h3>Post a Job</h3>
+                </div>
+                <div *ngIf="postType === 'postIntern'">
+                    <h3>Post a Internship</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button pButton pRipple label="Back to Job Board" (click)="backToJobBoard()"
+                        style="background-color: #007EA7;"> </button>
+                </div>
+            </div>
+            <form [formGroup]="addJob">
+                <div class="p-fluid p-formgrid grid mt-2">
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="firstName">Job Title<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="jobTitle" id="firstName"
+                            type="text" />
+                    </div>
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="companyName">Company Name<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="companyName"
+                            id="companyName" type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="companyWebsite">Company Website<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="companyWebsite"
+                            id="companyWebsite" type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="contactEmail">Contact Email<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" id="contactEmail"
+                            formControlName="contactEmail" type="text" />
+                    </div>
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="isSelectOption">Visible To<span class="required">*</span></label>
+                        <p-dropdown [options]="eventViewedOptions" optionLabel="label" formControlName="isSelectOption"
+                            (onChange)="selectViewedOption($event.value)" placeholder="Select College/Batch/All"
+                            [showClear]="true"></p-dropdown>
+                    </div>
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="visibleTo">Job/Internship Display to <span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="visibleTo" id="visibleTo"
+                            *ngIf="isSelected" [readOnly]="isSelected" type="text" />
+                        <p-dropdown [options]="collegeData" [filter]="true" optionLabel="collegeName" *ngIf="isCollege"
+                            (onChange)="changeCollegeNameVisible($event.value)" formControlName="visibleTo"
+                            [editable]="true" placeholder="Select College" [showClear]="true"
+                            [virtualScrollItemSize]="30" [virtualScroll]="true"></p-dropdown>
+                        <p-dropdown [options]="batchData" [filter]="true" optionLabel="batchName" [editable]="true"
+                            *ngIf="!isCollege && !isSelected" (onChange)="changeBatchNameVisible($event.value)"
+                            formControlName="visibleTo" placeholder="Select Batch" [showClear]="true"
+                            [virtualScrollItemSize]="30" [virtualScroll]="true"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="experienceFrom">Experience Level<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" id="experienceFrom"
+                            formControlName="experienceFrom" type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="experienceTo">experienceTo<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" id="experienceTo"
+                            formControlName="experienceTo" type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="jobLocation">Job Location<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" id="jobLocation"
+                            formControlName="jobLocation" type="text" />
+                    </div>
+
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="skills">Skills relevant to the opportunity<span
+                                class="required">*</span></label>
+                        <p-chips formControlName="skills" id="skills" class="custom-chips"
+                            placeholder="Type and press Enter"></p-chips>
+                    </div>
+                    <div *ngIf="postType === 'postJob'" class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="salaryPackage">Salary Package<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" id="salaryPackage"
+                            formControlName="salaryPackage" type="text" />
+                    </div>
+                    <div *ngIf="postType === 'postIntern'" class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="salaryStipend">Stipend<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="salaryStipend"
+                            id="salaryStipend" type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="applicationDeadline">Application Deadline<span class="required">*</span></label>
+                        <p-calendar formControlName="applicationDeadline" [showIcon]="true"></p-calendar>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="education">Education<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="education" id="education"
+                            type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="role">Role<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="role" id="role"
+                            type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="jobsDescription">Job Description<span class="required">*</span></label>
+                        <p-editor [style]="{ height: '240px' }" formControlName="jobsDescription" class="pInputText"
+                            id="jobsDescription"></p-editor>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <div class="field">
+                            <label htmlFor="industryType">Industry Type<span class="required">*</span></label>
+                            <input pInputText class="p-inputtext-sm pInputText" formControlName="industryType"
+                                id="industryType" type="text" />
+                        </div>
+                        <div class="field">
+                            <label htmlFor="employmentType">Employment Type<span class="required">*</span></label>
+                            <input pInputText class="p-inputtext-sm pInputText" formControlName="employmentType"
+                                id="employmentType" type="text" />
+                        </div>
+                        <!-- Department -->
+                        <div class="field">
+                            <label htmlFor="department">Department<span class="required">*</span></label>
+                            <textarea type="text" formControlName="department" id="department"
+                                class="form-control pInputText"></textarea>
+                        </div>
+
+                        <!-- Attach file -->
+                        <div class="field">
+                            <label htmlFor="file">Attach file</label>
+                            <input class="form-control pInputText" (change)="handleFileInput($event)"
+                                formControlName="file" accept=".pdf, image/*" type="file" id="file">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-content-center">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" (click)="resetForm()" class="button">
+                    </button>
+                    <button type="button" pButton icon="pi pi-check" label="Submit" (click)=" postJobIntern(postType)"
+                        class="button">
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

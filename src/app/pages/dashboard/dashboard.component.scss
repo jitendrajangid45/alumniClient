@@ -1,0 +1,178 @@
+.first-card {
+  background-color: #003459;
+  color: white;
+  margin: 20px auto; 
+  width: 50%; /* Set the width as needed */
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 10px;
+  // border: 1px;
+}
+.card {
+
+  margin: 5px auto; 
+  padding: 15px;
+   background: #ffffff;
+  border-radius: 30px;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  font-family: 'Arial', sans-serif;
+ 
+}
+
+
+
+
+textarea.form-control::placeholder {
+
+/* Adjust the value based on your textarea height */
+  vertical-align: middle;
+}
+
+.form-control {
+  border-radius: 20px 0px 0px 20px;
+  padding: 10px 15px;
+  resize: none;
+  overflow: hidden;
+  min-height: 50px;
+  max-height: 150px;
+  display: flex;
+  align-items: center;
+  line-height: 1.6;
+}
+
+
+.form-control i {
+  right: 15px;
+
+}
+
+/* Add this CSS to style the send button */
+.btn-success {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+
+
+.selected-image-name {
+  position: relative;
+  margin-top: 10px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+
+.form-control:hover{
+  border-color: black;
+}
+.selected-image {
+  position: relative;
+  margin-top: 10px;
+}
+.cancel-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #dc3545;
+}
+
+
+.btn-secondary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-success:hover {
+
+  border-color: #28a745;
+}
+.card-title,
+.card-subtitle,
+.card-text {
+  color: #292b2c; /* Dark gray text color for better contrast */
+}
+
+.card-title{
+ color: #007EA7;
+font-size: 1.1rem;
+}
+.card-subtitle{
+
+  font-size:1.0rem;
+  margin-top: 2px
+}
+
+
+@keyframes blinkColor {
+  0% {
+      color: #007EA7; /* Initial color */
+  }
+  50% {
+      color: #ff3300ec; /* Blinking color */
+  }
+  100% {
+      color: #007EA7; /* Back to the initial color */
+  }
+}
+
+.card-title.post-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  animation: blinkColor 1s infinite; /* Adjust the duration as needed */
+}
+
+.card-subtitle.post-subtitle {
+  font-size: 1em;
+  color: gray;
+  
+}
+
+.card-text{
+  font-size: 1.2rem;
+  color: black;
+}
+.bulleted-list {
+
+  font-size: 1.1 rem;
+  color: black;
+}
+
+.like-button:hover, .comment-button:hover, .share-button:hover, .report-button:hover, .view-full-button:hover {
+  background-color: #163f5c;
+  border-color: #163f5c;
+}
+
+.view-full-button {
+  margin-left: auto;
+  display: block;
+  background-color: #007EA7; /* Dark gray, similar to Instagram */
+  color: white;
+}
+
+.p-inputgroup-addon{
+  color: black;
+}
+
+.card-text strong {
+  color: #343a40; /* Dark color for strong elements */
+  font-size: 1.1rem; /* Adjust the font size as needed */
+}
+
+.fa-heart {
+  color: black;
+  transition: color 0.1s;
+}
+
+/* Styles for the "liked" state where the heart is filled with red */
+.liked {
+  color: red;
+}
+@media (max-width: 768px) {
+  .view-full-button {
+    margin-top: 10px;
+  }
+}

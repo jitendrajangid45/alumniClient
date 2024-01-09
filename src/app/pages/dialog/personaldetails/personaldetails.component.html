@@ -1,0 +1,187 @@
+<div>
+  <h1>Personal Details</h1>
+  <form [formGroup]="perForm">
+    <!-- First Name -->
+    <label for="firstName" class="form-label">First Name:</label><span class="text-danger">*</span>
+    <input type="text" id="firstName" formControlName="firstName" placeholder="Enter Your Name" class="form-control">
+    <div
+      *ngIf="!perForm.get('firstName')?.valid && (perForm.get('firstName')?.dirty || perForm.get('firstName')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!perForm.get('firstName')?.errors?.['pattern']">First Name should contain only alphabets</div>
+      <div [hidden]="!perForm.get('firstName')?.errors?.['required']">First Name required</div>
+    </div>
+    
+    <!-- Middle Name -->
+    <label for="middleName" class="form-label" style="margin-top: 20px;">Middle Name:</label><span class="text-danger">*</span>
+    <input type="text" id="middleName" formControlName="middleName" placeholder="Enter Middle Name" class="form-control">
+    <div
+      *ngIf="!perForm.get('middleName')?.valid && (perForm.get('middleName')?.dirty || perForm.get('middleName')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!perForm.get('middleName')?.errors?.['pattern']">Middle Name should contain only alphabets</div>
+    </div>
+
+    <!-- Last Name -->
+    <label for="lastName" class="form-label" style="margin-top: 20px;">Last Name</label><span class="text-danger">*</span>
+    <input type="text" id="lastName" formControlName="lastName" placeholder="Enter Last Name" class="form-control">
+    <div
+      *ngIf="!perForm.get('lastName')?.valid && (perForm.get('lastName')?.dirty || perForm.get('lastName')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!perForm.get('lastName')?.errors?.['required']">Last Name is required</div>
+      <div [hidden]="!perForm.get('lastName')?.errors?.['pattern']">Last Name should contain only alphabets</div>
+    </div>
+
+    <!-- Email -->
+    <label for="email" class="form-label" style="margin-top: 20px;">Email ID</label><span class="text-danger">*</span>
+    <input type="text" id="email" formControlName="email" placeholder="Enter Email ID" class="form-control">
+    <div *ngIf="!perForm.get('email')?.valid && (perForm.get('email')?.dirty || perForm.get('email')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!perForm.get('email')?.errors?.['required']">Email ID required</div>
+      <div [hidden]="!perForm.get('email')?.errors?.['email']">Enter Proper Email ID</div>
+    </div>
+
+    <!-- Date of Birth -->
+    <label for="dateOfBirth" class="form-label" style="margin-top: 20px;">Date of Birth</label><span class="text-danger">*</span>
+    <input type="date" id="dateOfBirth" formControlName="dateOfBirth" placeholder="Enter Date of Birth" class="form-control">
+    <div
+      *ngIf="!perForm.get('dateOfBirth')?.valid && (perForm.get('dateOfBirth')?.dirty || perForm.get('dateOfBirth')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!perForm.get('dateOfBirth')?.errors?.['required']">Date of Birth is required</div>
+    </div>
+    <label for="gender" class="form-label" style="margin-top: 20px;">Gender</label><span class="text-danger">*</span>
+    <select class="form-select" id="gender" formControlName="gender"
+      aria-label="Default select example" style="width: auto;">
+      <option [value]="''">Gender</option>
+      <option *ngFor="let gender of gender" [value]="gender">{{ gender }}</option>
+    </select>
+    <div *ngIf="!perForm.get('gender')?.valid && (perForm.get('gender')?.dirty || perForm.get('gender')?.touched)"
+       [ngStyle]="{ color: 'red' }">
+       <div [hidden]="!perForm.get('gender')?.errors?.['required']">Gender required</div>
+     </div>
+
+    <!-- Blood Group -->
+    <label for="bloodGroup" class="form-label" style="margin-top: 20px;">Blood Group</label>
+    <select class="form-select" id="bloodGroup" formControlName="bloodGroup" aria-label="Default select example"
+      style="width: auto;">
+      <option [value]="''">Select Blood Group</option>
+      <option *ngFor="let group of bloodGroup" [value]="group">{{ group }}</option>
+    </select>
+
+    <!-- Address -->
+    <label for="address" class="form-label" style="margin-top: 20px;">Address</label>
+    <input type="text" id="address" formControlName="address" placeholder="Enter Address" class="form-control">
+
+    <!-- Country Code -->
+    <label for="countryCode" class="form-label" style="margin-top: 20px;">Country Code</label>
+    <input type="text" id="countryCode" formControlName="countryCode" placeholder="Enter Country Code"
+      class="form-control">
+
+    <!-- Mobile No. -->
+    <label for="mobileNo" class="form-label" style="margin-top: 20px;">Mobile No.</label><span class="text-danger">*</span>
+    <input type="text" id="mobileNo" formControlName="mobileNo" placeholder="Enter Mobile No." class="form-control">
+    <div *ngIf="!perForm.get('mobileNo')?.valid && (perForm.get('mobileNo')?.dirty || perForm.get('mobileNo')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!perForm.get('mobileNo')?.errors?.['required']">Mobile No. required</div>
+      <div [hidden]="!perForm.get('mobileNo')?.errors?.['minlength']">Mobile No. must contain atleat 10 digits only</div>
+      <div [hidden]="!perForm.get('mobileNo')?.errors?.['maxlength']">Mobile No. must contain 10 digits only</div>
+    </div>
+
+    <!-- Home Town -->
+    <label for="homeTown" class="form-label" style="margin-top: 20px;">Home Town</label>
+    <input type="text" id="homeTown" formControlName="homeTown" placeholder="Enter Home Town" class="form-control">
+
+    <!-- Location -->
+    <label for="location" class="form-label" style="margin-top: 20px;">Location</label>
+    <input type="text" id="location" formControlName="location" placeholder="Enter Village Location" class="form-control">
+
+    <!-- Postal Code -->
+    <label for="postalCode" class="form-label" style="margin-top: 20px;">Postal Code</label>
+    <input type="text" id="postalCode" formControlName="postalCode" placeholder="Enter Postal Code" class="form-control">
+
+    <!-- Home Phone -->
+    <label for="homePhone" class="form-label" style="margin-top: 20px;">Home Phone</label>
+    <input type="text" id="homePhone" formControlName="homePhone" placeholder="Enter Home Phone Number" class="form-control">
+    <div
+    *ngIf="!perForm.get('homePhone')?.valid && (perForm.get('homePhone')?.dirty || perForm.get('homePhone')?.touched)"
+    [ngStyle]="{ color: 'red' }">
+    <div [hidden]="!perForm.get('homePhone')?.errors?.['pattern']">It must contain number only</div>
+  </div>
+
+    <!-- Work Phone -->
+    <label for="workPhone" class="form-label" style="margin-top: 20px;">Office Phone Number</label>
+    <input type="text" id="workPhone" formControlName="workPhone" placeholder="Enter Office Phone Number" class="form-control">
+    <div
+    *ngIf="!perForm.get('workPhone')?.valid && (perForm.get('workPhone')?.dirty || perForm.get('workPhone')?.touched)"
+    [ngStyle]="{ color: 'red' }">
+    <div [hidden]="!perForm.get('workPhone')?.errors?.['pattern']">It must contain number only</div>
+  </div>
+
+    <!-- Current City -->
+    <label for="currentCity" class="form-label" style="margin-top: 20px;">Current City</label>
+    <input type="text" id="currentCity" formControlName="currentCity" placeholder="Enter Current City" class="form-control">
+    <div
+    *ngIf="!perForm.get('currentCity')?.valid && (perForm.get('currentCity')?.dirty || perForm.get('currentCity')?.touched)"
+    [ngStyle]="{ color: 'red' }">
+    <div [hidden]="!perForm.get('currentCity')?.errors?.['pattern']">Current City should contain only alphabets</div>
+  </div>
+    <!-- Alternate Email -->
+    <label for="alternateEmail" class="form-label" style="margin-top: 20px;">Alternate Email ID</label>
+    <input type="text" id="alternateEmail" formControlName="alternateEmail" placeholder="Enter Current City" class="form-control">
+    <div
+    *ngIf="!perForm.get('alternateEmail')?.valid && (perForm.get('alternateEmail')?.dirty || perForm.get('alternateEmail')?.touched)"
+    [ngStyle]="{ color: 'red' }">
+    <div [hidden]="!perForm.get('alternateEmail')?.errors?.['email']">Enter Proper Email Id</div>
+  </div>
+    <!-- Relationship Status -->
+    <label for="relationshipStatus" class="form-label" style="margin-top: 20px;">Relationship Status</label>
+    <select class="form-select" id="relationshipStatus" formControlName="relationshipStatus"
+      aria-label="Default select example" style="width: auto;">
+      <option [value]="''">Select Relationship Status</option>
+      <option *ngFor="let relation of relationshipStatus" [value]="relation">{{ relation }}</option>
+    </select>
+    <div
+      *ngIf="!perForm.get('relationshipStatus')?.valid && (perForm.get('relationshipStatus')?.dirty || perForm.get('relationshipStatus')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!perForm.get('relationshipStatus')?.errors?.['required']">Relationship Status is required</div>
+    </div>
+
+    <!-- LinkedIn Profile -->
+    <label for="linkedinProfile" class="form-label" style="margin-top: 20px;">LinkedIn Profile</label>
+    <input type="url" id="linkedinProfile" formControlName="linkedinProfile" placeholder="Enter LinkedIn Profile Link"
+      class="form-control">
+
+
+    <!-- Facebook Profile -->
+    <label for="facebookProfile" class="form-label" style="margin-top: 20px;">Facebook Profile</label>
+    <input type="text" id="facebookProfile" formControlName="facebookProfile" placeholder="Enter Facebook Profile Link"
+      class="form-control">
+
+    <!-- Twitter Profile -->
+    <label for="twitterProfile" class="form-label" style="margin-top: 20px;">Twitter Profile</label>
+    <input type="url" id="twitterProfile" formControlName="twitterProfile" placeholder="Enter Twitter Profile"
+      class="form-control">
+
+    <!-- Website/Blog Link -->
+    <label for="websitePortfolioBlog" class="form-label" style="margin-top: 20px;">Website/Blog Link</label>
+    <input type="text" id="websitePortfolioBlog" formControlName="websitePortfolioBlog"
+      placeholder="Enter Website Portfolio Link" class="form-control">
+
+    <!-- YouTube Channel -->
+    <label for="youtubeChannel" class="form-label" style="margin-top: 20px;">Youtube Channel</label>
+    <input type="text" id="youtubeChannel" formControlName="youtubeChannel" placeholder="Enter Youtube Link"
+      class="form-control">
+
+    <!-- Instagram Profile -->
+    <label for="instagramProfile" class="form-label" style="margin-top: 20px;">Instagram Profile</label>
+    <input type="url" id="instagramProfile" formControlName="instagramProfile" placeholder="Enter instagram Profile link"
+      class="form-control">
+        <!-- About Me -->
+        <label for="aboutMe" class="form-label" style="margin-top: 20px;">About Me</label>
+        <textarea id="aboutMe" formControlName="aboutMe" class="form-control"></textarea>
+    <div style="margin-top: 40px;">
+      <button [disabled]="perForm.invalid" class="btn btn-success" value="Save" (click)="onSubmit()">Save</button>
+      <span style="margin-top:30px;"></span>
+      <button (click)="onReset()" class="btn btn-primary" value="Reset">Reset</button>
+    </div>
+
+  </form>
+</div>

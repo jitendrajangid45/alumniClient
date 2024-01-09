@@ -1,0 +1,50 @@
+<div class="card">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4"> News/Circular Table </h3>
+  <div class="card-body">
+    <div id="table" class="table-editable">
+      <div class="row">
+          <div class="col-md-8">
+              <div class="input-group mb-3">
+                <input [(ngModel)]="searchInput" type="text" class="form-control" placeholder="Search..." aria-label="Search"
+                  aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="button" (click)="searchNews()">Search</button>
+                </div>
+              </div>
+          </div><div class="col-md-3 text-left"></div>
+      </div><br>
+      <table class="table table-bordered table-responsive-md table-striped text-center">
+        <thead>
+          <tr>
+            <th class="text-center">News/Circular Heading</th>
+            <th class="text-center">News/Circular Type</th>
+            <th class="text-center">News/Circular Content</th>
+            <th class="text-center">News/Circular Date</th>
+            <th class="text-center">News/Circular Image</th>
+            <th class="text-center">Edit/Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let singleNews of news">
+            <td class="pt-3-half" contenteditable="true">{{ singleNews.heading  }}</td>
+            <td class="pt-3-half" contenteditable="true">{{ singleNews.newsType  }}</td>
+            <td class="pt-3-half" [innerHTML]="sanitizeHtml(singleNews.newsContent)"></td>
+            <td class="pt-3-half" contenteditable="true">{{ singleNews.createdAt }}</td>
+            <td class="pt-3-half" contenteditable="true">{{ singleNews.newsImage }}</td>
+            <td>
+              <button type="button" class="btn btn-outline-success btn-rounded btn-sm px-2" (click)="edit(singleNews.newsId)">
+                  <i class="fas fa-pencil-alt mt-0"></i>
+              </button>&nbsp;&nbsp;
+              <button *ngIf="singleNews.newsId" type="button" class="btn btn-outline-danger btn-rounded btn-sm px-2" (click)="confirmDelete(singleNews)">
+                <i class="far fa-trash-alt mt-0"></i>
+              </button>                
+          </td>
+          </tr>
+        </tbody>
+      </table>
+    </div><br>
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
+                  (pageChanged)="onPageChanged($event)"></app-pagination>
+  </div>
+</div>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog> 

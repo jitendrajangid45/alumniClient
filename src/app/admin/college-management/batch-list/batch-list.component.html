@@ -1,0 +1,128 @@
+<div class="container" style="background-color:whitesmoke;" *ngIf="showColleges">
+    <h1 style="margin: 10px;">Batch List</h1>
+    <p-toast></p-toast>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" (click)="addNewBatch()" style="margin-right: 10px;">{{showNewBatch?'Close':'Add Batch'}}</button>
+    </div>
+    <div class="card" *ngIf="showNewBatch">
+        <div class="card-body">
+          <form [formGroup]="batchForm">
+            <div class="row">
+              <div class="col">
+                <div>
+                  <label for="selectedCollege">Select College:</label>
+                  <select  formControlName="collegeCode" (change)="getCollegeCourses($event)">
+                    <option  [value]="''" >Select College</option>
+                    <option *ngFor="let data of colleges" [value]="data.collegeCode" >{{ data?.collegeName }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div>
+                  <label for="selectedStream">Select Course:</label>
+                  <select name="courseName" id="courseName" formControlName="courseName" >
+                    <option  [value]="''" >First Select College</option>
+                    <option *ngFor="let course of courses" [value]="course.courseName">{{course?.courseName}} </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div>
+                  <label for="batchYear">Batch Year:</label>
+                  <select name="batchYear" id="batchYear" formControlName="batchYear">
+                    <option *ngFor="let year of years" [ngValue]="year">{{ year }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end" >
+              <button class="btn btn-success" (click)="saveBatch()" >Save</button>
+              <button class="btn btn-secondary" (click)="addNewBatch()" style="margin-left: 8px;">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    
+      <div class="row" *ngFor="let college of colleges">
+        <div class="col">
+          <h4 style="color:rgb(9, 41, 136);;">{{ college.collegeName }} Batches</h4>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary" (click)="ViewBatches(college.collegeCode,college.collegeName,''); showBatch()">View Batches</button>
+        </div>
+      </div>
+      
+</div>
+
+
+<div  *ngIf="showBatches">
+  <button (click)="backToCollege()"><i class="fa fa-arrow-left fa-2x" ></i></button>
+  <h2>{{college}} Batches</h2>
+  <!-- <span><i class="fa fa-search"></i>Search </span>
+
+  <div class="input-group" style="height: 50px;">
+      <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+          aria-describedby="search-addon" [(ngModel)]="filterText" (input)="filterData()"/>
+  </div> -->
+  <div class="card" *ngIf="batchDetails?.length!=0">
+    <div class="batch-container" >
+      <div class="batch" *ngFor="let data of batchDetails" >
+        <div class="border p-2" (click)="showStudent(); batchStudents(data?.batchId,searchText)">
+          <p>{{data?.batchName}}</p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+<div *ngIf="batchDetails?.length==0">
+  <h2 style="text-align: center;">No Batches to Show</h2>
+</div>
+</div>
+
+
+
+
+<div *ngIf="showStudents">
+  <button (click)="backToBatches()"><i class="fa fa-arrow-left fa-2x" ></i></button>
+  <div class="container" >
+    <h2>Batch Students</h2>
+    <div class="input-group" style="height: 50px; position: relative;" *ngIf="studentDetails?.length!=0">
+        <input type="search" class="form-control rounded pl-4 pr-5" placeholder="Search" aria-label="Search"
+            aria-describedby="search-addon" [(ngModel)]="searchText" (input)="searchData()"
+            style="padding-right: 40px;" />
+        <span class="search-icon" >
+            <i class="pi pi-search" style="font-weight: 700; color: #007EA7; font-size: 1.5rem;"></i>
+        </span>
+    </div>
+    
+    
+  
+    <div class="row">
+        <div class="col-md-4"  *ngFor="let data of studentDetails">
+            <div class="card " style="height: 250px ;width: 300px;" >
+                <div class="card-body text-center">
+                    <div class="verified-logo" *ngIf="data.isVerified; else disabledSection">
+                        <i class="fa fa-check-circle fa-2x"></i>
+                    </div>
+                    <ng-template #disabledSection>
+                        <div class="disabled-logo">
+                            <i class="fa fa-check-circle fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </ng-template>
+  
+                    <div>
+                        <img [src]="data?.profilePic"
+                        class="img-fluid small-profile-image" (click)="viewOtherProfile(data?.id)"/>
+                    </div>
+                    <h3 class="card-title" >{{data?.firstName}}</h3>
+                    <h6 class="card-text" > {{data?.batch?.batchName}}</h6> 
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div *ngIf="studentDetails?.length==0">
+      <h2 style="text-align: center; margin-top: 50px;">Currently No Students to Show</h2>
+    </div>    
+  </div>
+</div>
+

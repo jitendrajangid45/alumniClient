@@ -1,0 +1,56 @@
+
+<div>
+  <h1>Educational Details</h1>
+  <form [formGroup]="eduForm" (ngSubmit)="onSubmit()">
+    <!-- Degree -->
+    <label for="programDegree" class="form-label">Degree/Course: </label><span class="text-danger">*</span>
+    <input type="text" id="programDegree" formControlName="programDegree" placeholder="Enter Degree" class="form-control">
+    <div
+      *ngIf="!eduForm.get('programDegree')?.valid && (eduForm.get('programDegree')?.dirty || eduForm.get('programDegree')?.touched)"
+      [ngStyle]="{ color: 'red' }">
+      <div [hidden]="!eduForm.get('programDegree')?.errors?.['required']">Degree required</div>
+    </div>
+
+     <!-- Email --> 
+     <label for="universityInstitute" class="form-label" style="margin-top: 20px;">Institute Name : </label>
+     <input type="text" id="universityInstitute" formControlName="universityInstitute" placeholder="Enter Institute" class="form-control">
+     <div *ngIf="!eduForm.get('universityInstitute')?.valid && (eduForm.get('universityInstitute')?.dirty || eduForm.get('universityInstitute')?.touched)"
+       [ngStyle]="{ color: 'red' }">
+       <div [hidden]="!eduForm.get('universityInstitute')?.errors?.['required']">Institute required</div>
+     </div>
+    
+    <!-- Stream -->
+    <label for="stream" class="form-label" style="margin-top: 20px;">Stream : </label>
+    <input type="text" id="stream" formControlName="stream" placeholder="Enter Stream" class="form-control">
+
+    <!-- collageName -->
+    <label for="collageName" class="form-label" style="margin-top: 20px;">College Name :</label><span class="text-danger">*</span>
+    <input type="text" id="collageName" formControlName="collageName" placeholder="Enter College Name" class="form-control">
+    <div *ngIf="!eduForm.get('collageName')?.valid && (eduForm.get('collageName')?.dirty || eduForm.get('collageName')?.touched)"
+       [ngStyle]="{ color: 'red' }">
+       <div [hidden]="!eduForm.get('collageName')?.errors?.['required']">College Name required</div>
+     </div>
+  <br>
+
+    <div>
+      <input type="checkbox" id="isPursuing" name="checkbox" formControlName="isPursuing" value="isPursuing" (change)="onCheckboxChange($event)"/>
+      I am currently pursuing this degree
+    </div><br>
+
+    <div>
+      <label for="period" style="margin-bottom: 20px;">Period:</label>
+      <select name="startYear" id="startYear" formControlName="startYear" style="margin-left: 20px;" >
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+      <select name="endYear" id="endYear" formControlName="endYear" *ngIf="isChecked==false" style="margin-left: 20px;">
+        <option aria-placeholder="2023" *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    
+    <div>
+      <input type="submit" [disabled]="eduForm.invalid" value="Save" class="btn btn-success"/>
+      <span style="margin-left: 20px"></span>
+      <input type="button" (click)="onReset()" value="Reset" class="btn btn-primary" />
+    </div>
+    </div>
+  </form>
+</div>

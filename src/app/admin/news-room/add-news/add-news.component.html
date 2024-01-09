@@ -1,0 +1,56 @@
+<div class="card-body">
+    <div class="d-flex justify-content-center align-items-center">
+      <p-confirmDialog [style]="{'width':'50vw'}"></p-confirmDialog>
+      <div class="card" style="width: 60%; background-color: rgb(215, 239, 250);">
+        <div class="card-body">
+          <form [formGroup]="newsForm" (ngSubmit)="onSubmit()">
+            <h4 class="card-title"><b>Add News/Circular</b></h4><br>
+            <div class="form-group">
+              <label class="label" for="heading">News/Circular Heading*</label><br><br>
+              <input type="text" class="form-control" formControlName="heading" required>
+              <div *ngIf="newsForm.get('heading')?.hasError('required') && newsForm.get('heading')?.touched" class="error-message">
+                <p style="color: red;">News Heading is required.</p>
+              </div>
+            </div><br>
+
+            <div class="row">
+              <label class="label" for="news">Type of Content<span class="required">*</span></label>
+            </div>
+            <div class="row input">
+              <select formControlName="newsType" class="form-control">
+                <option *ngFor="let option of newsTypes" [value]="option.value">{{ option.label }}</option>
+              </select>
+              <span *ngIf="submitted && newsForm.get('newsType').invalid">
+                <span style="color: red;">Type of content is required</span>
+              </span>
+            </div><br>
+
+            <div class="form-group">
+              <div *ngIf="newsImage == null || newsImage == undefined">
+                <label class="label" for="image" *ngIf="">Choose Image*</label>&nbsp;&nbsp;
+                <input type="file" accept="image/*" (change)="handleFileInput($event)" formControlName="newsImage">
+                <div *ngIf="newsForm.get('newsImage').hasError('required') && newsForm.get('newsImage').touched"
+                     class="error-message">
+                </div>
+              </div>
+              <div *ngIf="newsImage != null || newsImage != undefined">
+                <i class="fa fa-eye" style="font-size:24px" (click)="ViewNewsImage(newsImage)"></i>&nbsp;&nbsp;&nbsp;
+                <i class="fa fa-trash-o" style="font-size:24px" aria-hidden="true" (click)="deleteFile(newsId)"></i>
+              </div>
+            </div><br>
+            
+            <div class="form-group">
+              <label class="label" for="newsContent">News/Circular Content*</label><br><br>
+              <p-editor class="form-control" [style]="{ height: '320px' }" formControlName="newsContent"></p-editor>
+              <div *ngIf="newsForm.get('newsContent').hasError('required') && newsForm.get('newsContent').touched" class="error-message">
+                <p style="color: red;">News Content is required.</p>
+              </div>
+            </div><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <p-toast></p-toast>
+  </div>
+  

@@ -1,0 +1,89 @@
+<!-- Toast notification position -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Card container -->
+<div class="card">
+  <div class="card-body">
+    <div class="container">
+      <!-- Email form -->
+      <form [formGroup]="emailForm">
+        <!-- To field -->
+        <header class="header">
+          <label for="input-name">{{labelText}}</label>
+          <!-- Button to toggle bulk email form -->
+          <button class="custom-button"
+            (click)="showBulkEmailForm = !showBulkEmailForm; buttonText = showBulkEmailForm ? 'single' : 'multiple'; labelText = showBulkEmailForm ? 'Bulk Email' : 'To :'; showUploadButton = showBulkEmailForm; showDownloadCSVButtonrucha =showBulkEmailForm; showDownloadCSVButton = showBulkEmailForm; ">{{buttonText}}</button>
+          <!-- Download CSV button -->
+          <a href="{{baseUrl}}/email/downloadSample" class="btn" download="sample.csv"
+            *ngIf="showDownloadCSVButton">Download CSV</a>
+          <button type="button" class="buttonupload" (click)="fileInput.click()" *ngIf="showUploadButton">
+            <span>Upload</span>
+            <input #fileInput type="file" accept=".csv" style="display:none;" (change)="handleCsvUpload($event)" />
+          </button>
+          <div *ngIf="isLoading">
+            <div class="loader"></div>
+          </div>
+        </header>
+        <!-- Single email input field -->
+        <div *ngIf="!showBulkEmailForm">
+          <input type="text" formControlName="to" class="form-control" placeholder="to"
+            [ngClass]="{ 'is-invalid': emailForm.get('to').invalid && emailForm.get('to').touched}" />
+          <!-- Error message for invalid 'to' field -->
+          <div *ngIf="emailForm.get('to').invalid && emailForm.get('to').touched" class="invalid">
+            <div class="alert alert-danger">
+              To is required or has an invalid email address
+            </div>
+          </div>
+        </div>
+        <!-- From field -->
+        <header class="header">
+          From :
+        </header>
+        <select type="text" formControlName="from" class="form-control" id="from" placeholder="From" required
+          name="from" [ngClass]="{ 'is-invalid': emailForm.get('from').invalid && emailForm.get('from').touched }">
+          <option value="" disabled selected>Select an option</option>
+          <option value="demo@edulab.in">demo@edulab.in</option>
+          <option value="example2@example.com">Example 2</option>
+          <!-- Add more options as needed -->
+        </select>
+        <!-- Error message for invalid 'from' field -->
+        <div *ngIf="emailForm.get('from').invalid && emailForm.get('from').touched" class="invalid-feedback">
+          <div class="alert alert-danger">
+            From is required or has an invalid email address
+          </div>
+        </div>
+        <!-- Subject field -->
+        <header class="header">
+          Subject :
+        </header>
+        <select type="text" class="form-control" formControlName="subject" id="subject" placeholder="Subject" required
+          name="subject"
+          [ngClass]="{ 'is-invalid': emailForm.get('subject').invalid && emailForm.get('subject').touched }">
+          <option value="" disabled selected>Select a subject</option>
+          <option value="General Inquiry">General Inquiry</option>
+          <option value="Feedback">Feedback</option>
+          <option value="Support Request">Support Request</option>
+          <!-- Add more options as needed -->
+        </select>
+        <!-- Error message for invalid 'subject' field -->
+        <div *ngIf="emailForm.get('subject').touched || emailForm.get('subject').dirty" class="invalid-feedback">
+          <div class="alert alert-danger">Subject is required</div>
+        </div>
+        <!-- Attachment field -->
+        <div class="text-left">
+          Attachment :
+          <input class="form-control" type="file" formControlName="uploadFile" multiple enctype="multipart/form-data"
+            (change)="fileUpload($event)" />
+        </div>
+      </form>
+      <!-- Message field -->
+      <header class="header">
+        Message :
+      </header>
+      <p-editor [(ngModel)]="htmlContent" [style]="{ height: '320px' }"></p-editor>
+      <!-- Save Button -->
+      <div>
+        <button class="save" (click)="save(showBulkEmailForm)">Send Email</button>
+      </div>
+    </div>
+  </div>
+</div>

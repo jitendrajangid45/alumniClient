@@ -1,0 +1,133 @@
+<div class="grid">
+    <p-toast></p-toast>
+    <div class="col-12">
+        <div class="card">
+            <div class="flex flex-wrap gap-2 justify-content-between">
+                <h3>Post a {{eventType}}</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button pButton pRipple label="Back to Event Tab" icon="pi pi-chevron-left"
+                        style="background-color: #007EA7;" (click)="backToEventBoard()"> </button>
+                </div>
+            </div>
+            <form [formGroup]="addEvents">
+                <div class="p-fluid p-formgrid grid mt-2">
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="eventTitle">Title<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="eventTitle" id="eventTitle"
+                            type="text" />
+                    </div>
+                    <div class="col-12 md:col-6 mb-0" *ngIf="eventType !== 'Webinar'">
+                        <label htmlFor="eventVenue">Venue<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="eventVenue" id="eventVenue"
+                            type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0" *ngIf="eventType !== 'Webinar'">
+                        <label htmlFor="eventAddress">Address<span class="required">*</span></label>
+                        <textarea type="text" id="department" formControlName="eventAddress"
+                            class="form-control pInputText"></textarea>
+                    </div>
+
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="skills">Is there any Registration?<span class="required">*</span></label>
+                        <div class="form-check col-md-2 pt-1">
+                            <input class="form-check-input radio" formControlName="isRegistration" type="radio"
+                                name="isRegistration" id="yes" (click)="isRegistration('yes')" value="Yes">
+                            <label class="form-check-label" for="yes">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="form-check col-md-2 pt-1">
+                            <input class="form-check-input radio" formControlName="isRegistration" type="radio"
+                                name="isRegistration" id="no" (click)="isRegistration('no')" value="No">
+                            <label class="form-check-label" for="no">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0" *ngIf="isRegister">
+                        <label htmlFor="eventRegistrationFee">Registration Fee<span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="eventRegistrationFee"
+                            id="eventRegistrationFee" type="text" />
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0" *ngIf="isRegister">
+                        <label htmlFor="eventRegistrationCloseDate">Registration Closing Date<span
+                                class="required">*</span></label>
+                        <p-calendar formControlName="eventRegistrationCloseDate" class="p-inputtext-sm pInputText"
+                            [showIcon]="true"></p-calendar>
+                    </div>
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="isSelectOption">Visible To<span class="required">*</span></label>
+                        <p-dropdown [options]="eventViewedOptions" optionLabel="label" formControlName="isSelectOption"
+                            (onChange)="selectViewedOption($event.value)" placeholder="Select College or University"
+                            [showClear]="true"></p-dropdown>
+                    </div>
+                    <div class="col-12 md:col-6 mb-0">
+                        <label htmlFor="visibleTo">{{eventType}} Display to <span class="required">*</span></label>
+                        <input pInputText class="p-inputtext-sm pInputText" formControlName="visibleTo" id="visibleTo"
+                            *ngIf="isSelected" [readOnly]="isSelected" type="text" />
+                        <p-dropdown [options]="collegeData" [filter]="true" optionLabel="collegeName" *ngIf="isCollege"
+                            (onChange)="changeCollegeNameVisible($event.value)" formControlName="visibleTo"
+                            [editable]="true" placeholder="Select College" [showClear]="true"
+                            [virtualScrollItemSize]="30" [virtualScroll]="true"></p-dropdown>
+                        <p-dropdown [options]="batchData" [filter]="true" optionLabel="batchName" [editable]="true"
+                            *ngIf="!isCollege && !isSelected" (onChange)="changeBatchNameVisible($event.value)"
+                            formControlName="visibleTo" placeholder="Select Batch" [showClear]="true"
+                            [virtualScrollItemSize]="30" [virtualScroll]="true"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="eventDescription">{{eventType}} Description<span
+                                class="required">*</span></label>
+                        <p-editor [style]="{ height: '240px' }" formControlName="eventDescription" class="pInputText"
+                            id="eventDescription"></p-editor>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <div class="field mb-4">
+                            <label htmlFor="startDate">{{eventType === 'Webinar' ? 'Webinar Date' : 'Start Date'}}<span
+                                    class="required">*</span></label>
+                            <p-calendar formControlName="startDate" class="p-inputtext-sm pInputText"
+                                [showIcon]="true"></p-calendar>
+                        </div>
+                        <div class="field mb-4" *ngIf="eventType === 'Webinar'">
+                            <label htmlFor="webinarLink">Webinar Link<span class="required">*</span></label>
+                            <input pInputText class="p-inputtext-sm pInputText" formControlName="webinarLink"
+                                id="webinarLink" type="text" />
+                        </div>
+                        <div class="field mb-4" *ngIf="eventType !== 'Webinar'">
+                            <label htmlFor="endDate">End Date<span class="required">*</span></label>
+                            <p-calendar formControlName="endDate" [showIcon]="true"></p-calendar>
+                        </div>
+                        <div class="field mb-4">
+                            <label htmlFor="startTime">Start Time<span class="required">*</span></label>
+                            <p-calendar [timeOnly]="true" [showTime]="true" hourFormat="12" formControlName="startTime"
+                                (onSelect)="onSelect($event,'startTime')"></p-calendar>
+                        </div>
+                        <div class="field mb-0">
+                            <label htmlFor="endTime">End Time<span class="required">*</span></label>
+                            <p-calendar [timeOnly]="true" [showTime]="true" hourFormat="12" formControlName="endTime"
+                                (onSelect)="onSelect($event,'endTime')"></p-calendar>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="applicationDeadline">College/university<span class="required">*</span></label>
+                        <p-dropdown [options]="collegeData" [filter]="true" optionLabel="collegeName" [editable]="true"
+                            (onChange)="changeCollegeName($event.value)" formControlName="collegeOrUniversity"
+                            placeholder="Select College or University" [showClear]="true" [virtualScrollItemSize]="30"
+                            [virtualScroll]="true"></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6 mb-0">
+                        <label htmlFor="file">Upload File<span class="required">*</span></label>
+                        <input class="form-control pInputText" formControlName="file" (change)="handleFileInput($event)"
+                            accept=".pdf, image/*" type="file" id="file">
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-content-center mt-2">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="button">
+                    </button>
+                    <button type="button" pButton icon="pi pi-check" label="Submit" (click)="createEvent()"
+                        class="button">
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,235 @@
+// .tag{
+//     // justify-content: space-between;
+//     padding-left: 3px;
+//     cursor: pointer;
+// }
+
+// .tag:hover{
+
+// }
+
+.card-title {
+    font-weight: 500;
+    font-size: 20px;
+}
+
+// .card-data {
+//     padding: 20px;
+// }
+
+.tags {
+    display: block;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.broker-tagJoin {
+    background: #52b642;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 5px 10px;
+    margin: 3px 0;
+    border-radius: 20px;
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.broker-tagMayBe {
+    background: rgb(243, 158, 68);
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 5px 10px;
+    margin: 3px 0;
+    border-radius: 20px;
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.broker-tagDecline {
+    background: #d14a38;
+    // background: red;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 5px 10px;
+    margin: 3px 0;
+    border-radius: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.bi-geo-alt-fill {
+    color: #23ed95;
+}
+
+.bi-building-fill {
+    color: #0f4f62;
+}
+.bi-pin-map-fill {
+    color: rgb(214, 60, 25)
+}
+
+.viewDetails {
+    animation: blinkColorChange 1s infinite;
+    font-weight: 500;
+    cursor: pointer;
+    /* 1s duration, infinite iterations */
+}
+
+@keyframes blinkColorChange {
+    0% {
+        color: initial;
+        /* or the default color you want */
+    }
+
+    50% {
+        color: #ff0000;
+        /* change to the color you want during the blink */
+    }
+
+    100% {
+        color: initial;
+        /* or the default color you want */
+    }
+}
+
+
+
+.search {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.search-container {
+    background: #e9a4a4;
+    height: 45px;
+    border-radius: 30px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.8s;
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .3),
+        -4px -4px 6px 0 rgba(116, 125, 136, .2),
+        inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+        inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
+}
+
+.search-container:hover>.search-input {
+    width: 300px;
+}
+
+.search-container .search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 0px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: 0.8s;
+
+}
+
+.search-container .search-btn .fas {
+    color: #5cbdbb;
+}
+
+@keyframes hoverShake {
+    0% {
+        transform: skew(0deg, 0deg);
+    }
+
+    25% {
+        transform: skew(5deg, 5deg);
+    }
+
+    75% {
+        transform: skew(-5deg, -5deg);
+    }
+
+    100% {
+        transform: skew(0deg, 0deg);
+    }
+}
+
+.search-container:hover {
+    animation: hoverShake 0.15s linear 3;
+}
+
+
+.header{
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.sub-head{
+    font-size: 17px;
+        font-weight: 500;
+}
+
+.inner-head{
+font-weight: 500;
+}
+
+.innerData{
+    margin-left: -40%;
+}
+
+.image{
+    max-width: 80px;
+    max-height: 90px;
+}
+
+
+
+.custom-spacing {
+    margin-left: 20px;
+}
+
+/* CSS to display batches in a row and wrap to the next line */
+.batch-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.batch {
+    flex: 0 0 calc(33.33% - 10px);
+    /* Three batches per row with spacing */
+    margin: 5px;
+    /* Spacing between batches */
+}
+
+.batch-column {
+    width: calc(33.33% - 10px);
+    /* 33.33% for three columns, and subtract 10px for spacing */
+    margin-right: 10px;
+    /* Add right margin to create spacing between columns */
+}
+
+/* Ensure the last column doesn't have margin-right to avoid extra spacing */
+.batch-column:nth-child(3n) {
+    margin-right: 0;
+}
+
+.rounded-circle {
+    height: 5rem;
+    width: 5rem;
+}
+
+ .test {
+     height: 8rem;
+     padding-top: 5px;
+     background-color: #007EA7;
+     color: #fff;
+ }

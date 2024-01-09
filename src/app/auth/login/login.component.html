@@ -1,0 +1,60 @@
+<!-- Login form -->
+
+<div class="man">
+
+    <div class="backgroud"></div>
+
+    <div class="containe">
+        <div class="rightlaer"></div>
+
+        <div class="z3">
+            <div class="about">
+                <img width="100" height="100" src="https://img.icons8.com/bubbles/100/trophy.png" alt="trophy" />
+                <h3 class="px480">don't have an acount ? <a  [routerLink]="'/auth/sign-up/register'">Sign up</a> </h3>
+            </div>
+            <form cForm [formGroup]="loginForm">
+
+                <h2>Welcome Back!</h2>
+
+                <br>
+
+                <div class="input-container">
+                    <input autocomplete="off" type="email" id="email" required="" formControlName="email">
+                    <label for="email">Email</label>
+                    <b *ngIf="!loginForm.get('email')?.valid && (loginForm.get('email')?.dirty ||loginForm.get('email')?.touched)">
+                        <div style="color: red;" [hidden]="!loginForm.get('email')?.errors?.['required']">Email is required</div>
+                        <div style="color: red;" [hidden]="!loginForm.get('email')?.errors?.['email']">Please enter a valid email</div>
+                    </b>
+                </div>
+                <div class="input-container">
+                    <input autocomplete="off" type="password" id="password" required="" formControlName="password">
+                    <label for="password">Password</label>
+                    <b *ngIf="!loginForm.get('password')?.valid && (loginForm.get('password')?.dirty ||loginForm.get('password')?.touched)">
+                        <div style="color: red;" [hidden]="!loginForm.get('password')?.errors?.['required']">Password is required</div>
+                        <div style="color: red;" [hidden]="!loginForm.get('password')?.errors?.['minlength']">The minimum password length is 6 characters</div>
+                    </b>
+                </div>
+                <a class="forgot-password" [routerLink]="'/auth/sign-up/forgetPassword'">Forgot Password?</a>
+
+                <br>
+                <div class="bttn">
+                    <button type="Submit" [ngClass]="{'disabled':loginForm.invalid }" (click)="onSubmit()">Login</button>
+                    <h6 class="ppx480">don't have an acount ? <a  [routerLink]="'/auth/sign-up/register'">Sign up</a> </h6>
+                    <div class="or">
+                        <div class="line"></div>
+                        <h6>OR</h6>
+                        <div class="line"></div>
+                    </div>
+                    <img (click)="signInWithLinkedIn()" src="https://img.icons8.com/ios-filled/50/003459/linkedin.png" alt="linkedin"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="new">
+        <div class="right"></div>
+        <div class="left"></div>
+    </div>
+</div>
+
